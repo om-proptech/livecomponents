@@ -1,0 +1,17 @@
+{% load component_tags static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>My sample project</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/pico.min.css' %}">
+  {% component_css_dependencies %}
+  {% block head %}{% endblock %}
+</head>
+<body>
+<main class="container">
+  {% block body %}{% endblock %}
+</main>
+
+{% component_js_dependencies %}
+</body>
+<html>

@@ -18,15 +18,19 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 ALLOWED_HOSTS = env("ALLOWED_HOSTS")
 
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
     "django_extensions",
+    "django_components",
+    "django_components.safer_staticfiles",
+    # Live components (the reason we have this sample project)
+    "livecomponents",
+    # Local app (sample)
+    "sample.myapp",
 ]
 
 MIDDLEWARE = [
@@ -46,7 +50,6 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [BASE_DIR / "templates"],
-        "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
                 "django.template.context_processors.debug",
@@ -54,12 +57,21 @@ TEMPLATES = [
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
             ],
+            "loaders": [
+                (
+                    "django.template.loaders.cached.Loader",
+                    [
+                        "django.template.loaders.filesystem.Loader",
+                        "django.template.loaders.app_directories.Loader",
+                        "django_components.template_loader.Loader",
+                    ],
+                )
+            ],
         },
     },
 ]
 
 WSGI_APPLICATION = "sample.wsgi.application"
-
 
 # Database
 DATABASES = {
@@ -83,14 +95,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "UTC"
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
-
 
 # Internal IPs
 # Ref: https://docs.djangoproject.com/en/4.0/ref/settings/#std:setting-INTERNAL_IPS
@@ -99,7 +109,11 @@ INTERNAL_IPS = [
 ]
 
 # Static files (CSS, JavaScript, Images)
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    # To load django-components specific to myapp
+    BASE_DIR / "sample/myapp/components",
+]
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static_root"
 
