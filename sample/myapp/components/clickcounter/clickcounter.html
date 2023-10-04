@@ -1,7 +1,7 @@
 {% load livecomponents %}
 
 <div style="display: flex; gap: 10px" id="{{ id }}">
-  <input style="text-align: right;" type="text" value="{{ value }}">
+  <input style="text-align: right;" type="text" value="{{ value_str }}" readonly>
   <button style="width: 100px" hx-get="{% call_method id "decrement" %}">-</button>
   <button style="width: 100px" hx-get="{% call_method id "increment" %}">+</button>
 </div>
