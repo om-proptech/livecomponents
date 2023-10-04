@@ -1,4 +1,4 @@
-{% load component_tags static django_htmx %}
+{% load component_tags static django_htmx livecomponents %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,14 +6,16 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/pico.min.css' %}">
 
   <!-- JavaScript dependencies -->
-  <script src="https://unpkg.com/htmx.org@1.9.6" defer></script>
+  <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+  <script src="https://unpkg.com/idiomorph/dist/idiomorph-ext.min.js"></script>
   {% django_htmx_script %}
 
   {% component_css_dependencies %}
+  {% live_component_session_id as live_component_session_id %}
   {% block head %}{% endblock %}
 </head>
-<body>
-<main class="container">
+<body hx-ext="morph">
+<main class="container" >
   {% block body %}{% endblock %}
 </main>
 

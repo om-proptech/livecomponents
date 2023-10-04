@@ -24,23 +24,20 @@ def call_method(request: HttpRequest):
 
     component_cls.save_state(args.session_id, args.component_id, state)
 
-    return re_render_component(args)
+    return re_render_component(request, args)
 
 
-def re_render_component(args: CallMethodRequestArgs) -> HttpResponse:
+def re_render_component(
+    request: HttpRequest, args: CallMethodRequestArgs
+) -> HttpResponse:
     template = (
         f'{{% load component_tags %}}{{% component "{args.component_name}" '
         f'session_id="{args.session_id}" component_id="{args.component_id}" %}}'
     )
-    rendered = Template(template).render(Context())
-    rendered_with_oob = add_swap_oob_attribute(rendered)
-    return HttpResponse(rendered_with_oob)
-
-
-def add_swap_oob_attribute(content: str) -> str:
-    """Prepend the first found ID with hx-swap-oob="true"."""
-    # See: https://htmx.org/docs/#oob_swaps
-    return content.replace("id=", 'hx-swap-oob="true" id=', 1)
+    rendered = Template(template).render(
+        Context({"live_component_session_id": args.session_id})
+    )
+    return HttpResponse(rendered)
 
 
 def get_component_class(component_name: str) -> type[LiveComponent]:

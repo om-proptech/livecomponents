@@ -1,7 +1,7 @@
 {% load livecomponents %}
 
-<div style="display: flex; gap: 10px" id="{{ component_id }}">
+<div style="display: flex; gap: 10px" id="{{ component_id }}" hx-swap-oob="morph">
   <input style="text-align: right;" type="text" value="{{ value_str }}" readonly>
-  <button style="width: 100px" hx-get="{% call_method "clickcounter" session_id component_id "decrement" %}">-</button>
-  <button style="width: 100px" hx-get="{% call_method "clickcounter" session_id component_id "increment" %}">+</button>
+  <button style="width: 100px" hx-get="{% call_method "clickcounter" component_id "decrement" %}" hx-swap="none">-</button>
+  <button style="width: 100px" hx-get="{% call_method "clickcounter" component_id "increment" %}" hx-swap="none">+</button>
 </div>
