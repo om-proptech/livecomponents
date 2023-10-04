@@ -1,9 +1,14 @@
-{% load component_tags static %}
+{% load component_tags static django_htmx %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <title>My sample project</title>
   <link rel="stylesheet" type="text/css" href="{% static 'css/pico.min.css' %}">
+
+  <!-- JavaScript dependencies -->
+  <script src="https://unpkg.com/htmx.org@1.9.6" defer></script>
+  {% django_htmx_script %}
+
   {% component_css_dependencies %}
   {% block head %}{% endblock %}
 </head>

@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "django_extensions",
     "django_components",
     "django_components.safer_staticfiles",
+    "django_htmx",
     # Live components (the reason we have this sample project)
     "livecomponents",
     # Local app (sample)
@@ -42,6 +43,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django_htmx.middleware.HtmxMiddleware",
 ]
 
 ROOT_URLCONF = "sample.urls"
