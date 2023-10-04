@@ -10,8 +10,10 @@ class LiveComponent(component.Component, Generic[State]):
     # We need a reference to the state class to be able to instantiate it
     state_cls: type[State]
 
-    def get_context_data(self, session_id: str, component_id: str, **kwargs):
+    def get_context_data(self, component_id: str, **kwargs):
         state_store = self.get_state_store()
+
+        session_id = self.outer_context["live_component_session_id"]
 
         # State, restored from the store
         state = state_store.get_component_state(session_id, component_id)
