@@ -12,6 +12,12 @@ p = inflect.engine()
 class ClickCounterState(BaseModel):
     value: int = 42
 
+    def increment(self):
+        self.value += 1
+
+    def decrement(self):
+        self.value -= 1
+
 
 @component.register("clickcounter")
 class ClickCounter(LiveComponent[ClickCounterState]):
