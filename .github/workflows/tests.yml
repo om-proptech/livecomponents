@@ -1,0 +1,35 @@
+name: tests
+
+on: [push]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          set -ex
+          curl -sSL https://install.python-poetry.org | python3 -
+          $HOME/.local/bin/poetry install
+      - name: Create environment file for testing
+        run: |
+          cp env.testing .env
+      - name: Test with pytest
+        run: |
+          set -ex
+          $HOME/.local/bin/poetry run coverage run -m pytest
+      - name: Convert coverage to XML
+        run: |
+          set -ex
+          $HOME/.local/bin/poetry run coverage xml
+      - name: Upload coverage to codecov
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: |
+          bash <(curl -s https://codecov.io/bash)
