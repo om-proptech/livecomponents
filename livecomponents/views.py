@@ -26,7 +26,7 @@ def re_render_component(
         f"{{% load component_tags %}}"
         f'{{% component "{component_address.name}" '
         f'session_id="{component_address.state_address.session_id}" '
-        f'component_id="{component_address.state_address.component_id}" %}}'
+        f'full_component_id="{component_address.state_address.component_id}" %}}'
     )
     rendered = Template(template).render(
         Context(

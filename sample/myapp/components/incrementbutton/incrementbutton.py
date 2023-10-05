@@ -19,9 +19,7 @@ class IncrementButton(LiveComponent[ZeroState]):
 
     @classmethod
     def increment_parent_counter(cls, call_context: CallContext[ZeroState]):
-        parent_component_id = call_context.state_address.component_id.replace(
-            "-incrementbutton", ""
-        )
+        parent_component_id = call_context.state_address.must_get_parent().component_id
         call_context.state_manager.call_with_context(
             call_context,
             component_name="clickcounter",
