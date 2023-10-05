@@ -1,0 +1,2 @@
+{% load livecomponents %}
+<button id="{{ component_id }}" style="width: 100px" hx-get="{% call_method "decrementbutton" component_id "decrement_parent_counter" %}" hx-swap="none">-</button>
