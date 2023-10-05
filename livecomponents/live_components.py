@@ -15,7 +15,7 @@ def find_component_id(
     parent_id: str | None = None,
 ) -> str:
     # Used to re-render the component
-    if full_component_id:
+    if full_component_id is not None:
         return full_component_id
 
     # Used in templates
