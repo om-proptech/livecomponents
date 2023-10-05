@@ -1,17 +1,10 @@
 from django.http import HttpRequest, HttpResponse
 from django.template import Context, Template
 from django_components.component_registry import registry
-from pydantic import BaseModel
 
 from livecomponents import LiveComponent
 from livecomponents.manager import get_state_manager
-
-
-class CallMethodRequestArgs(BaseModel):
-    component_name: str
-    session_id: str
-    component_id: str
-    method_name: str
+from livecomponents.types import CallMethodRequestArgs
 
 
 def call_method(request: HttpRequest):
@@ -19,13 +12,11 @@ def call_method(request: HttpRequest):
     state_store = get_state_manager()
     component_cls = get_component_class(args.component_name)
     state = state_store.get_or_create_component_state(
-        args.session_id, args.component_id, component_cls.init_state
+        args.get_state_address(), component_cls.init_state
     )
-
     method = getattr(component_cls, args.method_name)
     method(state)
-
-    state_store.set_component_state(args.session_id, args.component_id, state)
+    state_store.set_component_state(args.get_state_address(), state)
     return re_render_component(request, args)
 
 

@@ -2,14 +2,16 @@ import abc
 
 from redis import Redis
 
+from livecomponents.types import StateAddress
+
 
 class IStateStore(abc.ABC):
     @abc.abstractmethod
-    def restore(self, session_id: str, component_id: str) -> bytes | None:
+    def restore(self, state_addr: StateAddress) -> bytes | None:
         ...
 
     @abc.abstractmethod
-    def save(self, session_id: str, component_id: str, raw_state: bytes) -> None:
+    def save(self, state_addr: StateAddress, raw_state: bytes) -> None:
         ...
 
 
@@ -22,8 +24,14 @@ class RedisStateStore(IStateStore):
         self.client = Redis.from_url(redis_url)  # type: ignore
         self.key_prefix = key_prefix
 
-    def restore(self, session_id: str, component_id: str) -> bytes | None:
-        return self.client.hget(f"{self.key_prefix}:{session_id}", component_id)
+    def restore(self, state_addr: StateAddress) -> bytes | None:
+        return self.client.hget(
+            f"{self.key_prefix}:{state_addr.session_id}", state_addr.component_id
+        )
 
-    def save(self, session_id: str, component_id: str, raw_state: bytes) -> None:
-        self.client.hset(f"{self.key_prefix}:{session_id}", component_id, raw_state)
+    def save(self, state_addr: StateAddress, raw_state: bytes) -> None:
+        self.client.hset(
+            f"{self.key_prefix}:{state_addr.session_id}",
+            state_addr.component_id,
+            raw_state,
+        )
