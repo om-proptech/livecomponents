@@ -1,3 +1,4 @@
+import abc
 from typing import Generic
 
 from django_components import component
@@ -7,22 +8,14 @@ from livecomponents.types import State
 
 
 class LiveComponent(component.Component, Generic[State]):
-    # We need a reference to the state class to be able to instantiate it
-    state_cls: type[State]
-
     def get_context_data(self, component_id: str, **kwargs):
-        state_store = self.get_state_store()
-
         session_id = self.outer_context["live_component_session_id"]
 
-        # State, restored from the store
-        state = state_store.get_component_state(session_id, component_id)
-        if state is None:
-            state = self.init_state()
-
-        # Extra context data, provided by the component
+        state_store = get_default_state_store()
+        state = state_store.get_or_create_component_state(
+            session_id, component_id, self.init_state
+        )
         extra_context = self.get_extra_context_data(state)
-
         context = {
             **kwargs,
             **state.model_dump(),
@@ -39,27 +32,6 @@ class LiveComponent(component.Component, Generic[State]):
         return {}
 
     @classmethod
+    @abc.abstractmethod
     def init_state(cls) -> State:
-        """Initialize the state of the component.
-
-        You can override this method to provide a custom state initialization.
-        """
-
-        return cls.state_cls()
-
-    @classmethod
-    def get_state_store(cls):
-        return get_default_state_store()
-
-    @classmethod
-    def get_or_create_state(cls, session_id: str, component_id: str):
-        state_store = cls.get_state_store()
-        state = state_store.get_component_state(session_id, component_id)
-        if state is None:
-            state = cls.init_state()
-        return state
-
-    @classmethod
-    def save_state(cls, session_id: str, component_id: str, state: State):
-        state_store = cls.get_state_store()
-        state_store.set_component_state(session_id, component_id, state)
+        ...

@@ -4,6 +4,7 @@ from django_components.component_registry import registry
 from pydantic import BaseModel
 
 from livecomponents import LiveComponent
+from livecomponents.state_stores import get_default_state_store
 
 
 class CallMethodRequestArgs(BaseModel):
@@ -15,15 +16,16 @@ class CallMethodRequestArgs(BaseModel):
 
 def call_method(request: HttpRequest):
     args = CallMethodRequestArgs(**request.GET.dict())
-
+    state_store = get_default_state_store()
     component_cls = get_component_class(args.component_name)
-    state = component_cls.get_or_create_state(args.session_id, args.component_id)
+    state = state_store.get_or_create_component_state(
+        args.session_id, args.component_id, component_cls.init_state
+    )
 
-    method = getattr(state, args.method_name)
-    method()
+    method = getattr(component_cls, args.method_name)
+    method(state)
 
-    component_cls.save_state(args.session_id, args.component_id, state)
-
+    state_store.set_component_state(args.session_id, args.component_id, state)
     return re_render_component(request, args)
 
 

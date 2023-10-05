@@ -1,9 +1,18 @@
 import abc
 import pickle
+from collections.abc import Callable
 from typing import Any
 
 
 class IStateStore(abc.ABC):
+    def get_or_create_component_state(
+        self, session_id: str, component_id: str, state_constructor: Callable[[], Any]
+    ) -> Any:
+        state = self.get_component_state(session_id, component_id)
+        if state is None:
+            state = state_constructor()
+        return state
+
     def get_component_state(self, session_id: str, component_id: str) -> Any | None:
         raw_state = self.get_raw_component_state(session_id, component_id)
         if raw_state is None:
