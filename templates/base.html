@@ -7,6 +7,7 @@
 
   <!-- JavaScript dependencies -->
   <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+  <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
   <script src="https://unpkg.com/idiomorph/dist/idiomorph-ext.min.js"></script>
   {% django_htmx_script %}
 
@@ -14,7 +15,7 @@
   {% live_component_session_id as live_component_session_id %}
   {% block head %}{% endblock %}
 </head>
-<body hx-ext="morph">
+<body hx-ext="morph, json-enc" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
 <main class="container" >
   {% block body %}{% endblock %}
 </main>

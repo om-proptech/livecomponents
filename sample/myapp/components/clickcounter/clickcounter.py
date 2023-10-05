@@ -5,6 +5,7 @@ from django_components import component
 from pydantic import BaseModel
 
 from livecomponents import LiveComponent
+from livecomponents.const import TYPE_SEP
 from livecomponents.manager.manager import CallContext
 
 p = inflect.engine()
@@ -26,33 +27,18 @@ class ClickCounter(LiveComponent[ClickCounterState]):
         return ClickCounterState()
 
     @classmethod
-    def increment(cls, call_context: CallContext[ClickCounterState]):
-        call_context.state.value += 1
+    def increment(cls, call_context: CallContext[ClickCounterState], value: int = 1):
+        call_context.state.value += value
         call_context.state_manager.call_with_context(
             call_context,
             component_name="message",
-            component_id="message-0",
+            component_id=f"message{TYPE_SEP}0",
             method_name="set_message",
             kwargs={
                 "message": (
-                    f"Counter {call_context.state_address.component_id} incremented. "
-                    f"Its value is now {call_context.state.value}."
-                )
-            },
-        )
-
-    @classmethod
-    def decrement(cls, call_context: CallContext[ClickCounterState]):
-        call_context.state.value -= 1
-        call_context.state_manager.call_with_context(
-            call_context,
-            component_name="message",
-            component_id="message-0",
-            method_name="set_message",
-            kwargs={
-                "message": (
-                    f"Counter {call_context.state_address.component_id} decremented. "
-                    f"Its value is now {call_context.state.value}."
+                    f"Counter {call_context.state_address.component_id} incremented "
+                    f"to {value}. "
+                    f"Its new value is now {call_context.state.value}."
                 )
             },
         )
