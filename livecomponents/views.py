@@ -1,22 +1,16 @@
 from django.http import HttpRequest, HttpResponse
 from django.template import Context, Template
-from django_components.component_registry import registry
 
-from livecomponents import LiveComponent
 from livecomponents.manager import get_state_manager
 from livecomponents.types import CallMethodRequestArgs
 
 
 def call_method(request: HttpRequest):
     args = CallMethodRequestArgs(**request.GET.dict())
-    state_store = get_state_manager()
-    component_cls = get_component_class(args.component_name)
-    state = state_store.get_or_create_component_state(
-        args.get_state_address(), component_cls.init_state
+    state_manager = get_state_manager()
+    state_manager.call_component_method(
+        request, args.component_name, args.get_state_address(), args.method_name
     )
-    method = getattr(component_cls, args.method_name)
-    method(state)
-    state_store.set_component_state(args.get_state_address(), state)
     return re_render_component(request, args)
 
 
@@ -31,7 +25,3 @@ def re_render_component(
         Context({"live_component_session_id": args.session_id})
     )
     return HttpResponse(rendered)
-
-
-def get_component_class(component_name: str) -> type[LiveComponent]:
-    return registry.get(component_name)
