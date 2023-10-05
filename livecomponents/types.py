@@ -5,9 +5,20 @@ from pydantic import BaseModel
 State = TypeVar("State")
 
 
+class ComponentAddress(BaseModel):
+    name: str
+    state_address: "StateAddress"
+
+    class Config:
+        frozen = True
+
+
 class StateAddress(BaseModel):
     session_id: str
     component_id: str
+
+    class Config:
+        frozen = True
 
 
 class CallMethodRequestArgs(BaseModel):
