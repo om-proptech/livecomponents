@@ -20,12 +20,19 @@ class StateAddress(BaseModel):
     component_id: str
 
     def get_parent(self) -> "StateAddress | None":
+        """Returns the parent of this component or None.
+
+        Reutrn None if this component is a root component."""
         if HIER_SEP not in self.component_id:
             return None
         parent_id = self.component_id.rsplit(HIER_SEP, 1)[0]
         return StateAddress(session_id=self.session_id, component_id=parent_id)
 
     def must_get_parent(self) -> "StateAddress":
+        """Returns the parent of this component or raises ValueError.
+
+        Assume that the parent exists.
+        """
         parent = self.get_parent()
         if parent is None:
             raise ValueError(f"{self} has no parent")

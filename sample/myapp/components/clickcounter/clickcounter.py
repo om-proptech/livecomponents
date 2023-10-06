@@ -5,7 +5,7 @@ from django_components import component
 from pydantic import BaseModel
 
 from livecomponents import LiveComponent
-from livecomponents.const import TYPE_SEP
+from livecomponents.const import HIER_SEP, TYPE_SEP
 from livecomponents.manager.manager import CallContext
 
 p = inflect.engine()
@@ -32,7 +32,7 @@ class ClickCounter(LiveComponent[ClickCounterState]):
         call_context.state_manager.call_with_context(
             call_context,
             component_name="message",
-            component_id=f"message{TYPE_SEP}0",
+            component_id=f"{HIER_SEP}message{TYPE_SEP}0",
             method_name="set_message",
             kwargs={
                 "message": (
