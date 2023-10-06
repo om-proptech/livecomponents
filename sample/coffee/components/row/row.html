@@ -3,14 +3,13 @@
 
   {% if edit_mode %}
     <td colspan="7">
-      <form hx-swap="none" hx-post="{% call_method component_id "edit" %}">
+      <form hx-post="{% call_method component_id "edit" %}">
         <table>
           {{ bean_form.as_table }}
         </table>
         <div style="display: flex; gap: 10px;">
           <button type="submit">Save</button>
           <button type="button"
-                  hx-swap="none"
                   hx-post="{% call_method component_id "edit_off" %}"
                   style="background-color: darkred; border: darkred">Cancel</button>
         </div>
@@ -26,7 +25,6 @@
     <td>
       <!-- Actions -->
       <a href="#"
-         hx-swap="none"
          hx-post="{% call_method component_id "edit_on" %}">Edit</a>
     </td>
   {% endif %}
