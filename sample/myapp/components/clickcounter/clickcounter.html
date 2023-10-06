@@ -1,6 +1,6 @@
 {% load livecomponents component_tags %}
 
-<div style="display: flex; gap: 10px" id="{{ component_id }}" hx-swap-oob="morph">
+<div style="display: flex; gap: 10px" id="{{ component_id }}" hx-swap-oob="morph:#{{ component_id|css_escape }}">
   <input style="text-align: right;" type="text" value="{{ value_str }}" readonly>
   {% component "incrementbutton" parent_id=component_id own_id="plus" value=1 label="+" %}
   {% component "incrementbutton" parent_id=component_id own_id="minus" value=-1 label="-" %}

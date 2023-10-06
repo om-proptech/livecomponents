@@ -1,5 +1,5 @@
 {% load livecomponents %}
 
-<div id="{{ component_id }}" hx-swap-oob="morph">
+<div id="{{ component_id }}" hx-swap-oob="morph:#{{ component_id|css_escape }}">
   {{ message|default_if_none:"( no message )" }}
 </div>
