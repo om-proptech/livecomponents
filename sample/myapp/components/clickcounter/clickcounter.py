@@ -13,6 +13,7 @@ p = inflect.engine()
 
 class ClickCounterState(BaseModel):
     value: int = 42
+    title: str = ""
 
 
 @component.register("clickcounter")
@@ -23,8 +24,8 @@ class ClickCounter(LiveComponent[ClickCounterState]):
         return {"value_str": p.number_to_words(state.value)}
 
     @classmethod
-    def init_state(cls) -> ClickCounterState:
-        return ClickCounterState()
+    def init_state(cls, **component_kwargs) -> ClickCounterState:
+        return ClickCounterState(**component_kwargs)
 
     @classmethod
     def increment(cls, call_context: CallContext[ClickCounterState], value: int = 1):
@@ -36,7 +37,7 @@ class ClickCounter(LiveComponent[ClickCounterState]):
             method_name="set_message",
             kwargs={
                 "message": (
-                    f"Counter {call_context.state_address.component_id} incremented "
+                    f"Counter {call_context.state.title!r} incremented "
                     f"to {value}. "
                     f"Its new value is now {call_context.state.value}."
                 )

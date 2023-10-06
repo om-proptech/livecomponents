@@ -46,7 +46,7 @@ class LiveComponent(component.Component, Generic[State]):
         own_id: str = DEFAULT_OWN_ID,
         parent_id: str = DEFAULT_PARENT_ID,
         full_component_id: str | None = None,
-        **kwargs,
+        **component_kwargs,
     ):
         component_id = find_component_id(
             full_component_id=full_component_id,
@@ -59,10 +59,12 @@ class LiveComponent(component.Component, Generic[State]):
             component_id=component_id,
         )
         state_store = get_state_manager()
-        state = state_store.get_or_create_component_state(state_addr, self.init_state)
+        state = state_store.get_or_create_component_state(
+            state_addr, self.init_state, component_kwargs
+        )
         extra_context = self.get_extra_context_data(state)
         context = {
-            **kwargs,
+            **component_kwargs,
             **state.model_dump(),
             **extra_context,
             # Put "session_id" and "component_id" last to ensure they are
@@ -77,5 +79,5 @@ class LiveComponent(component.Component, Generic[State]):
 
     @classmethod
     @abc.abstractmethod
-    def init_state(cls) -> State:
+    def init_state(cls, **component_kwargs) -> State:
         ...

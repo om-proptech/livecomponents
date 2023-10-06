@@ -15,8 +15,8 @@ class MessageComponent(LiveComponent[MessageState]):
     state_cls = MessageState
 
     @classmethod
-    def init_state(cls) -> MessageState:
-        return MessageState()
+    def init_state(cls, **component_kwargs) -> MessageState:
+        return MessageState(**component_kwargs)
 
     @classmethod
     def set_message(cls, call_context: CallContext, message: str):

@@ -4,21 +4,49 @@
 
 Django Live Components sample
 
-## Getting Started
+## On component IDs.
 
-This should include a small (often the most basic) example of how to use the project,
-along with some steps on how to install it, if necessary.
+- Every component must have a root element that includes its ID. The id is "id={{ component_id }}".
+- Component IDs represent the component hierarchy and formatted as absolute POSIX paths. For example, we can have a component /form.0/button.submit where "button" is the component type, "submit" is its name, and "form.0" is its parent.
 
-## Tutorial
 
-Tutorial includes instructions on how to use the project for common use cases.
+## On component states
 
-## Sample API
 
-The API documentation contains the description of the individual functions, methods,
-and components of your project.
+The state is defined in a separate class. The state must include parameters, passed to the component as keyword arguments, so that the component gets all necessary information to re-render itself on partial render.
 
-## Sample Architecture
+For example, given the template the alert component:
 
-This section of your documentation describes how your code works, as opposed to how
-to use your code.
+```html
+<alert>{{ message }}</alert>
+```
+
+that you want to use as
+
+```
+{% component "alert" message="Hello, world!" %}
+```
+
+Assuming that the component will be re-rendered on partial render, the state must include the "message" parameter:
+
+```python
+from pydantic import BaseModel
+from livecomponents.component import LiveComponent
+
+class AlertState(BaseModel):
+    message: str = ""
+
+
+class Alert(LiveComponent):
+
+    template_name = "alert.html"
+
+
+    @classmethod
+    def init_state(cls, **component_kwargs) -> AlertState:
+        return AlertState(**component_kwargs)
+```
+
+Component states don't need to be stored if components are not expected to be re-rendered independently, and only
+as part of the parent component. For example, components for buttons are rarely re-rendered independently, so
+you get away without the state model.

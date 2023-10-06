@@ -5,21 +5,22 @@ from livecomponents import LiveComponent
 from livecomponents.manager.manager import CallContext
 
 
-class ZeroState(BaseModel):
-    pass
+class IncrementButtonState(BaseModel):
+    value: int = 1
+    label: str = "+"
 
 
 @component.register("incrementbutton")
-class IncrementButton(LiveComponent[ZeroState]):
+class IncrementButton(LiveComponent[IncrementButtonState]):
     template_name = "incrementbutton/incrementbutton.html"
 
     @classmethod
-    def init_state(cls) -> ZeroState:
-        return ZeroState()
+    def init_state(cls, **component_kwargs) -> IncrementButtonState:
+        return IncrementButtonState(**component_kwargs)
 
     @classmethod
     def increment_parent_counter(
-        cls, call_context: CallContext[ZeroState], value: int = 1
+        cls, call_context: CallContext[IncrementButtonState], value: int = 1
     ):
         parent_component_id = call_context.state_address.must_get_parent().component_id
         call_context.state_manager.call_with_context(

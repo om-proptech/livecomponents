@@ -36,11 +36,15 @@ class StateManager:
         self.store = store
 
     def get_or_create_component_state(
-        self, state_addr: StateAddress, state_constructor: Callable[[], Any]
+        self,
+        state_addr: StateAddress,
+        state_constructor: Callable[..., Any],
+        component_kwargs: dict[str, Any],
     ) -> Any:
         state = self.get_component_state(state_addr)
         if state is None:
-            state = state_constructor()
+            state = state_constructor(**component_kwargs)
+            self.set_component_state(state_addr, state)
         return state
 
     def get_component_state(self, state_addr: StateAddress) -> Any | None:
@@ -64,7 +68,9 @@ class StateManager:
         kwargs: dict[str, Any] | None = None,
     ) -> CallContext:
         component_cls = self.get_component_class(component_name)
-        state = self.get_or_create_component_state(state_addr, component_cls.init_state)
+        state = self.get_component_state(state_addr)
+        if state is None:
+            raise ValueError(f"Component state not found: {state_addr}")
         method = getattr(component_cls, method_name)
 
         call_context: CallContext = CallContext(
@@ -91,7 +97,9 @@ class StateManager:
         state_addr = call_context.state_address.model_copy(
             update={"component_id": component_id}
         )
-        state = self.get_or_create_component_state(state_addr, component_cls.init_state)
+        state = self.get_component_state(state_addr)
+        if state is None:
+            raise ValueError(f"Component state not found: {state_addr}")
         method = getattr(component_cls, method_name)
         updated_call_context: CallContext = CallContext(
             request=call_context.request,
