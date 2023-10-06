@@ -1,3 +1,3 @@
-from livecomponents.live_components import LiveComponent
+from livecomponents.component import LiveComponent
 
 __all__ = ["LiveComponent"]

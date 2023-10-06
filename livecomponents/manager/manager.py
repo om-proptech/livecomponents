@@ -10,7 +10,7 @@ from livecomponents.manager.stores import IStateStore
 from livecomponents.types import ComponentAddress, State, StateAddress
 
 if TYPE_CHECKING:
-    from livecomponents.live_components import LiveComponent
+    from livecomponents.component import LiveComponent
 
 
 class CallContext(BaseModel, Generic[State]):

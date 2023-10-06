@@ -1,13 +1,8 @@
 from urllib.parse import urlencode
 
 from django import template
-from django.template.base import FilterExpression
 from django.urls import reverse
-from django_components.templatetags.component_tags import (
-    ComponentNode,
-    check_for_isolated_context_keyword,
-    parse_component_with_args,
-)
+from django.utils.safestring import mark_safe
 
 from livecomponents.sessions import get_session_id
 
@@ -18,7 +13,7 @@ register = template.Library()
 def call_method(
     context, component_name: str, component_id: str, method_name: str
 ) -> str:
-    session_id = context["live_component_session_id"]
+    session_id = context["LIVECOMPONENTS_SESSION_ID"]
     url = reverse(
         "livecomponents:call-method",
     )
@@ -34,23 +29,12 @@ def call_method(
 
 
 @register.simple_tag(takes_context=True)
-def live_component_session_id(context) -> str:
+def livecomponents_session_id(context) -> str:
     """Return the session ID for the live components session."""
     request = context["request"]
     return get_session_id(request)
 
 
-@register.tag(name="livecomponent")
-def do_live_component(parser, token):
-    bits = token.split_contents()
-    bits, isolated_context = check_for_isolated_context_keyword(bits)
-    component_name, context_args, context_kwargs = parse_component_with_args(
-        parser, bits, "component"
-    )
-    # context_kwargs["session_id"] =
-    return ComponentNode(
-        FilterExpression(component_name, parser),
-        context_args,
-        context_kwargs,
-        isolated_context=isolated_context,
-    )
+@register.filter(name="css_escape")
+def css_escape(value: str) -> str:
+    return mark_safe("".join(char if char.isalnum() else f"\\{char}" for char in value))

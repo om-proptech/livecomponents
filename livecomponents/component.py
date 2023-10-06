@@ -42,7 +42,7 @@ class LiveComponent(component.Component, Generic[State]):
             parent_id=parent_id,
         )
         state_addr = StateAddress(
-            session_id=self.outer_context["live_component_session_id"],
+            session_id=self.outer_context["LIVECOMPONENTS_SESSION_ID"],
             component_id=component_id,
         )
         state_store = get_state_manager()

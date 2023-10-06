@@ -46,7 +46,7 @@ def re_render_component(
     )
     rendered = Template(template).render(
         Context(
-            {"live_component_session_id": component_address.state_address.session_id}
+            {"LIVECOMPONENTS_SESSION_ID": component_address.state_address.session_id}
         )
     )
     return rendered
