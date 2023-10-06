@@ -25,7 +25,6 @@ class IncrementButton(LiveComponent[IncrementButtonState]):
         parent_component_id = call_context.state_address.must_get_parent().component_id
         call_context.state_manager.call_with_context(
             call_context,
-            component_name="clickcounter",
             component_id=parent_component_id,
             method_name="increment",
             kwargs={"value": value},

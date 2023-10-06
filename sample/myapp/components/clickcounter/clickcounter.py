@@ -32,7 +32,6 @@ class ClickCounter(LiveComponent[ClickCounterState]):
         call_context.state.value += value
         call_context.state_manager.call_with_context(
             call_context,
-            component_name="message",
             component_id=f"{HIER_SEP}message{TYPE_SEP}0",
             method_name="set_message",
             kwargs={

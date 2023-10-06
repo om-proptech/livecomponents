@@ -6,7 +6,7 @@ from django.template import Context, Template
 
 from livecomponents.manager import get_state_manager
 from livecomponents.manager.manager import CallContext
-from livecomponents.types import CallMethodRequestArgs, ComponentAddress
+from livecomponents.types import CallMethodRequestArgs, StateAddress
 
 
 def call_method(request: HttpRequest):
@@ -17,7 +17,6 @@ def call_method(request: HttpRequest):
     kwargs = parse_json_body(request)
     call_context = state_manager.call_component_method(
         request,
-        args.component_name,
         args.get_state_address(),
         args.method_name,
         kwargs=kwargs,
@@ -35,18 +34,13 @@ def parse_json_body(request: HttpRequest) -> dict[str, Any]:
     return json.loads(request.body.decode())
 
 
-def re_render_component(
-    call_context: CallContext, component_address: ComponentAddress
-) -> str:
+def re_render_component(call_context: CallContext, state_address: StateAddress) -> str:
     template = (
         f"{{% load component_tags %}}"
-        f'{{% component "{component_address.name}" '
-        f'session_id="{component_address.state_address.session_id}" '
-        f'full_component_id="{component_address.state_address.component_id}" %}}'
+        f'{{% component "{state_address.get_component_name()}" '
+        f'full_component_id="{state_address.component_id}" %}}'
     )
     rendered = Template(template).render(
-        Context(
-            {"LIVECOMPONENTS_SESSION_ID": component_address.state_address.session_id}
-        )
+        Context({"LIVECOMPONENTS_SESSION_ID": state_address.session_id})
     )
     return rendered

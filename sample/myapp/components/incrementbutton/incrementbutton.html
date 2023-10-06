@@ -1,5 +1,5 @@
 {% load livecomponents %}
 <button id="{{ component_id }}" style="width: 100px"
-        hx-post="{% call_method "incrementbutton" component_id "increment_parent_counter" %}"
+        hx-post="{% call_method component_id "increment_parent_counter" %}"
         hx-vals='{"value": {{ value }}}'
         hx-swap="none">{{ label }}</button>

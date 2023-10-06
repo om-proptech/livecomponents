@@ -10,16 +10,13 @@ register = template.Library()
 
 
 @register.simple_tag(takes_context=True)
-def call_method(
-    context, component_name: str, component_id: str, method_name: str
-) -> str:
+def call_method(context, component_id: str, method_name: str) -> str:
     session_id = context["LIVECOMPONENTS_SESSION_ID"]
     url = reverse(
         "livecomponents:call-method",
     )
     kwargs = urlencode(
         {
-            "component_name": component_name,
             "session_id": session_id,
             "component_id": component_id,
             "method_name": method_name,

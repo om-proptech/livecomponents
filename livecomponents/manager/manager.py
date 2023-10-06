@@ -7,7 +7,7 @@ from pydantic import BaseModel, Field
 
 from livecomponents.manager.serializers import IStateSerializer
 from livecomponents.manager.stores import IStateStore
-from livecomponents.types import ComponentAddress, State, StateAddress
+from livecomponents.types import State, StateAddress
 
 if TYPE_CHECKING:
     from livecomponents.component import LiveComponent
@@ -16,15 +16,12 @@ if TYPE_CHECKING:
 class CallContext(BaseModel, Generic[State]):
     request: HttpRequest
     state: State
-    component_name: str
     state_address: StateAddress
     state_manager: "StateManager"
-    dirty_components: set[ComponentAddress] = Field(default_factory=set)
+    dirty_components: set[StateAddress] = Field(default_factory=set)
 
     def mark_as_dirty(self):
-        self.dirty_components.add(
-            ComponentAddress(name=self.component_name, state_address=self.state_address)
-        )
+        self.dirty_components.add(self.state_address)
 
     class Config:
         arbitrary_types_allowed = True
@@ -62,12 +59,11 @@ class StateManager:
     def call_component_method(
         self,
         request: HttpRequest,
-        component_name: str,
         state_addr: StateAddress,
         method_name: str,
         kwargs: dict[str, Any] | None = None,
     ) -> CallContext:
-        component_cls = self.get_component_class(component_name)
+        component_cls = self.get_component_class(state_addr.get_component_name())
         state = self.get_component_state(state_addr)
         if state is None:
             raise ValueError(f"Component state not found: {state_addr}")
@@ -75,7 +71,6 @@ class StateManager:
 
         call_context: CallContext = CallContext(
             request=request,
-            component_name=component_name,
             state=state,
             state_address=state_addr,
             state_manager=self,
@@ -88,22 +83,21 @@ class StateManager:
     def call_with_context(
         self,
         call_context: CallContext,
-        component_name: str,
         component_id: str,
         method_name: str,
         kwargs: dict[str, Any] | None = None,
     ):
-        component_cls = self.get_component_class(component_name)
         state_addr = call_context.state_address.model_copy(
             update={"component_id": component_id}
         )
+        component_cls = self.get_component_class(state_addr.get_component_name())
+
         state = self.get_component_state(state_addr)
         if state is None:
             raise ValueError(f"Component state not found: {state_addr}")
         method = getattr(component_cls, method_name)
         updated_call_context: CallContext = CallContext(
             request=call_context.request,
-            component_name=component_name,
             state=state,
             state_address=state_addr,
             state_manager=self,
