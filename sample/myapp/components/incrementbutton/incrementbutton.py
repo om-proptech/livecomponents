@@ -22,10 +22,4 @@ class IncrementButton(LiveComponent[IncrementButtonState]):
     def increment_parent_counter(
         cls, call_context: CallContext[IncrementButtonState], value: int = 1
     ):
-        parent_component_id = call_context.state_address.must_get_parent().component_id
-        call_context.state_manager.call_with_context(
-            call_context,
-            component_id=parent_component_id,
-            method_name="increment",
-            kwargs={"value": value},
-        )
+        call_context.parent.increment(value=value)

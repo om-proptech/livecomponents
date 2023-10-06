@@ -26,6 +26,29 @@ class CallContext(BaseModel, Generic[State]):
     class Config:
         arbitrary_types_allowed = True
 
+    def find_one(self, component_id: str) -> "PreparedCall":
+        return PreparedCall(call_context=self, component_id=component_id)
+
+    @property
+    def parent(self) -> "PreparedCall":
+        return self.find_one(self.state_address.must_get_parent().component_id)
+
+
+class PreparedCall(BaseModel):
+    call_context: CallContext
+    component_id: str
+
+    def __getattr__(self, method_name: str):
+        def call(**kwargs):
+            self.call_context.state_manager.call_with_context(
+                self.call_context,
+                component_id=self.component_id,
+                method_name=method_name,
+                kwargs=kwargs,
+            )
+
+        return call
+
 
 class StateManager:
     def __init__(self, serializer: IStateSerializer, store: IStateStore):

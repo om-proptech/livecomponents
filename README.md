@@ -50,3 +50,25 @@ class Alert(LiveComponent):
 Component states don't need to be stored if components are not expected to be re-rendered independently, and only
 as part of the parent component. For example, components for buttons are rarely re-rendered independently, so
 you get away without the state model.
+
+## On calling component methods from others
+
+There are two ways to call component methods from other components:
+
+Using the component ID. For example, if you have a component with ID "/message.0" and a method "set_message", you can call it like this:
+
+```python
+from livecomponents.manager.manager import CallContext
+
+def do_something(call_context: CallContext):
+    call_context.find_one("/message.0").set_message("Hello, world!")
+```
+
+Using the "parent" reference.
+
+```python
+from livecomponents.manager.manager import CallContext
+
+def do_something(call_context: CallContext):
+    call_context.parent.set_message("Hello, world!")
+```
