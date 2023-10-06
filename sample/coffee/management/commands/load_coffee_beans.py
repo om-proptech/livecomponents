@@ -32,7 +32,7 @@ class Command(BaseCommand):
     help = "Load coffee beans into the database"
 
     def handle(self, *args, **options):
-        for pk, bean in enumerate(sample):
+        for pk, bean in enumerate(sample, start=1):
             bean = dict(zip(fields, bean))
             CoffeeBean.objects.create(pk=pk, **bean)
         self.stdout.write(self.style.SUCCESS("Successfully loaded coffee beans"))

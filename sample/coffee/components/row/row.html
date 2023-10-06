@@ -4,11 +4,9 @@
   {% if edit_mode %}
     <td colspan="7">
       <form hx-swap="none" hx-post="{% call_method component_id "edit" %}">
-        <input type="text" name="name" value="{{ bean.name }}">
-        <input type="text" name="origin" value="{{ bean.origin }}">
-        <input type="text" name="roast_level" value="{{ bean.roast_level }}">
-        <input type="text" name="flavor_notes" value="{{ bean.flavor_notes }}">
-        <input type="text" name="stock_quantity" value="{{ bean.stock_quantity }}">
+        <table>
+          {{ bean_form.as_table }}
+        </table>
         <div style="display: flex; gap: 10px;">
           <button type="submit">Save</button>
           <button type="button"
