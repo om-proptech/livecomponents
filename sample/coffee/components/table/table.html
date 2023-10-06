@@ -12,20 +12,13 @@
       <th>Roast Level</th>
       <th>Flavor Notes</th>
       <th>Stock Quantity</th>
+      <th></th>
     </tr>
     </thead>
     <tbody>
     {% for bean in beans %}
-      <tr>
-        <td>{{ bean.id }}</td>
-        <td>{{ bean.name }}</td>
-        <td>{{ bean.origin }}</td>
-        <td>{{ bean.roast_level }}</td>
-        <td>{{ bean.flavor_notes }}</td>
-        <td>{{ bean.stock_quantity }}</td>
-      </tr>
+      {% component "row" bean=bean parent_id=component_id own_id=bean.id %}
     {% endfor %}
-
     </tbody>
 
   </table>

@@ -1,0 +1,35 @@
+{% load livecomponents component_tags %}
+<tr id="{{ component_id }}" hx-swap-oob="morph:#{{ component_id|css_escape }}">
+
+  {% if edit_mode %}
+    <td colspan="7">
+      <form hx-swap="none" hx-post="{% call_method component_id "edit" %}">
+        <input type="text" name="name" value="{{ bean.name }}">
+        <input type="text" name="origin" value="{{ bean.origin }}">
+        <input type="text" name="roast_level" value="{{ bean.roast_level }}">
+        <input type="text" name="flavor_notes" value="{{ bean.flavor_notes }}">
+        <input type="text" name="stock_quantity" value="{{ bean.stock_quantity }}">
+        <div style="display: flex; gap: 10px;">
+          <button type="submit">Save</button>
+          <button type="button"
+                  hx-swap="none"
+                  hx-post="{% call_method component_id "edit_off" %}"
+                  style="background-color: darkred; border: darkred">Cancel</button>
+        </div>
+      </form>
+    </td>
+  {% else %}
+    <td>{{ bean.id }}</td>
+    <td>{{ bean.name }}</td>
+    <td>{{ bean.origin }}</td>
+    <td>{{ bean.roast_level }}</td>
+    <td>{{ bean.flavor_notes }}</td>
+    <td>{{ bean.stock_quantity }}</td>
+    <td>
+      <!-- Actions -->
+      <a href="#"
+         hx-swap="none"
+         hx-post="{% call_method component_id "edit_on" %}">Edit</a>
+    </td>
+  {% endif %}
+</tr>

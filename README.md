@@ -72,3 +72,10 @@ from livecomponents.manager.manager import CallContext
 def do_something(call_context: CallContext):
     call_context.parent.set_message("Hello, world!")
 ```
+
+## DX challenges
+
+- You cannot call a component grandparent method.
+- "hx-dance" is hard to remember. You need to copy and paste it from the previous component.
+- I am always forgetting passing parent_id explicitly to the child component.
+- When the parent passes the state to the child, the this can result in state being out of sync, if the child also stores the state.
