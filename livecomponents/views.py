@@ -21,9 +21,12 @@ def call_method(request: HttpRequest):
         args.method_name,
         kwargs=kwargs,
     )
+
+    dirty_components = deduplicate_dirty_components(call_context.dirty_components)
+
     rendered_components = [
         re_render_component(call_context, component_address)
-        for component_address in call_context.dirty_components
+        for component_address in dirty_components
     ]
     return HttpResponse("\n".join(rendered_components))
 
@@ -32,6 +35,24 @@ def parse_json_body(request: HttpRequest) -> dict[str, Any]:
     if request.body == b"":
         return {}
     return json.loads(request.body.decode())
+
+
+def deduplicate_dirty_components(dirty_components: set[StateAddress]):
+    """De-duplicate dirty components.
+
+    Do not schedule child comoponents re-render if parent component re-render
+    is already scheduled. Define the parent-child relationship by comparing
+    component ids: parent component ID is a prefix of child component ID.
+    """
+    sorted_dirty_components = sorted(dirty_components, key=lambda x: x.component_id)
+    deduplicated: set[StateAddress] = set()
+    for component_address in sorted_dirty_components:
+        if not any(
+            component_address.component_id.startswith(x.component_id)
+            for x in deduplicated
+        ):
+            deduplicated.add(component_address)
+    return deduplicated
 
 
 def re_render_component(call_context: CallContext, state_address: StateAddress) -> str:

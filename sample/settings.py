@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     "livecomponents",
     # Local app (sample)
     "sample.myapp",
+    "sample.coffee",
 ]
 
 MIDDLEWARE = [
@@ -115,6 +116,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
     # To load django-components specific to myapp
     BASE_DIR / "sample/myapp/components",
+    BASE_DIR / "sample/coffee/components",
 ]
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static_root"

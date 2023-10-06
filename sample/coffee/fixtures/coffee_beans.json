@@ -1,0 +1,35 @@
+[
+    {
+        "model": "your_app_name.coffeebean",
+        "pk": 1,
+        "fields": {
+            "name": "Colombian Arabica",
+            "origin": "Colombia",
+            "roast_level": "Medium",
+            "flavor_notes": "Nutty, Fruity",
+            "stock_quantity": 20
+        }
+    },
+    {
+        "model": "your_app_name.coffeebean",
+        "pk": 2,
+        "fields": {
+            "name": "Ethiopian Sidamo",
+            "origin": "Ethiopia",
+            "roast_level": "Light",
+            "flavor_notes": "Floral, Citrus",
+            "stock_quantity": 15
+        }
+    },
+    {
+        "model": "your_app_name.coffeebean",
+        "pk": 3,
+        "fields": {
+            "name": "Brazilian Santos",
+            "origin": "Brazil",
+            "roast_level": "Dark",
+            "flavor_notes": "Chocolate, Spices",
+            "stock_quantity": 25
+        }
+    }
+]

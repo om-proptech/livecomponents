@@ -1,0 +1,7 @@
+{% load livecomponents %}
+<input type="text" name="search" value="{{ search }}"
+       hx-swap="none"
+       hx-trigger="keyup changed delay:500ms"
+       autocomplete="off"
+       hx-post="{% call_method component_id "update_search" %}"
+/>

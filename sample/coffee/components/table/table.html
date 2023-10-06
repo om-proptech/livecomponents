@@ -1,0 +1,32 @@
+{% load livecomponents component_tags %}
+
+<div id="{{ component_id }}" hx-swap-oob="morph:#{{ component_id|css_escape }}">
+  {% component "search" parent_id=component_id search=search %}
+
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Origin</th>
+      <th>Roast Level</th>
+      <th>Flavor Notes</th>
+      <th>Stock Quantity</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for bean in beans %}
+      <tr>
+        <td>{{ bean.id }}</td>
+        <td>{{ bean.name }}</td>
+        <td>{{ bean.origin }}</td>
+        <td>{{ bean.roast_level }}</td>
+        <td>{{ bean.flavor_notes }}</td>
+        <td>{{ bean.stock_quantity }}</td>
+      </tr>
+    {% endfor %}
+
+    </tbody>
+
+  </table>
+</div>
