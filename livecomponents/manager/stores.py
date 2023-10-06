@@ -1,4 +1,5 @@
 import abc
+import datetime
 
 from redis import Redis
 
@@ -20,18 +21,26 @@ class RedisStateStore(IStateStore):
         self,
         redis_url: str = "redis://localhost:6379/0",
         key_prefix: str = "livecomponents:",
+        ttl: datetime.timedelta = datetime.timedelta(days=1),
     ):
         self.client = Redis.from_url(redis_url)  # type: ignore
         self.key_prefix = key_prefix
+        self.ttl = ttl
 
     def restore(self, state_addr: StateAddress) -> bytes | None:
-        return self.client.hget(
-            f"{self.key_prefix}:{state_addr.session_id}", state_addr.component_id
-        )
+        key_name = self._get_key_name(state_addr.session_id)
+        with self.client.pipeline() as pipe:
+            pipe.hget(key_name, state_addr.component_id)
+            pipe.expire(key_name, self.ttl)
+            raw_state, _ = pipe.execute()
+        return raw_state
 
     def save(self, state_addr: StateAddress, raw_state: bytes) -> None:
-        self.client.hset(
-            f"{self.key_prefix}:{state_addr.session_id}",
-            state_addr.component_id,
-            raw_state,
-        )
+        key_name = self._get_key_name(state_addr.session_id)
+        with self.client.pipeline() as pipe:
+            pipe.hset(key_name, state_addr.component_id, raw_state)
+            pipe.expire(key_name, self.ttl)
+            pipe.execute()
+
+    def _get_key_name(self, session_id: str) -> str:
+        return f"{self.key_prefix}{session_id}"
