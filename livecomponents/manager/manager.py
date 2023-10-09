@@ -26,22 +26,22 @@ class CallContext(BaseModel, Generic[State]):
     class Config:
         arbitrary_types_allowed = True
 
-    def find_one(self, component_id: str) -> "PreparedCall":
-        return PreparedCall(call_context=self, component_id=component_id)
+    def find_one(self, component_id: str) -> "CallContext":
+        state = self.state_manager.get_component_state(
+            self.state_address.model_copy(update={"component_id": component_id})
+        )
+        return self.model_copy(update={"component_id": component_id, "state": state})
 
     @property
-    def parent(self) -> "PreparedCall":
+    def parent(self) -> "CallContext":
         return self.find_one(self.state_address.must_get_parent().component_id)
 
-
-class PreparedCall(BaseModel):
-    call_context: CallContext
-    component_id: str
-
     def __getattr__(self, method_name: str):
+        """This is called when a method is called on the CallContext."""
+
         def call(**kwargs):
-            self.call_context.state_manager.call_with_context(
-                self.call_context,
+            self.state_manager.call_with_context(
+                self,
                 component_id=self.component_id,
                 method_name=method_name,
                 kwargs=kwargs,
