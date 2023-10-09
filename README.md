@@ -73,6 +73,18 @@ def do_something(call_context: CallContext):
     call_context.parent.set_message("Hello, world!")
 ```
 
+
+## Redis data structure
+
+Each sesssion is stored in the following 5 hash maps.
+
+- `LC:<session_id>`: mapping from component ID to pickled component state.
+- `LCH:<session_id>`: mapping to support hierarchy. Contains a mapping from component ID to its full path, separated by slashes.
+- `LCT:<session_id>`: mapping from component ID to component type. Necessary to properly re-render the component.
+- `LCN:<session_id>`: mapping from component ID to a component name. Helpful when we want to give a component unique name.
+- `LCRN:<session_id>`: reverse mapping from name to ID.
+
+
 ## DX challenges
 
 - You cannot call a component grandparent method.

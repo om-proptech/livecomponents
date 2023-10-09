@@ -56,10 +56,13 @@ def deduplicate_dirty_components(dirty_components: set[StateAddress]):
 
 
 def re_render_component(call_context: CallContext, state_address: StateAddress) -> str:
+    component_type = call_context.state_manager.hierarchy_store.get_component_type(
+        state_address.session_id, state_address.component_id
+    )
     template = (
         f"{{% load component_tags %}}"
-        f'{{% component "{state_address.get_component_name()}" '
-        f'full_component_id="{state_address.component_id}" %}}'
+        f'{{% component "{component_type}" '
+        f'component_id="{state_address.component_id}" %}}'
     )
     rendered = Template(template).render(
         Context({"LIVECOMPONENTS_SESSION_ID": state_address.session_id})
