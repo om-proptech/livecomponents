@@ -10,6 +10,25 @@ class StateAddress(BaseModel):
     session_id: str
     component_id: str
 
+    def get_parent(self) -> "StateAddress | None":
+        """Returns the parent of this component or None.
+
+        Reutrn None if this component is a root component."""
+        parent = PurePosixPath(self.component_id).parent
+        if parent == PurePosixPath("/"):
+            return None
+        return StateAddress(session_id=self.session_id, component_id=str(parent))
+
+    def must_get_parent(self) -> "StateAddress":
+        """Returns the parent of this component or raises ValueError.
+
+        Assume that the parent exists.
+        """
+        parent = self.get_parent()
+        if parent is None:
+            raise ValueError(f"{self} has no parent")
+        return parent
+
     def get_component_name(self):
         return PurePosixPath(self.component_id).stem
 

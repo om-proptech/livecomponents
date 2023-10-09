@@ -6,7 +6,7 @@ from django_components.component_registry import registry
 from pydantic import BaseModel, Field
 
 from livecomponents.manager.serializers import IStateSerializer
-from livecomponents.manager.stores import IHierarchyStore, IStateStore
+from livecomponents.manager.stores import IStateStore
 from livecomponents.types import State, StateAddress
 
 if TYPE_CHECKING:
@@ -26,12 +26,22 @@ class CallContext(BaseModel, Generic[State]):
     class Config:
         arbitrary_types_allowed = True
 
-    def __getattr__(self, method_name: str):
-        """This is called when a method is called on the CallContext."""
+    def find_one(self, component_id: str) -> "PreparedCall":
+        return PreparedCall(call_context=self, component_id=component_id)
 
+    @property
+    def parent(self) -> "PreparedCall":
+        return self.find_one(self.state_address.must_get_parent().component_id)
+
+
+class PreparedCall(BaseModel):
+    call_context: CallContext
+    component_id: str
+
+    def __getattr__(self, method_name: str):
         def call(**kwargs):
-            self.state_manager.call_with_context(
-                self,
+            self.call_context.state_manager.call_with_context(
+                self.call_context,
                 component_id=self.component_id,
                 method_name=method_name,
                 kwargs=kwargs,
@@ -39,65 +49,22 @@ class CallContext(BaseModel, Generic[State]):
 
         return call
 
-    def find_one(self, component_id: str) -> "CallContext":
-        state = self.state_manager.get_component_state(
-            self.state_address.model_copy(update={"component_id": component_id})
-        )
-        return self.model_copy(update={"component_id": component_id, "state": state})
-
-    def find_by_name(self, component_name: str) -> "CallContext":
-        component_id = self.state_manager.hierarchy_store.get_by_component_name(
-            self.state_address.session_id, component_name
-        )
-        if not component_id:
-            raise ValueError(f"Component with name {component_name!r} not found")
-        return self.find_one(component_id)
-
-    @property
-    def parent(self) -> "CallContext":
-        parent_id = self.state_manager.hierarchy_store.get_parent(
-            self.state_address.session_id, self.state_address.component_id
-        )
-        if not parent_id:
-            raise ValueError(
-                f"Component {self.state_address.component_id!r} has no parent"
-            )
-        return self.find_one(parent_id)
-
 
 class StateManager:
-    def __init__(
-        self,
-        serializer: IStateSerializer,
-        store: IStateStore,
-        hierarchy_store: IHierarchyStore,
-    ):
+    def __init__(self, serializer: IStateSerializer, store: IStateStore):
         self.serializer = serializer
         self.store = store
-        self.hierarchy_store = hierarchy_store
 
-    def get_or_create_component(
+    def get_or_create_component_state(
         self,
-        session_id: str,
-        component_type: str,
-        component_id: str,
-        parent_id: str | None,
-        component_name: str | None,
+        state_addr: StateAddress,
         state_constructor: Callable[..., Any],
         component_kwargs: dict[str, Any],
     ) -> Any:
-        state_addr = StateAddress(session_id=session_id, component_id=component_id)
         state = self.get_component_state(state_addr)
         if state is None:
             state = state_constructor(**component_kwargs)
             self.set_component_state(state_addr, state)
-            self.hierarchy_store.init_component(
-                session_id=session_id,
-                component_type=component_type,
-                component_id=component_id,
-                parent_id=parent_id,
-                component_name=component_name,
-            )
         return state
 
     def get_component_state(self, state_addr: StateAddress) -> Any | None:
@@ -119,10 +86,7 @@ class StateManager:
         method_name: str,
         kwargs: dict[str, Any] | None = None,
     ) -> CallContext:
-        component_type = self.hierarchy_store.get_component_type(
-            state_addr.session_id, state_addr.component_id
-        )
-        component_cls = self.get_component_class(component_type)
+        component_cls = self.get_component_class(state_addr.get_component_name())
         state = self.get_component_state(state_addr)
         if state is None:
             raise ValueError(f"Component state not found: {state_addr}")
@@ -149,10 +113,7 @@ class StateManager:
         state_addr = call_context.state_address.model_copy(
             update={"component_id": component_id}
         )
-        component_type = self.hierarchy_store.get_component_type(
-            state_addr.session_id, state_addr.component_id
-        )
-        component_cls = self.get_component_class(component_type)
+        component_cls = self.get_component_class(state_addr.get_component_name())
 
         state = self.get_component_state(state_addr)
         if state is None:

@@ -3,9 +3,9 @@
 
 {% block body %}
   <div style="display: flex;  flex-direction: column; gap: 10px">
-    {% component "message" component_name="message" %}
-    {% component "clickcounter" title="First counter" %}
-    {% component "clickcounter" title="Second counter" %}
-    {% component "clickcounter" title="Third counter" %}
+    {% component "message" own_id="0" %}
+    {% component "clickcounter" own_id="1" title="First counter" %}
+    {% component "clickcounter" own_id="2" title="Second counter" %}
+    {% component "clickcounter" own_id="3" title="Third counter" %}
   </div>
 {% endblock %}

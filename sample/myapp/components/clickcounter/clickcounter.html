@@ -5,7 +5,7 @@
   <div>{{ title|default:"No title" }}</div>
   <div style="display: flex; gap: 10px">
     <input style="text-align: right;" type="text" value="{{ value_str }}" readonly>
-    {% component "incrementbutton" parent_id=component_id value=-1 label="-" %}
-    {% component "incrementbutton" parent_id=component_id value=1 label="+" %}
+    {% component "incrementbutton" parent_id=component_id own_id="minus" value=-1 label="-" %}
+    {% component "incrementbutton" parent_id=component_id own_id="plus" value=1 label="+" %}
   </div>
 </div>

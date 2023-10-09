@@ -29,7 +29,7 @@ class ClickCounter(LiveComponent[ClickCounterState]):
     @classmethod
     def increment(cls, call_context: CallContext[ClickCounterState], value: int = 1):
         call_context.state.value += value
-        call_context.find_by_name("message").set_message(
+        call_context.find_one("/message.0").set_message(
             message=(
                 f"Counter {call_context.state.title!r} incremented "
                 f"to {value}. "

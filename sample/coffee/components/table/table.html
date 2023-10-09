@@ -17,7 +17,7 @@
     </thead>
     <tbody>
     {% for bean in beans %}
-      {% component "row" bean=bean parent_id=component_id %}
+      {% component "row" bean=bean parent_id=component_id own_id=bean.id %}
     {% endfor %}
     </tbody>
 
