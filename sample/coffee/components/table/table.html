@@ -1,6 +1,6 @@
 {% load livecomponents component_tags %}
 
-<div id="{{ component_id }}" hx-swap-oob="morph:#{{ component_id|css_escape }}">
+<div {% component_attrs component_id %}>
   {% component "search" parent_id=component_id search=search %}
 
   <table>

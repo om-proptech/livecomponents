@@ -1,7 +1,6 @@
 {% load livecomponents component_tags %}
 
-<div style="display: flex; flex-direction: column;"
-    id="{{ component_id }}" hx-swap-oob="morph:#{{ component_id|css_escape }}">
+<div {% component_attrs component_id %} style="display: flex; flex-direction: column;">
   <div>{{ title|default:"No title" }}</div>
   <div style="display: flex; gap: 10px">
     <input style="text-align: right;" type="text" value="{{ value_str }}" readonly>

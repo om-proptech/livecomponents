@@ -1,5 +1,5 @@
 {% load livecomponents component_tags %}
-<tr id="{{ component_id }}" hx-swap-oob="morph:#{{ component_id|css_escape }}">
+<tr {% component_attrs component_id %}>
 
   {% if edit_mode %}
     <td colspan="7">

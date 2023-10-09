@@ -1,6 +1,7 @@
 from urllib.parse import urlencode
 
 from django import template
+from django.forms.utils import flatatt
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
@@ -23,6 +24,25 @@ def call_method(context, component_id: str, method_name: str) -> str:
         }
     )
     return f"{url}?{kwargs}"
+
+
+@register.simple_tag
+def component_attrs(component_id: str, swap_style="morph") -> str:
+    """Convert component ID to component attrs.
+
+    They are supposed to be added as attributes to the root HTML
+    element of the component.
+
+    The `swap_style` parameter is used to determine how the component has to update
+    its state. See https://htmx.org/attributes/hx-swap-oob/ for more details.
+    """
+    attrs = {
+        "data-livecomponent-id": component_id,
+        "hx-swap-oob": (
+            f"{swap_style}:[data-livecomponent-id='{css_escape(component_id)}']"
+        ),
+    }
+    return flatatt(attrs)
 
 
 @register.simple_tag(takes_context=True)
