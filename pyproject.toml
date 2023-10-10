@@ -56,4 +56,3 @@ pythonpath = "example"
 line-length = 88
 target-version = "py311"
 select = ["E", "F", "C90", "I", "UP"]
-ignore = ["E203"]
