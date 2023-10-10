@@ -1,7 +1,7 @@
 from pathlib import PurePosixPath
 from typing import TypeVar
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 State = TypeVar("State")
 
@@ -32,8 +32,7 @@ class StateAddress(BaseModel):
     def get_component_name(self):
         return PurePosixPath(self.component_id).stem
 
-    class Config:
-        frozen = True
+    model_config = ConfigDict(frozen=True)
 
 
 class CallMethodRequestArgs(BaseModel):

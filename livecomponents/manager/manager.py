@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Any, Generic
 
 from django.http import HttpRequest
 from django_components.component_registry import registry
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from livecomponents.manager.serializers import IStateSerializer
 from livecomponents.manager.stores import IStateStore
@@ -23,8 +23,7 @@ class CallContext(BaseModel, Generic[State]):
     def mark_as_dirty(self):
         self.dirty_components.add(self.state_address)
 
-    class Config:
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     def find_one(self, component_id: str) -> "CallContext":
         state = self.state_manager.get_component_state(

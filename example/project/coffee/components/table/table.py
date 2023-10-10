@@ -1,6 +1,6 @@
 from django.db.models import Q
 from django_components import component
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from livecomponents import LiveComponent
 from livecomponents.manager.manager import CallContext
@@ -10,8 +10,7 @@ from project.coffee.models import CoffeeBean
 class TableState(BaseModel):
     search: str = ""
 
-    class Config:
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 @component.register("table")

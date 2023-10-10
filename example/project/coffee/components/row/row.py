@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 from django_components import component
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from livecomponents import LiveComponent
 from livecomponents.manager.manager import CallContext
@@ -13,8 +13,7 @@ class RowState(BaseModel):
     bean: CoffeeBean
     bean_form: ModelForm | None = None
 
-    class Config:
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 class BeanForm(ModelForm):
