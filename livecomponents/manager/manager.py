@@ -49,6 +49,11 @@ class CallContext(BaseModel, Generic[State]):
         return call
 
 
+class InitStateContext(BaseModel):
+    request: HttpRequest
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+
 class StateManager:
     def __init__(self, serializer: IStateSerializer, store: IStateStore):
         self.serializer = serializer
@@ -56,13 +61,15 @@ class StateManager:
 
     def get_or_create_component_state(
         self,
+        request: HttpRequest,
         state_addr: StateAddress,
         state_constructor: Callable[..., Any],
         component_kwargs: dict[str, Any],
     ) -> Any:
         state = self.get_component_state(state_addr)
         if state is None:
-            state = state_constructor(**component_kwargs)
+            init_state_context = InitStateContext(request=request)
+            state = state_constructor(init_state_context, **component_kwargs)
             self.set_component_state(state_addr, state)
         return state
 

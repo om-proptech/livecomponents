@@ -4,7 +4,7 @@ from django_components import component
 from pydantic import BaseModel
 
 from livecomponents import LiveComponent
-from livecomponents.manager.manager import CallContext
+from livecomponents.manager.manager import CallContext, InitStateContext
 
 
 class ClickCounterState(BaseModel):
@@ -20,7 +20,9 @@ class ClickCounter(LiveComponent[ClickCounterState]):
         return {"value_str": f"{state.value:,}"}
 
     @classmethod
-    def init_state(cls, **component_kwargs) -> ClickCounterState:
+    def init_state(
+        cls, context: InitStateContext, **component_kwargs
+    ) -> ClickCounterState:
         return ClickCounterState(**component_kwargs)
 
     @classmethod

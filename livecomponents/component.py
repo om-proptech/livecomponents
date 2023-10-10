@@ -5,6 +5,7 @@ from django_components import component
 
 from livecomponents.const import HIER_SEP, TYPE_SEP
 from livecomponents.manager import get_state_manager
+from livecomponents.manager.manager import InitStateContext
 from livecomponents.types import State, StateAddress
 
 DEFAULT_OWN_ID = "0"
@@ -48,6 +49,10 @@ class LiveComponent(component.Component, Generic[State]):
         full_component_id: str | None = None,
         **component_kwargs,
     ):
+        # Fetch some data from the outer context
+        session_id = self.outer_context["LIVECOMPONENTS_SESSION_ID"]
+        request = self.outer_context["request"]
+
         component_id = find_component_id(
             full_component_id=full_component_id,
             component_name=self.registered_name,
@@ -55,12 +60,12 @@ class LiveComponent(component.Component, Generic[State]):
             parent_id=parent_id,
         )
         state_addr = StateAddress(
-            session_id=self.outer_context["LIVECOMPONENTS_SESSION_ID"],
+            session_id=session_id,
             component_id=component_id,
         )
         state_store = get_state_manager()
         state = state_store.get_or_create_component_state(
-            state_addr, self.init_state, component_kwargs
+            request, state_addr, self.init_state, component_kwargs
         )
         extra_context = self.get_extra_context_data(state)
         context = {
@@ -79,5 +84,5 @@ class LiveComponent(component.Component, Generic[State]):
 
     @classmethod
     @abc.abstractmethod
-    def init_state(cls, **component_kwargs) -> State:
+    def init_state(cls, context: InitStateContext, **component_kwargs) -> State:
         ...

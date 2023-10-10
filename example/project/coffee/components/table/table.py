@@ -3,7 +3,7 @@ from django_components import component
 from pydantic import BaseModel, ConfigDict
 
 from livecomponents import LiveComponent
-from livecomponents.manager.manager import CallContext
+from livecomponents.manager.manager import CallContext, InitStateContext
 from project.coffee.models import CoffeeBean
 
 
@@ -30,7 +30,7 @@ class TableComponent(LiveComponent[TableState]):
         return {"beans": beans}
 
     @classmethod
-    def init_state(cls, **component_kwargs) -> TableState:
+    def init_state(cls, context: InitStateContext, **component_kwargs) -> TableState:
         return TableState(**component_kwargs)
 
     @classmethod

@@ -2,7 +2,7 @@ from django_components import component
 from pydantic import BaseModel
 
 from livecomponents import LiveComponent
-from livecomponents.manager.manager import CallContext
+from livecomponents.manager.manager import CallContext, InitStateContext
 
 
 class IncrementButtonState(BaseModel):
@@ -15,7 +15,9 @@ class IncrementButton(LiveComponent[IncrementButtonState]):
     template_name = "incrementbutton/incrementbutton.html"
 
     @classmethod
-    def init_state(cls, **component_kwargs) -> IncrementButtonState:
+    def init_state(
+        cls, context: InitStateContext, **component_kwargs
+    ) -> IncrementButtonState:
         return IncrementButtonState(**component_kwargs)
 
     @classmethod

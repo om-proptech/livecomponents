@@ -4,7 +4,7 @@ from django_components import component
 from pydantic import BaseModel, ConfigDict
 
 from livecomponents import LiveComponent
-from livecomponents.manager.manager import CallContext
+from livecomponents.manager.manager import CallContext, InitStateContext
 from project.coffee.models import CoffeeBean
 
 
@@ -33,7 +33,7 @@ class RowComponent(LiveComponent[RowState]):
     template_name = "row/row.html"
 
     @classmethod
-    def init_state(cls, **component_kwargs) -> RowState:
+    def init_state(cls, context: InitStateContext, **component_kwargs) -> RowState:
         return RowState(**component_kwargs)
 
     @classmethod

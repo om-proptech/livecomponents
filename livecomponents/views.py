@@ -2,7 +2,7 @@ import json
 from typing import Any
 
 from django.http import HttpRequest, HttpResponse
-from django.template import Context, Template
+from django.template import RequestContext, Template
 
 from livecomponents.manager import get_state_manager
 from livecomponents.manager.manager import CallContext
@@ -62,6 +62,9 @@ def re_render_component(call_context: CallContext, state_address: StateAddress) 
         f'full_component_id="{state_address.component_id}" %}}'
     )
     rendered = Template(template).render(
-        Context({"LIVECOMPONENTS_SESSION_ID": state_address.session_id})
+        RequestContext(
+            call_context.request,
+            {"LIVECOMPONENTS_SESSION_ID": state_address.session_id},
+        )
     )
     return rendered
