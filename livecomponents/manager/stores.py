@@ -16,7 +16,22 @@ class IStateStore(abc.ABC):
         ...
 
 
+class MemoryStateStore(IStateStore):
+    """In-memory state store. Suitable for tests."""
+
+    def __init__(self):
+        self._store: dict[StateAddress, bytes] = {}
+
+    def restore(self, state_addr: StateAddress) -> bytes | None:
+        return self._store.get(state_addr)
+
+    def save(self, state_addr: StateAddress, raw_state: bytes) -> None:
+        self._store[state_addr] = raw_state
+
+
 class RedisStateStore(IStateStore):
+    """Redis-based state store."""
+
     def __init__(
         self,
         redis_url: str = "redis://localhost:6379/0",
