@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 from livecomponents import LiveComponent
 from livecomponents.manager.manager import CallContext
-from sample.coffee.models import CoffeeBean
+from project.coffee.models import CoffeeBean
 
 
 class RowState(BaseModel):

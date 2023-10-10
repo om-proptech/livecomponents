@@ -79,3 +79,14 @@ def do_something(call_context: CallContext):
 - "hx-dance" is hard to remember. You need to copy and paste it from the previous component.
 - I am always forgetting passing parent_id explicitly to the child component.
 - When the parent passes the state to the child, the this can result in state being out of sync, if the child also stores the state.
+
+
+## How to run the example project
+
+```bash
+poetry install
+cd example
+cp env.example .env
+poetry run python manage.py migrate
+poetry run python manage.py runserver
+```

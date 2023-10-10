@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class CoffeeConfig(AppConfig):
+class MyappConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "sample.coffee"
+    name = "project.myapp"

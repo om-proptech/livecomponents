@@ -1,7 +1,7 @@
 from django.urls import include, path
 
 urlpatterns = [
-    path("", include("sample.myapp.urls")),
-    path("coffee/", include("sample.coffee.urls")),
+    path("", include("project.myapp.urls")),
+    path("coffee/", include("project.coffee.urls")),
     path("livecomponents/", include("livecomponents.urls")),
 ]

@@ -1,9 +1,8 @@
 from pathlib import Path
 
 import environ
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
 
+# BASE_DIR is "$PROJECT_ROOT/example"
 BASE_DIR = Path(__file__).resolve().parents[1]
 env = environ.Env(
     DEBUG=bool,
@@ -24,20 +23,18 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django_extensions",
     "django_components",
     "django_components.safer_staticfiles",
     "django_htmx",
     # Live components (the reason we have this sample project)
     "livecomponents",
     # Local app (sample)
-    "sample.myapp",
-    "sample.coffee",
+    "project.myapp",
+    "project.coffee",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -47,7 +44,7 @@ MIDDLEWARE = [
     "django_htmx.middleware.HtmxMiddleware",
 ]
 
-ROOT_URLCONF = "sample.urls"
+ROOT_URLCONF = "project.urls"
 
 TEMPLATES = [
     {
@@ -74,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "sample.wsgi.application"
+WSGI_APPLICATION = "project.wsgi.application"
 
 # Database
 DATABASES = {
@@ -115,15 +112,8 @@ INTERNAL_IPS = [
 STATICFILES_DIRS = [
     BASE_DIR / "static",
     # To load django-components specific to myapp
-    BASE_DIR / "sample/myapp/components",
-    BASE_DIR / "sample/coffee/components",
+    BASE_DIR / "project/myapp/components",
+    BASE_DIR / "project/coffee/components",
 ]
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static_root"
-
-# Sentry settings
-sentry_sdk.init(
-    integrations=[DjangoIntegration()],
-    traces_sample_rate=1.0,
-    send_default_pii=True,
-)
