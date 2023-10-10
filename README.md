@@ -1,8 +1,90 @@
 # Sample
 
-![Tests](https://github.com/imankulov/sample/actions/workflows/tests.yml/badge.svg)
+Django Live Components
 
-Django Live Components sample
+## Quickstart
+
+
+### Django settings
+
+Add to installed apps following packages:
+
+```python
+INSTALLED_APPS = [
+    # ...
+    "django_components",
+    "django_components.safer_staticfiles",
+    "django_htmx",
+    "livecomponents",
+    # ...
+]
+```
+
+Add HTMX middleware:
+
+```python
+MIDDLEWARE = [
+    # ...
+    "django_htmx.middleware.HtmxMiddleware",
+    # ...
+]
+```
+
+Add component dirs for to static files:
+
+```python
+# Static files (CSS, JavaScript, Images)
+STATICFILES_DIRS = [
+    # To load django-components specific to myapp
+    BASE_DIR / "app_one/components",
+    BASE_DIR / "app_two/components",
+]
+```
+
+### Base template
+
+There, we need support for HTMX and Live Components:
+
+```html
+{% load ... component_tags django_htmx livecomponents %}
+<head>
+  <!-- Configure HTMX -->
+  <meta name="htmx-config" content='{"defaultSwapStyle":"none"}'>
+
+  <!-- JavaScript dependencies -->
+  <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+  <script src="https://unpkg.com/htmx.org@1.9.6/dist/ext/json-enc.js"></script>
+
+  <!-- Use this for idiomorph -->
+  <script src="https://unpkg.com/idiomorph/dist/idiomorph-ext.min.js"></script>
+  <!-- Or this for Alpine morph -->
+  <script src="https://unpkg.com/htmx.org@1.9.6/dist/ext/alpine-morph.js"></script>
+  {% django_htmx_script %}
+
+  {% component_css_dependencies %}
+  {% livecomponents_session_id as LIVECOMPONENTS_SESSION_ID %}
+  ...
+</head>
+<body hx-ext="morph, json-enc" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+...
+{% component_js_dependencies %}
+</body>
+<html>
+```
+
+### URLs
+
+```python
+from django.urls import path, include
+
+urlpatterns = [
+    # ...
+    path("livecomponents/", include("livecomponents.urls")),
+    # ...
+]
+```
+
+
 
 ## On component IDs.
 
