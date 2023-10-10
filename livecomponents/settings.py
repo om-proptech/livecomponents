@@ -14,7 +14,7 @@ class ClassConfig(BaseModel, Generic[T]):
     """Class configuration"""
 
     cls: str
-    config: str = Field(default_factory=dict)
+    config: dict = Field(default_factory=dict)
 
     def get_instance(self) -> T:
         return import_string(self.cls)(**self.config)
