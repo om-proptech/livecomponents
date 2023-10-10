@@ -49,8 +49,8 @@ namespace_packages = true
 no_implicit_optional = true
 
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "sample.settings"
-looponfailroots = "sample"
+DJANGO_SETTINGS_MODULE = "project.settings"
+pythonpath = "example"
 
 [tool.ruff]
 line-length = 88
