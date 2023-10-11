@@ -22,13 +22,16 @@ def call_method(request: HttpRequest):
         kwargs=kwargs,
     )
 
-    dirty_components = deduplicate_dirty_components(call_context.dirty_components)
-
+    dirty_components = deduplicate_dirty_components(
+        call_context.execution_results.dirty_components
+    )
     rendered_components = [
         re_render_component(call_context, component_address)
         for component_address in dirty_components
     ]
-    return HttpResponse("\n".join(rendered_components))
+
+    headers = call_context.execution_results.response_headers
+    return HttpResponse("\n".join(rendered_components), headers=headers)
 
 
 def parse_json_body(request: HttpRequest) -> dict[str, Any]:

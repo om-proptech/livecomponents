@@ -174,6 +174,33 @@ poetry run python manage.py migrate
 poetry run python manage.py runserver
 ```
 
+## Returning results from command handlers
+
+Here's the signature of the Livecomponent function:
+
+```python
+from livecomponents import LiveComponent
+from livecomponents.manager.manager import CallContext
+from livecomponents.manager.execution_results import IExecutionResult
+
+class MyComponent(LiveComponent):
+
+    @classmethod
+    def my_command_handler(cls , call_context: CallContext, **kwargs) -> list[IExecutionResult] | IExecutionResult | None :
+        ...
+```
+
+Notice the type of the returned value for the handler. If set to something other than None, it can shape the
+partial HTTP response.
+
+More specifically here's what you can do:
+
+- Return ComponentDirty() to mark the component as dirty. This will result in the component being re-rendered and sent to the client. This is the default behavior. If you don't return anything, the component will be marked as dirty.
+- Return ComponentClean() to mark the component as clean (not needing re-rendering).
+- Return ParentDirty() to mark the parent component as dirty.
+- Return RefreshPage(). If at least one component returns RefreshPage(), a "HX-Refresh: true" header will be sent to the client.
+- Return Redirect(url). If at least one component returns Redirect(), a "HX-Redirect: url" header will be sent to the client.
+
 
 ## Configuration
 

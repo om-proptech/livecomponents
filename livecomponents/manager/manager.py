@@ -5,6 +5,7 @@ from django.http import HttpRequest
 from django_components.component_registry import registry
 from pydantic import BaseModel, ConfigDict, Field
 
+from livecomponents.manager.execution_results import ExecutionResults
 from livecomponents.manager.serializers import IStateSerializer
 from livecomponents.manager.stores import IStateStore
 from livecomponents.types import State, StateAddress
@@ -18,10 +19,7 @@ class CallContext(BaseModel, Generic[State]):
     state: State
     state_address: StateAddress
     state_manager: "StateManager"
-    dirty_components: set[StateAddress] = Field(default_factory=set)
-
-    def mark_as_dirty(self):
-        self.dirty_components.add(self.state_address)
+    execution_results: ExecutionResults = Field(default_factory=ExecutionResults)
 
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
@@ -104,8 +102,10 @@ class StateManager:
             state_address=state_addr,
             state_manager=self,
         )
-        method(call_context, **(kwargs or {}))
-        call_context.mark_as_dirty()
+        returned_value = method(call_context, **(kwargs or {}))
+        call_context.execution_results.process_returned_value(
+            state_addr, returned_value
+        )
         self.set_component_state(state_addr, state)
         return call_context
 
@@ -130,15 +130,12 @@ class StateManager:
             state=state,
             state_address=state_addr,
             state_manager=self,
-            dirty_components=call_context.dirty_components,
+            execution_result=call_context.execution_results,
         )
 
-        # We need to pass dirty_components by reference (and not copy it)
-        # so that every method call can populate it. For some reason, when
-        # passing it as a constructor argument to CallContext, it gets copied,
-        # so we explicitly update it here.
-        updated_call_context.dirty_components = call_context.dirty_components
+        returned_value = method(updated_call_context, **(kwargs or {}))
+        updated_call_context.execution_results.process_returned_value(
+            state_addr, returned_value
+        )
 
-        method(updated_call_context, **(kwargs or {}))
-        updated_call_context.mark_as_dirty()
         self.set_component_state(state_addr, state)
