@@ -17,7 +17,14 @@
   {% block head %}{% endblock %}
 </head>
 <body hx-ext="morph, json-enc" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-<main class="container" >
+<main class="container">
+  <nav>
+    <ul>
+      <li><a href="{% url 'myapp:index' %}">Counters</a></li>
+      <li><a href="{% url 'coffee:index' %}">Coffee beans</a></li>
+    </ul>
+  </nav>
+  <hr>
   {% block body %}{% endblock %}
 </main>
 
