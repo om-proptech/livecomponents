@@ -130,7 +130,7 @@ class StateManager:
             state=state,
             state_address=state_addr,
             state_manager=self,
-            execution_result=call_context.execution_results,
+            execution_results=call_context.execution_results,
         )
 
         returned_value = method(updated_call_context, **(kwargs or {}))
