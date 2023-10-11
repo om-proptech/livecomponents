@@ -66,6 +66,7 @@ There, we need support for HTMX and Live Components:
   ...
 </head>
 <body hx-ext="morph, json-enc" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+<!-- use hx-ext="alpine-morph, json-enc" for Alpine.js morpher -->
 ...
 {% component_js_dependencies %}
 </body>
