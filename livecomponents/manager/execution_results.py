@@ -45,6 +45,13 @@ class ExecutionResults(BaseModel):
 
     model_config = ConfigDict(frozen=True)
 
+    def is_partial_render_necessary(self) -> bool:
+        full_rerender_headers = ["HX-Redirect", "HX-Refresh"]
+        for header in self.response_headers:
+            if header in full_rerender_headers:
+                return False
+        return True
+
     def process_returned_value(
         self,
         state_address: StateAddress,

@@ -15,12 +15,21 @@ def call_method(request: HttpRequest):
     args = CallMethodRequestArgs(**request.GET.dict())
     state_manager = get_state_manager()
     kwargs = parse_json_body(request)
+
     call_context = state_manager.call_component_method(
         request,
         args.get_state_address(),
         args.method_name,
         kwargs=kwargs,
     )
+
+    headers = call_context.execution_results.response_headers
+
+    if not call_context.execution_results.is_partial_render_necessary():
+        # Shortcut for full page refresh
+        return HttpResponse(
+            headers=call_context.execution_results.response_headers,
+        )
 
     dirty_components = deduplicate_dirty_components(
         call_context.execution_results.dirty_components
@@ -29,8 +38,6 @@ def call_method(request: HttpRequest):
         re_render_component(call_context, component_address)
         for component_address in dirty_components
     ]
-
-    headers = call_context.execution_results.response_headers
     return HttpResponse("\n".join(rendered_components), headers=headers)
 
 
