@@ -11,7 +11,8 @@
           <button type="submit">Save</button>
           <button type="button"
                   hx-post="{% call_method component_id "edit_off" %}"
-                  style="background-color: darkred; border: darkred">Cancel</button>
+                  style="background-color: darkred; border: darkred">Cancel
+          </button>
         </div>
       </form>
     </td>
@@ -24,8 +25,11 @@
     <td>{{ bean.stock_quantity }}</td>
     <td>
       <!-- Actions -->
-      <a href="#"
-         hx-post="{% call_method component_id "edit_on" %}">Edit</a>
+          <a href="#" style="margin-right: 20px;"
+             hx-post="{% call_method component_id "edit_on" %}">Edit</a>
+          <a href="#" style="color: darkred"
+             hx-confirm="Are you sure you want to delete it?"
+             hx-post="{% call_method component_id "delete" %}">Delete</a>
     </td>
   {% endif %}
 </tr>

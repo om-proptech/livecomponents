@@ -4,6 +4,7 @@ from django_components import component
 from pydantic import BaseModel, ConfigDict
 
 from livecomponents import LiveComponent
+from livecomponents.manager.execution_results import ParentDirty
 from livecomponents.manager.manager import CallContext, InitStateContext
 from project.coffee.models import CoffeeBean
 
@@ -59,3 +60,8 @@ class RowComponent(LiveComponent[RowState]):
             call_context.state.edit_mode = False
         else:
             call_context.state.bean_form = bean_form
+
+    @classmethod
+    def delete(cls, call_context: CallContext[RowState]):
+        call_context.state.bean.delete()
+        return ParentDirty()
