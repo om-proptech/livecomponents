@@ -6,6 +6,15 @@ jobs:
   build-test:
     runs-on: ubuntu-latest
 
+    services:
+      redis:
+        image: redis
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python
@@ -22,6 +31,8 @@ jobs:
           set -ex
           $HOME/.local/bin/poetry run playwright install chromium
       - name: Test with pytest
+        env:
+          REDIS_URL: redis://redis:6379/0
         run: |
           set -ex
           $HOME/.local/bin/poetry run coverage run -m pytest

@@ -9,6 +9,7 @@ env = environ.Env(
     ALLOWED_HOSTS=list,
     CORS_ALLOWED_ORIGINS=list,
     CORS_ALLOW_ALL_ORIGINS=bool,
+    REDIS_URL=(str, "redis://localhost:6379/0"),
 )
 
 environ.Env.read_env((BASE_DIR / ".env").as_posix())
@@ -116,3 +117,19 @@ STATICFILES_DIRS = [
 ]
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static_root"
+
+# Live components settings
+LIVECOMPONENTS = {
+    "state_serializer": {
+        "cls": "livecomponents.manager.serializers.PickleStateSerializer",
+        "config": {},
+    },
+    "state_store": {
+        # You can also use "MemoryStateStore" for tests.
+        "cls": "livecomponents.manager.stores.RedisStateStore",
+        # See "RedisStateStore" constructor for config options.
+        "config": {
+            "redis_url": env("REDIS_URL"),
+        },
+    },
+}
