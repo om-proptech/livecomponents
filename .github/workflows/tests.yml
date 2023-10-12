@@ -32,13 +32,4 @@ jobs:
           REDIS_URL: redis://redis:6379/0
         run: |
           set -ex
-          $HOME/.local/bin/poetry run coverage run -m pytest
-      - name: Convert coverage to XML
-        run: |
-          set -ex
-          $HOME/.local/bin/poetry run coverage xml
-      - name: Upload coverage to codecov
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        run: |
-          bash <(curl -s https://codecov.io/bash)
+          $HOME/.local/bin/poetry run pytest
