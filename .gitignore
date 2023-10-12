@@ -1,7 +1,6 @@
 .vscode
 .mypy_cache
 .pytest_cache
-.env
 .coverage
 coverage.xml
 htmlcov/
