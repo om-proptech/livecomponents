@@ -5,6 +5,7 @@ from playwright.sync_api import Page, expect
 
 
 def test_counter(live_server, page: Page):
+    page.set_default_timeout(5_000)
     page.goto(str(live_server))
 
     message_content = page.get_by_test_id("message-content")
@@ -39,6 +40,8 @@ def test_counter(live_server, page: Page):
 def test_coffee(live_server, page: Page):
     call_command("load_coffee_beans")
     coffee_url = str(live_server) + reverse("coffee:index")
+
+    page.set_default_timeout(5_000)
     page.goto(coffee_url)
 
     # Search by arabica and assert that filter works
