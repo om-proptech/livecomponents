@@ -17,9 +17,10 @@ jobs:
           set -ex
           curl -sSL https://install.python-poetry.org | python3 -
           $HOME/.local/bin/poetry install
-      - name: Create environment file for testing
+      - name: Install playwright
         run: |
-          cp env.testing .env
+          set -ex
+          $HOME/.local/bin/poetry run playwright install chromium
       - name: Test with pytest
         run: |
           set -ex
