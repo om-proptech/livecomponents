@@ -1,8 +1,6 @@
 {% load livecomponents %}
 
 <div {% component_attrs component_id %}>
-  <div>
-    {{ message|default_if_none:"( no message )" }}
-  </div>
-  <div style="font-size: 0.7rem; color: #666;">First session request: {{ initialized_from }}</div>
+  <div data-testid="message-content">{{ message|default_if_none:"( no message )" }}</div>
+  <div style="font-size: 0.7rem; color: #666;">First session request: <span data-testid="message-initialized-from">{{ initialized_from }}</span></div>
 </div>

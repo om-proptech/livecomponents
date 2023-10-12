@@ -3,7 +3,7 @@
 <div {% component_attrs component_id %}>
   {% component "search" parent_id=component_id search=search %}
 
-  <table>
+  <table data-testid="coffee-table">
     <thead>
     <tr>
       <th>ID</th>
@@ -15,7 +15,7 @@
       <th></th>
     </tr>
     </thead>
-    <tbody>
+    <tbody data-testid="coffee-table-body">
     {% for bean in beans %}
       {% component "row" bean=bean parent_id=component_id own_id=bean.id %}
     {% endfor %}

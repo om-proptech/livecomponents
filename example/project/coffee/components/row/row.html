@@ -1,14 +1,14 @@
 {% load livecomponents component_tags %}
-<tr {% component_attrs component_id %}>
+<tr {% component_attrs component_id %} data-testid="coffee-row">
 
   {% if edit_mode %}
     <td colspan="7">
-      <form hx-post="{% call_method component_id "edit" %}">
+      <form hx-post="{% call_method component_id "edit" %}" data-testid="coffee-edit-form">
         <table>
           {{ bean_form.as_table }}
         </table>
         <div style="display: flex; gap: 10px;">
-          <button type="submit">Save</button>
+          <button type="submit" data-testid="coffee-edit-form-save">Save</button>
           <button type="button"
                   hx-post="{% call_method component_id "edit_off" %}"
                   style="background-color: darkred; border: darkred">Cancel
@@ -22,12 +22,14 @@
     <td>{{ bean.origin }}</td>
     <td>{{ bean.roast_level }}</td>
     <td>{{ bean.flavor_notes }}</td>
-    <td>{{ bean.stock_quantity }}</td>
+    <td data-testid="coffee-stock-quantity">{{ bean.stock_quantity }}</td>
     <td>
       <!-- Actions -->
           <a href="#" style="margin-right: 20px;"
+             data-testid="coffee-edit-button"
              hx-post="{% call_method component_id "edit_on" %}">Edit</a>
           <a href="#" style="color: darkred"
+             data-testid="coffee-delete-button"
              hx-confirm="Are you sure you want to delete it?"
              hx-post="{% call_method component_id "delete" %}">Delete</a>
     </td>
