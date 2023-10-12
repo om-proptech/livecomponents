@@ -14,7 +14,6 @@ class MessageState(BaseModel):
 @component.register("message")
 class MessageComponent(LiveComponent[MessageState]):
     template_name = "message/message.html"
-    state_cls = MessageState
 
     @classmethod
     def init_state(cls, context: InitStateContext, **component_kwargs) -> MessageState:
