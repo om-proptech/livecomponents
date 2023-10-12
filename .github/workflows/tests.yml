@@ -29,7 +29,7 @@ jobs:
       - name: Install playwright
         run: |
           set -ex
-          $HOME/.local/bin/poetry run playwright install chromium
+          $HOME/.local/bin/poetry run playwright install chromium --with-deps
       - name: Test with pytest
         env:
           REDIS_URL: redis://redis:6379/0
