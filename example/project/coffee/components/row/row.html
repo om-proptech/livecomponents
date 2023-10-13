@@ -4,9 +4,9 @@
   {% if edit_mode %}
     <td colspan="7">
       <form hx-post="{% call_method component_id "edit" %}" data-testid="coffee-edit-form">
-        <table>
-          {{ bean_form.as_table }}
-        </table>
+        <div>
+          {{ bean_form.as_p }}
+        </div>
         <div style="display: flex; gap: 10px;">
           <button type="submit" data-testid="coffee-edit-form-save">Save</button>
           <button type="button"
