@@ -46,6 +46,7 @@ class RowComponent(LiveComponent[RowState]):
     @classmethod
     def edit_off(cls, call_context: CallContext[RowState], **kwargs):
         call_context.state.edit_mode = False
+        return ParentDirty()
 
     @classmethod
     def edit(
@@ -58,10 +59,17 @@ class RowComponent(LiveComponent[RowState]):
             bean_form.save()
             call_context.state.bean_form = None
             call_context.state.edit_mode = False
+            return ParentDirty()
         else:
             call_context.state.bean_form = bean_form
 
     @classmethod
     def delete(cls, call_context: CallContext[RowState]):
         call_context.state.bean.delete()
+        return ParentDirty()
+
+    @classmethod
+    def change_stock(cls, call_context: CallContext[RowState], amount: int = 1):
+        call_context.state.bean.stock_quantity += amount
+        call_context.state.bean.save()
         return ParentDirty()

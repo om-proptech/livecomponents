@@ -22,16 +22,25 @@
     <td>{{ bean.origin }}</td>
     <td>{{ bean.roast_level }}</td>
     <td>{{ bean.flavor_notes }}</td>
-    <td data-testid="coffee-stock-quantity">{{ bean.stock_quantity }}</td>
+    <td style="display: flex; justify-content: space-between">
+      <div data-testid="coffee-stock-quantity" >
+        {{ bean.stock_quantity }}
+      </div>
+      <div>
+        {% slot "stock_actions" %}
+          (stock actions)
+        {% endslot %}
+      </div>
+    </td>
     <td>
       <!-- Actions -->
-          <a href="#" style="margin-right: 20px;"
-             data-testid="coffee-edit-button"
-             hx-post="{% call_method component_id "edit_on" %}">Edit</a>
-          <a href="#" style="color: darkred"
-             data-testid="coffee-delete-button"
-             hx-confirm="Are you sure you want to delete it?"
-             hx-post="{% call_method component_id "delete" %}">Delete</a>
+      <a href="#" style="margin-right: 20px;"
+         data-testid="coffee-edit-button"
+         hx-post="{% call_method component_id "edit_on" %}">Edit</a>
+      <a href="#" style="color: darkred"
+         data-testid="coffee-delete-button"
+         hx-confirm="Are you sure you want to delete it?"
+         hx-post="{% call_method component_id "delete" %}">Delete</a>
     </td>
   {% endif %}
 </tr>
