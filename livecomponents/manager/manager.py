@@ -2,6 +2,7 @@ from collections.abc import Callable
 from typing import TYPE_CHECKING, Any, Generic
 
 from django.http import HttpRequest
+from django.template import Context
 from django_components.component_registry import registry
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -49,6 +50,7 @@ class CallContext(BaseModel, Generic[State]):
 
 class InitStateContext(BaseModel):
     request: HttpRequest
+    outer_context: Context
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
@@ -57,28 +59,40 @@ class StateManager:
         self.serializer = serializer
         self.store = store
 
+    def save_component_template(self, state_addr: StateAddress, html: str):
+        self.store.save_component_template(state_addr, html.encode("utf-8"))
+
+    def restore_component_template(self, state_addr: StateAddress) -> str | None:
+        html_bytes = self.store.restore_component_template(state_addr)
+        if html_bytes:
+            return html_bytes.decode("utf-8")
+        return None
+
     def get_or_create_component_state(
         self,
         request: HttpRequest,
         state_addr: StateAddress,
         state_constructor: Callable[..., Any],
+        outer_context: Context,
         component_kwargs: dict[str, Any],
     ) -> Any:
         state = self.get_component_state(state_addr)
         if state is None:
-            init_state_context = InitStateContext(request=request)
+            init_state_context = InitStateContext(
+                request=request, outer_context=outer_context
+            )
             state = state_constructor(init_state_context, **component_kwargs)
             self.set_component_state(state_addr, state)
         return state
 
     def get_component_state(self, state_addr: StateAddress) -> Any | None:
-        raw_state = self.store.restore(state_addr)
+        raw_state = self.store.restore_state(state_addr)
         if raw_state is None:
             return None
         return self.serializer.deserialize(raw_state)
 
     def set_component_state(self, state_addr: StateAddress, state: Any):
-        self.store.save(state_addr, self.serializer.serialize(state))
+        self.store.save_state(state_addr, self.serializer.serialize(state))
 
     def get_component_class(self, component_name: str) -> type["LiveComponent"]:
         return registry.get(component_name)

@@ -66,15 +66,17 @@ def deduplicate_dirty_components(dirty_components: set[StateAddress]):
 
 
 def re_render_component(call_context: CallContext, state_address: StateAddress) -> str:
-    template = (
-        f"{{% load component_tags %}}"
-        f'{{% component "{state_address.get_component_name()}" '
-        f'full_component_id="{state_address.component_id}" %}}'
+    context = RequestContext(
+        call_context.request,
+        {
+            "request": call_context.request,
+            "LIVECOMPONENTS_SESSION_ID": state_address.session_id,
+            "full_component_id": state_address.component_id,
+        },
     )
-    rendered = Template(template).render(
-        RequestContext(
-            call_context.request,
-            {"LIVECOMPONENTS_SESSION_ID": state_address.session_id},
-        )
-    )
-    return rendered
+    html = call_context.state_manager.restore_component_template(state_address)
+    if not html:
+        raise ValueError(f"HTML for {state_address} not found")
+
+    template = "{% load livecomponents component_tags %}" + html
+    return Template(template).render(context)

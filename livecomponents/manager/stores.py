@@ -1,5 +1,7 @@
 import abc
+import base64
 import datetime
+import hashlib
 
 from redis import Redis
 
@@ -8,11 +10,21 @@ from livecomponents.types import StateAddress
 
 class IStateStore(abc.ABC):
     @abc.abstractmethod
-    def restore(self, state_addr: StateAddress) -> bytes | None:
+    def save_state(self, state_addr: StateAddress, raw_state: bytes) -> None:
         ...
 
     @abc.abstractmethod
-    def save(self, state_addr: StateAddress, raw_state: bytes) -> None:
+    def restore_state(self, state_addr: StateAddress) -> bytes | None:
+        ...
+
+    @abc.abstractmethod
+    def save_component_template(
+        self, state_addr: StateAddress, html_bytes: bytes
+    ) -> None:
+        ...
+
+    @abc.abstractmethod
+    def restore_component_template(self, state_addr: StateAddress) -> bytes | None:
         ...
 
 
@@ -21,12 +33,21 @@ class MemoryStateStore(IStateStore):
 
     def __init__(self):
         self._store: dict[StateAddress, bytes] = {}
+        self._nodes: dict[StateAddress, bytes] = {}
 
-    def restore(self, state_addr: StateAddress) -> bytes | None:
+    def save_state(self, state_addr: StateAddress, raw_state: bytes) -> None:
+        self._store[state_addr] = raw_state
+
+    def restore_state(self, state_addr: StateAddress) -> bytes | None:
         return self._store.get(state_addr)
 
-    def save(self, state_addr: StateAddress, raw_state: bytes) -> None:
-        self._store[state_addr] = raw_state
+    def save_component_template(
+        self, state_addr: StateAddress, html_bytes: bytes
+    ) -> None:
+        self._nodes[state_addr] = html_bytes
+
+    def restore_component_template(self, state_addr: StateAddress) -> bytes | None:
+        return self._nodes.get(state_addr)
 
 
 class RedisStateStore(IStateStore):
@@ -35,27 +56,68 @@ class RedisStateStore(IStateStore):
     def __init__(
         self,
         redis_url: str = "redis://localhost:6379/0",
-        key_prefix: str = "livecomponents:",
+        state_prefix: str = "states:",
+        templates_prefix: str = "templates:",
+        template_cache_prefix: str = "template_cache:",
         ttl: datetime.timedelta = datetime.timedelta(days=1),
     ):
         self.client = Redis.from_url(redis_url)  # type: ignore
-        self.key_prefix = key_prefix
+        self.key_prefix = state_prefix
+        self.templates_prefix = templates_prefix
+        self.template_cache_prefix = template_cache_prefix
         self.ttl = ttl
 
-    def restore(self, state_addr: StateAddress) -> bytes | None:
-        key_name = self._get_key_name(state_addr.session_id)
+    def save_state(self, state_addr: StateAddress, raw_state: bytes) -> None:
+        key_name = self._get_key_name(self.key_prefix, state_addr.session_id)
+        with self.client.pipeline() as pipe:
+            pipe.hset(key_name, state_addr.component_id, raw_state)
+            pipe.expire(key_name, self.ttl)
+            pipe.execute()
+
+    def restore_state(self, state_addr: StateAddress) -> bytes | None:
+        key_name = self._get_key_name(self.key_prefix, state_addr.session_id)
         with self.client.pipeline() as pipe:
             pipe.hget(key_name, state_addr.component_id)
             pipe.expire(key_name, self.ttl)
             raw_state, _ = pipe.execute()
         return raw_state
 
-    def save(self, state_addr: StateAddress, raw_state: bytes) -> None:
-        key_name = self._get_key_name(state_addr.session_id)
+    def save_component_template(
+        self, state_addr: StateAddress, html_bytes: bytes
+    ) -> None:
+        """Save serialized LiveComponentNode to Redis.
+
+        Because live component nodes repeat themselves often, we cache them
+        separately to avoid storing the same data multiple times.
+        """
+        hashed_value = self._get_hashed_value(html_bytes)
+        cache_key = self._get_key_name(self.template_cache_prefix, hashed_value)
+        nodes_key = self._get_key_name(self.templates_prefix, state_addr.session_id)
         with self.client.pipeline() as pipe:
-            pipe.hset(key_name, state_addr.component_id, raw_state)
-            pipe.expire(key_name, self.ttl)
+            pipe.set(cache_key, html_bytes)
+            pipe.expire(cache_key, self.ttl)
+
+            pipe.hset(nodes_key, state_addr.component_id, hashed_value)
+            pipe.expire(nodes_key, self.ttl)
             pipe.execute()
 
-    def _get_key_name(self, session_id: str) -> str:
-        return f"{self.key_prefix}{session_id}"
+    def restore_component_template(self, state_addr: StateAddress) -> bytes | None:
+        templates_key = self._get_key_name(self.templates_prefix, state_addr.session_id)
+        with self.client.pipeline() as pipe:
+            pipe.hget(templates_key, state_addr.component_id)
+            pipe.expire(templates_key, self.ttl)
+            hashed_value, _ = pipe.execute()
+        if hashed_value is None:
+            return None
+        cache_key = self._get_key_name(
+            self.template_cache_prefix, hashed_value.decode("ascii")
+        )
+        return self.client.get(cache_key)
+
+    @staticmethod
+    def _get_key_name(key_prefix: str, session_id: str) -> str:
+        return f"{key_prefix}{session_id}"
+
+    @staticmethod
+    def _get_hashed_value(value: bytes) -> str:
+        return base64.urlsafe_b64encode(hashlib.md5(value).digest()).decode("ascii")[:8]

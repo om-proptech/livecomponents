@@ -1,0 +1,2 @@
+{% load livecomponents component_tags %}
+<div{% component_attrs component_id %}>{% load component_tags %}{% slot "body" %}FALLBACK VALUE{% endslot %}{{ message|upper }}</div>

@@ -1,0 +1,4 @@
+{% load livecomponents component_tags %}
+{% livecomponent_block "sample" message="override" own_id="0" %}
+{% fill "body" %}{{ var|upper }}{% endfill %}
+{% endlivecomponent_block %}
