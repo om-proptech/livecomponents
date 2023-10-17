@@ -1,4 +1,5 @@
 import abc
+from collections.abc import Callable
 from typing import Generic
 
 from django_components import component
@@ -11,8 +12,36 @@ from livecomponents.utils import find_component_id
 DEFAULT_OWN_ID = "0"
 DEFAULT_PARENT_ID = ""
 
+COMMAND_MARKER = "__livecomponent_command__"
+
+
+def command(func):
+    """A decorator to mark the method as a command.
+
+    Under the hood, this will add a "__livecomponent_command__" attribute to the method
+    """
+    setattr(func, COMMAND_MARKER, True)
+    return func
+
 
 class LiveComponent(component.Component, Generic[State]):
+    def get_command(self, command_name: str) -> Callable:
+        """Get a command method by name.
+
+        Raise a ValueError if the command does not exist.
+        """
+        command_func = getattr(self, command_name, None)
+        if not command_func:
+            raise ValueError(
+                f"Command {self.__class__.__name__}.{command_name}() does not exist."
+            )
+        if not getattr(command_func, COMMAND_MARKER, False):
+            raise ValueError(
+                f"Method {self.__class__.__name__}.{command_name}() is not a command. "
+                f"Have you forgotten to wrap it with the @command decorator?"
+            )
+        return command_func
+
     def get_context_data(
         self,
         own_id: str = DEFAULT_OWN_ID,

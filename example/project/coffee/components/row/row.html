@@ -3,14 +3,14 @@
 
   {% if edit_mode %}
     <td colspan="7">
-      <form hx-post="{% call_method component_id "edit" %}" data-testid="coffee-edit-form">
+      <form hx-post="{% call_command component_id "edit" %}" data-testid="coffee-edit-form">
         <div>
           {{ bean_form.as_p }}
         </div>
         <div style="display: flex; gap: 10px;">
           <button type="submit" data-testid="coffee-edit-form-save">Save</button>
           <button type="button"
-                  hx-post="{% call_method component_id "edit_off" %}"
+                  hx-post="{% call_command component_id "edit_off" %}"
                   style="background-color: darkred; border: darkred">Cancel
           </button>
         </div>
@@ -36,11 +36,11 @@
       <!-- Actions -->
       <a href="#" style="margin-right: 20px;"
          data-testid="coffee-edit-button"
-         hx-post="{% call_method component_id "edit_on" %}">Edit</a>
+         hx-post="{% call_command component_id "edit_on" %}">Edit</a>
       <a href="#" style="color: darkred"
          data-testid="coffee-delete-button"
          hx-confirm="Are you sure you want to delete it?"
-         hx-post="{% call_method component_id "delete" %}">Delete</a>
+         hx-post="{% call_command component_id "delete" %}">Delete</a>
     </td>
   {% endif %}
 </tr>

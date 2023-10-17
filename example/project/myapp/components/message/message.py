@@ -2,8 +2,7 @@ from django.core.exceptions import PermissionDenied
 from django_components import component
 from pydantic import BaseModel
 
-from livecomponents import LiveComponent
-from livecomponents.manager.manager import CallContext, InitStateContext
+from livecomponents import CallContext, InitStateContext, LiveComponent, command
 
 
 class MessageState(BaseModel):
@@ -23,5 +22,6 @@ class MessageComponent(LiveComponent[MessageState]):
 
         return MessageState(initialized_from=initialized_from, **component_kwargs)
 
+    @command
     def set_message(self, call_context: CallContext, message: str):
         call_context.state.message = message

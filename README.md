@@ -170,19 +170,25 @@ There are two ways to call component methods from other components:
 Using the component ID. For example, if you have a component with ID "/message.0" and a method "set_message", you can call it like this:
 
 ```python
-from livecomponents.manager.manager import CallContext
+from livecomponents import LiveComponent, command, CallContext
 
-def do_something(call_context: CallContext):
-    call_context.find_one("/message.0").set_message("Hello, world!")
+class MyComponent(LiveComponent):
+
+    @command
+    def do_something(self, call_context: CallContext):
+        call_context.find_one("/message.0").set_message("Hello, world!")
 ```
 
 Using the "parent" reference.
 
 ```python
-from livecomponents.manager.manager import CallContext
+from livecomponents import LiveComponent, command, CallContext
 
-def do_something(call_context: CallContext):
-    call_context.parent.set_message("Hello, world!")
+class MyComponent(LiveComponent):
+
+    @command
+    def do_something(self, call_context: CallContext):
+        call_context.parent.set_message("Hello, world!")
 ```
 
 
@@ -191,12 +197,12 @@ def do_something(call_context: CallContext):
 Here's the signature of the Livecomponent function:
 
 ```python
-from livecomponents import LiveComponent
-from livecomponents.manager.manager import CallContext
+from livecomponents import LiveComponent, CallContext, command
 from livecomponents.manager.execution_results import IExecutionResult
 
 class MyComponent(LiveComponent):
 
+    @command
     def my_command_handler(self , call_context: CallContext, **kwargs) -> list[IExecutionResult] | IExecutionResult | None :
         ...
 ```

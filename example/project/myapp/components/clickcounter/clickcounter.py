@@ -3,8 +3,7 @@ from typing import Any
 from django_components import component
 from pydantic import BaseModel
 
-from livecomponents import LiveComponent
-from livecomponents.manager.manager import CallContext, InitStateContext
+from livecomponents import CallContext, InitStateContext, LiveComponent, command
 
 
 class ClickCounterState(BaseModel):
@@ -24,6 +23,7 @@ class ClickCounter(LiveComponent[ClickCounterState]):
     ) -> ClickCounterState:
         return ClickCounterState(**component_kwargs)
 
+    @command
     def increment(self, call_context: CallContext[ClickCounterState], value: int = 1):
         call_context.state.value += value
         call_context.find_one("/message.0").set_message(

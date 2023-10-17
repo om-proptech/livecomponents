@@ -3,9 +3,8 @@ from django.forms import ModelForm
 from django_components import component
 from pydantic import BaseModel, ConfigDict
 
-from livecomponents import LiveComponent
+from livecomponents import CallContext, InitStateContext, LiveComponent, command
 from livecomponents.manager.execution_results import ParentDirty
-from livecomponents.manager.manager import CallContext, InitStateContext
 from project.coffee.models import CoffeeBean
 
 
@@ -36,15 +35,17 @@ class RowComponent(LiveComponent[RowState]):
     def init_state(self, context: InitStateContext, **component_kwargs) -> RowState:
         return RowState(**component_kwargs)
 
-    @classmethod
-    def edit_on(cls, call_context: CallContext[RowState]):
+    @command
+    def edit_on(self, call_context: CallContext[RowState]):
         call_context.state.edit_mode = True
         if call_context.state.bean_form is None:
             call_context.state.bean_form = BeanForm(instance=call_context.state.bean)
 
+    @command
     def edit_off(self, call_context: CallContext[RowState], **kwargs):
         call_context.state.edit_mode = False
 
+    @command
     def edit(
         self,
         call_context: CallContext[RowState],
@@ -58,11 +59,12 @@ class RowComponent(LiveComponent[RowState]):
         else:
             call_context.state.bean_form = bean_form
 
-    @classmethod
-    def delete(cls, call_context: CallContext[RowState]):
+    @command
+    def delete(self, call_context: CallContext[RowState]):
         call_context.state.bean.delete()
         return ParentDirty()
 
+    @command
     def change_stock(self, call_context: CallContext[RowState], amount: int = 1):
         call_context.state.bean.stock_quantity += amount
         call_context.state.bean.save()

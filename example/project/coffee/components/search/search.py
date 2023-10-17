@@ -1,8 +1,7 @@
 from django_components import component
 from pydantic import BaseModel
 
-from livecomponents import LiveComponent
-from livecomponents.manager.manager import CallContext, InitStateContext
+from livecomponents import CallContext, InitStateContext, LiveComponent, command
 
 
 class SearchState(BaseModel):
@@ -16,5 +15,6 @@ class SearchComponent(LiveComponent[SearchState]):
     def init_state(self, context: InitStateContext, **component_kwargs) -> SearchState:
         return SearchState(**component_kwargs)
 
+    @command
     def update_search(self, call_context: CallContext[SearchState], search: str):
         call_context.parent.update_search(search=search)

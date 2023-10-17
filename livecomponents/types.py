@@ -38,7 +38,7 @@ class StateAddress(BaseModel):
 class CallMethodRequestArgs(BaseModel):
     session_id: str
     component_id: str
-    method_name: str
+    command_name: str
 
     def get_state_address(self) -> StateAddress:
         return StateAddress(session_id=self.session_id, component_id=self.component_id)

@@ -1,8 +1,7 @@
 from django_components import component
 from pydantic import BaseModel
 
-from livecomponents import LiveComponent
-from livecomponents.manager.manager import InitStateContext
+from livecomponents import InitStateContext, LiveComponent
 
 
 class SampleState(BaseModel):

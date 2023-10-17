@@ -1,8 +1,7 @@
 from django_components import component
 from pydantic import BaseModel
 
-from livecomponents import LiveComponent
-from livecomponents.manager.manager import CallContext, InitStateContext
+from livecomponents import CallContext, InitStateContext, LiveComponent, command
 
 
 class IncrementButtonState(BaseModel):
@@ -19,6 +18,7 @@ class IncrementButton(LiveComponent[IncrementButtonState]):
     ) -> IncrementButtonState:
         return IncrementButtonState(**component_kwargs)
 
+    @command
     def increment_parent_counter(
         self, call_context: CallContext[IncrementButtonState], value: int = 1
     ):

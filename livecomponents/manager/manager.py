@@ -34,14 +34,14 @@ class CallContext(BaseModel, Generic[State]):
     def parent(self) -> "CallContext":
         return self.find_one(self.state_address.must_get_parent().component_id)
 
-    def __getattr__(self, method_name: str):
+    def __getattr__(self, command_name: str):
         """This is called when a method is called on the CallContext."""
 
         def call(**kwargs):
             self.state_manager.call_with_context(
                 self,
                 component_id=self.component_id,
-                method_name=method_name,
+                command_name=command_name,
                 kwargs=kwargs,
             )
 
@@ -101,7 +101,7 @@ class StateManager:
         self,
         request: HttpRequest,
         state_addr: StateAddress,
-        method_name: str,
+        command_name: str,
         kwargs: dict[str, Any] | None = None,
     ) -> CallContext:
         component_cls = self.get_component_class(state_addr.get_component_name())
@@ -111,15 +111,14 @@ class StateManager:
         if state is None:
             raise ValueError(f"Component state not found: {state_addr}")
 
-        method = getattr(component_instance, method_name)
-
+        command = component_instance.get_command(command_name)
         call_context: CallContext = CallContext(
             request=request,
             state=state,
             state_address=state_addr,
             state_manager=self,
         )
-        returned_value = method(call_context, **(kwargs or {}))
+        returned_value = command(call_context, **(kwargs or {}))
         call_context.execution_results.process_returned_value(
             state_addr, returned_value
         )
@@ -130,7 +129,7 @@ class StateManager:
         self,
         call_context: CallContext,
         component_id: str,
-        method_name: str,
+        command_name: str,
         kwargs: dict[str, Any] | None = None,
     ):
         state_addr = call_context.state_address.model_copy(
@@ -142,7 +141,7 @@ class StateManager:
         state = self.get_component_state(state_addr)
         if state is None:
             raise ValueError(f"Component state not found: {state_addr}")
-        method = getattr(component_instance, method_name)
+        command = component_instance.get_command(command_name)
         updated_call_context: CallContext = CallContext(
             request=call_context.request,
             state=state,
@@ -151,7 +150,7 @@ class StateManager:
             execution_results=call_context.execution_results,
         )
 
-        returned_value = method(updated_call_context, **(kwargs or {}))
+        returned_value = command(updated_call_context, **(kwargs or {}))
         updated_call_context.execution_results.process_returned_value(
             state_addr, returned_value
         )

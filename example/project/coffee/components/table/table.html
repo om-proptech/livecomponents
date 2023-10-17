@@ -20,9 +20,9 @@
       {% livecomponent_block "row" bean=bean parent_id=component_id own_id=bean.id %}
         {% fill "stock_actions" %}
           <a href="#"
-             hx-post="{% call_method component_id "change_stock" %}" hx-vals='{"amount": 1}'>+1</a>
+             hx-post="{% call_command component_id "change_stock" %}" hx-vals='{"amount": 1}'>+1</a>
           <a href="#"
-             hx-post="{% call_method component_id "change_stock" %}" hx-vals='{"amount": -1}'>-1</a>
+             hx-post="{% call_command component_id "change_stock" %}" hx-vals='{"amount": -1}'>-1</a>
         {% endfill %}
       {% endlivecomponent_block %}
     {% endfor %}

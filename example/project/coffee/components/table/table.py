@@ -2,8 +2,7 @@ from django.db.models import Q
 from django_components import component
 from pydantic import BaseModel, ConfigDict
 
-from livecomponents import LiveComponent
-from livecomponents.manager.manager import CallContext, InitStateContext
+from livecomponents import CallContext, InitStateContext, LiveComponent, command
 from project.coffee.models import CoffeeBean
 
 
@@ -32,5 +31,6 @@ class TableComponent(LiveComponent[TableState]):
     def init_state(self, context: InitStateContext, **component_kwargs) -> TableState:
         return TableState(**component_kwargs)
 
+    @command
     def update_search(self, call_context: CallContext[TableState], search: str):
         call_context.state.search = search

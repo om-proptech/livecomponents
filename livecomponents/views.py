@@ -19,7 +19,7 @@ def call_method(request: HttpRequest):
     call_context = state_manager.call_component_method(
         request,
         args.get_state_address(),
-        args.method_name,
+        args.command_name,
         kwargs=kwargs,
     )
 
