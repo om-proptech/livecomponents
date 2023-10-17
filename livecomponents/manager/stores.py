@@ -68,9 +68,9 @@ class RedisStateStore(IStateStore):
     def __init__(
         self,
         redis_url: str = "redis://localhost:6379/0",
-        state_prefix: str = "states:",
-        templates_prefix: str = "templates:",
-        template_cache_prefix: str = "template_cache:",
+        state_prefix: str = "lc:states:",
+        templates_prefix: str = "lc:templates:",
+        template_cache_prefix: str = "lc:template_cache:",
         ttl: datetime.timedelta = datetime.timedelta(days=1),
     ):
         self.client = Redis.from_url(redis_url)  # type: ignore
