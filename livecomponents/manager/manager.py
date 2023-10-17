@@ -153,3 +153,6 @@ class StateManager:
         )
 
         self.set_component_state(state_addr, state)
+
+    def clear_session(self, session_id: str):
+        self.store.clear_session(session_id=session_id)

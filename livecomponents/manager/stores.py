@@ -27,13 +27,17 @@ class IStateStore(abc.ABC):
     def restore_component_template(self, state_addr: StateAddress) -> bytes | None:
         ...
 
+    @abc.abstractmethod
+    def clear_session(self, session_id: str) -> None:
+        ...
+
 
 class MemoryStateStore(IStateStore):
     """In-memory state store. Suitable for tests."""
 
     def __init__(self):
         self._store: dict[StateAddress, bytes] = {}
-        self._nodes: dict[StateAddress, bytes] = {}
+        self._components: dict[StateAddress, bytes] = {}
 
     def save_state(self, state_addr: StateAddress, raw_state: bytes) -> None:
         self._store[state_addr] = raw_state
@@ -44,10 +48,18 @@ class MemoryStateStore(IStateStore):
     def save_component_template(
         self, state_addr: StateAddress, html_bytes: bytes
     ) -> None:
-        self._nodes[state_addr] = html_bytes
+        self._components[state_addr] = html_bytes
 
     def restore_component_template(self, state_addr: StateAddress) -> bytes | None:
-        return self._nodes.get(state_addr)
+        return self._components.get(state_addr)
+
+    def clear_session(self, session_id: str) -> None:
+        for state_addr in list(self._store.keys()):
+            if state_addr.session_id == session_id:
+                del self._store[state_addr]
+        for state_addr in list(self._components.keys()):
+            if state_addr.session_id == session_id:
+                del self._components[state_addr]
 
 
 class RedisStateStore(IStateStore):
@@ -113,6 +125,12 @@ class RedisStateStore(IStateStore):
             self.template_cache_prefix, hashed_value.decode("ascii")
         )
         return self.client.get(cache_key)
+
+    def clear_session(self, session_id: str) -> None:
+        with self.client.pipeline() as pipe:
+            pipe.delete(self._get_key_name(self.key_prefix, session_id))
+            pipe.delete(self._get_key_name(self.templates_prefix, session_id))
+            pipe.execute()
 
     @staticmethod
     def _get_key_name(key_prefix: str, session_id: str) -> str:

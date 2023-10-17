@@ -41,6 +41,16 @@ def call_method(request: HttpRequest):
     return HttpResponse("\n".join(rendered_components), headers=headers)
 
 
+def clear_session(request: HttpRequest):
+    if request.method != "POST":
+        return HttpResponse("Only POST allowed", status=405)
+    session_id = request.GET.get("session_id")
+    if not session_id:
+        return HttpResponse("session_id is required", status=400)
+    get_state_manager().clear_session(session_id)
+    return HttpResponse("")
+
+
 def parse_json_body(request: HttpRequest) -> dict[str, Any]:
     if request.body == b"":
         return {}

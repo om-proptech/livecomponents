@@ -63,6 +63,17 @@ There, we need support for HTMX and Live Components:
 
   {% component_css_dependencies %}
   {% livecomponents_session_id as LIVECOMPONENTS_SESSION_ID %}
+
+  <script>
+    // Optionally, clear the session on page unload.
+    window.addEventListener("beforeunload", function () {
+      fetch(`{% url 'livecomponents:clear-session' %}?session_id={{ LIVECOMPONENTS_SESSION_ID }}`, {
+        keepalive: true,
+        method: "POST",
+        headers: {"X-CSRFToken": "{{ csrf_token }}"},
+      })
+    })
+  </script>
   ...
 </head>
 <body hx-ext="morph, json-enc" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
