@@ -1,9 +1,27 @@
-# Sample
+# Django Live Components
 
-Django Live Components
+
+## How to run the example project
+
+While the fully fledged documentation is not ready and the project is in flux, it's better to use the "example" project as the reference.
+
+Run it locally and play with it to get a better understanding of how the library works.
+
+```bash
+poetry install
+cd example
+cp env.example .env
+poetry run python manage.py migrate
+poetry run python manage.py runserver
+```
 
 ## Quickstart
 
+Here's how you integrate live components after you've installed the package:
+
+- Modify Django settings.
+- Modify base HTML template.
+- Modify URLs to include live components.
 
 ### Django settings
 
@@ -40,6 +58,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "app_two/components",
 ]
 ```
+
+You can also configure live components with the `LIVECOMPONENTS` settings dictionary. See the "Configuration" section for more details.
 
 ### Base template
 
@@ -97,7 +117,6 @@ urlpatterns = [
 ```
 
 
-
 ## On component IDs.
 
 - Every component must have a root element that includes its ID. The id is "id={{ component_id }}".
@@ -117,7 +136,7 @@ For example, given the template the alert component:
 
 that you want to use as
 
-```
+```html
 {% component "alert" message="Hello, world!" %}
 ```
 
@@ -167,23 +186,6 @@ def do_something(call_context: CallContext):
     call_context.parent.set_message("Hello, world!")
 ```
 
-## DX challenges
-
-- You cannot call a component grandparent method.
-- "hx-dance" is hard to remember. You need to copy and paste it from the previous component.
-- I am always forgetting passing parent_id explicitly to the child component.
-- When the parent passes the state to the child, the this can result in state being out of sync, if the child also stores the state.
-
-
-## How to run the example project
-
-```bash
-poetry install
-cd example
-cp env.example .env
-poetry run python manage.py migrate
-poetry run python manage.py runserver
-```
 
 ## Returning results from command handlers
 
