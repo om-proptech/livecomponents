@@ -9,13 +9,14 @@ authors = ["Roman Imankulov <roman.imankulov@gmail.com>"]
 packages = [
     { include = "livecomponents" }
 ]
-license = "Proprietary"
+license = "MIT"
 classifiers = [
     "Intended Audience :: Developers",
     "Private :: Do Not Upload",
 ]
 include = [
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "LICENSE",
 ]
 
 [tool.poetry.dependencies]
