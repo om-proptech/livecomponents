@@ -15,8 +15,7 @@ class MessageState(BaseModel):
 class MessageComponent(LiveComponent[MessageState]):
     template_name = "message/message.html"
 
-    @classmethod
-    def init_state(cls, context: InitStateContext, **component_kwargs) -> MessageState:
+    def init_state(self, context: InitStateContext, **component_kwargs) -> MessageState:
         initialized_from = context.request.META["REMOTE_ADDR"]
 
         if context.request.GET.get("forbidden"):
@@ -24,6 +23,5 @@ class MessageComponent(LiveComponent[MessageState]):
 
         return MessageState(initialized_from=initialized_from, **component_kwargs)
 
-    @classmethod
-    def set_message(cls, call_context: CallContext, message: str):
+    def set_message(self, call_context: CallContext, message: str):
         call_context.state.message = message

@@ -13,10 +13,8 @@ class SearchState(BaseModel):
 class SearchComponent(LiveComponent[SearchState]):
     template_name = "search/search.html"
 
-    @classmethod
-    def init_state(cls, context: InitStateContext, **component_kwargs) -> SearchState:
+    def init_state(self, context: InitStateContext, **component_kwargs) -> SearchState:
         return SearchState(**component_kwargs)
 
-    @classmethod
-    def update_search(cls, call_context: CallContext[SearchState], search: str):
+    def update_search(self, call_context: CallContext[SearchState], search: str):
         call_context.parent.update_search(search=search)

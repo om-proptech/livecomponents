@@ -14,14 +14,12 @@ class IncrementButtonState(BaseModel):
 class IncrementButton(LiveComponent[IncrementButtonState]):
     template_name = "incrementbutton/incrementbutton.html"
 
-    @classmethod
     def init_state(
-        cls, context: InitStateContext, **component_kwargs
+        self, context: InitStateContext, **component_kwargs
     ) -> IncrementButtonState:
         return IncrementButtonState(**component_kwargs)
 
-    @classmethod
     def increment_parent_counter(
-        cls, call_context: CallContext[IncrementButtonState], value: int = 1
+        self, call_context: CallContext[IncrementButtonState], value: int = 1
     ):
         call_context.parent.increment(value=value)

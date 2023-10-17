@@ -57,7 +57,6 @@ class LiveComponent(component.Component, Generic[State]):
         """Optionally add additional context data to the component."""
         return {}
 
-    @classmethod
     @abc.abstractmethod
-    def init_state(cls, context: InitStateContext, **component_kwargs) -> State:
+    def init_state(self, context: InitStateContext, **component_kwargs) -> State:
         ...

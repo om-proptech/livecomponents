@@ -155,8 +155,7 @@ class Alert(LiveComponent):
     template_name = "alert.html"
 
 
-    @classmethod
-    def init_state(cls, **component_kwargs) -> AlertState:
+    def init_state(self, **component_kwargs) -> AlertState:
         return AlertState(**component_kwargs)
 ```
 
@@ -198,8 +197,7 @@ from livecomponents.manager.execution_results import IExecutionResult
 
 class MyComponent(LiveComponent):
 
-    @classmethod
-    def my_command_handler(cls , call_context: CallContext, **kwargs) -> list[IExecutionResult] | IExecutionResult | None :
+    def my_command_handler(self , call_context: CallContext, **kwargs) -> list[IExecutionResult] | IExecutionResult | None :
         ...
 ```
 
@@ -300,8 +298,7 @@ class SampleState(BaseModel):
 class Sample(LiveComponent):
     ...
 
-    @classmethod
-    def init_state(cls, context: InitStateContext, **component_kwargs) -> SampleState:
+    def init_state(self, context: InitStateContext, **component_kwargs) -> SampleState:
         var = context.outer_context.get("var", "unset")
         effective_kwargs = {**component_kwargs, "var": var}
         return SampleState(**effective_kwargs)

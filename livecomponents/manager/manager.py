@@ -105,10 +105,13 @@ class StateManager:
         kwargs: dict[str, Any] | None = None,
     ) -> CallContext:
         component_cls = self.get_component_class(state_addr.get_component_name())
+        component_instance = component_cls()
+
         state = self.get_component_state(state_addr)
         if state is None:
             raise ValueError(f"Component state not found: {state_addr}")
-        method = getattr(component_cls, method_name)
+
+        method = getattr(component_instance, method_name)
 
         call_context: CallContext = CallContext(
             request=request,
@@ -134,11 +137,12 @@ class StateManager:
             update={"component_id": component_id}
         )
         component_cls = self.get_component_class(state_addr.get_component_name())
+        component_instance = component_cls()
 
         state = self.get_component_state(state_addr)
         if state is None:
             raise ValueError(f"Component state not found: {state_addr}")
-        method = getattr(component_cls, method_name)
+        method = getattr(component_instance, method_name)
         updated_call_context: CallContext = CallContext(
             request=call_context.request,
             state=state,

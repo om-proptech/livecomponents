@@ -33,8 +33,7 @@ class BeanForm(ModelForm):
 class RowComponent(LiveComponent[RowState]):
     template_name = "row/row.html"
 
-    @classmethod
-    def init_state(cls, context: InitStateContext, **component_kwargs) -> RowState:
+    def init_state(self, context: InitStateContext, **component_kwargs) -> RowState:
         return RowState(**component_kwargs)
 
     @classmethod
@@ -43,13 +42,11 @@ class RowComponent(LiveComponent[RowState]):
         if call_context.state.bean_form is None:
             call_context.state.bean_form = BeanForm(instance=call_context.state.bean)
 
-    @classmethod
-    def edit_off(cls, call_context: CallContext[RowState], **kwargs):
+    def edit_off(self, call_context: CallContext[RowState], **kwargs):
         call_context.state.edit_mode = False
 
-    @classmethod
     def edit(
-        cls,
+        self,
         call_context: CallContext[RowState],
         **kwargs,
     ):
@@ -66,7 +63,6 @@ class RowComponent(LiveComponent[RowState]):
         call_context.state.bean.delete()
         return ParentDirty()
 
-    @classmethod
-    def change_stock(cls, call_context: CallContext[RowState], amount: int = 1):
+    def change_stock(self, call_context: CallContext[RowState], amount: int = 1):
         call_context.state.bean.stock_quantity += amount
         call_context.state.bean.save()

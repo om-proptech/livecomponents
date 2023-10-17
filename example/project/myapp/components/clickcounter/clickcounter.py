@@ -19,14 +19,12 @@ class ClickCounter(LiveComponent[ClickCounterState]):
     def get_extra_context_data(self, state: ClickCounterState) -> dict[str, Any]:
         return {"value_str": f"{state.value:,}"}
 
-    @classmethod
     def init_state(
-        cls, context: InitStateContext, **component_kwargs
+        self, context: InitStateContext, **component_kwargs
     ) -> ClickCounterState:
         return ClickCounterState(**component_kwargs)
 
-    @classmethod
-    def increment(cls, call_context: CallContext[ClickCounterState], value: int = 1):
+    def increment(self, call_context: CallContext[ClickCounterState], value: int = 1):
         call_context.state.value += value
         call_context.find_one("/message.0").set_message(
             message=(

@@ -29,10 +29,8 @@ class TableComponent(LiveComponent[TableState]):
             beans = CoffeeBean.objects.all()
         return {"beans": beans}
 
-    @classmethod
-    def init_state(cls, context: InitStateContext, **component_kwargs) -> TableState:
+    def init_state(self, context: InitStateContext, **component_kwargs) -> TableState:
         return TableState(**component_kwargs)
 
-    @classmethod
-    def update_search(cls, call_context: CallContext[TableState], search: str):
+    def update_search(self, call_context: CallContext[TableState], search: str):
         call_context.state.search = search
