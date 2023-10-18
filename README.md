@@ -282,12 +282,6 @@ Then, we have a separate Redis HASH "templates:<session_id>" to map from compone
  ...
 ```
 
-### Pitfalls in Extracting Templates
-
-**Extracting raw templates can be hacky.** Currently, we retrieve the full template content from the Parser object using `contents = parser.origin.loader.get_contents(parser.origin)`. This approach may be inefficient as we end up reading the same file multiple times. Additionally, it does not work for templates generated from strings, such as `Template("Hello, {{username}}").render(Context({"username": "world"}))`. Although we currently keep this method, if it becomes a significant issue, we can consider reconstructing the raw template from the tokens.
-
-**Template tags involve copy-pasting.** The template tags "livecomponent" and block tags "livecomponent_block" are essentially copies of "component" and "component_block" with minor modifications. Unfortunately, we cannot reuse the code because the original tags are not designed to be extensible.
-
 ### How Do We Store the Outer Context
 
 However, we need to store the outer context, or rather, the variables from the outer context that are necessary to re-render the template.
