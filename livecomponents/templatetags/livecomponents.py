@@ -4,7 +4,7 @@ from urllib.parse import urlencode
 from django import template
 from django.forms.utils import flatatt
 from django.template import Context, NodeList, TemplateSyntaxError
-from django.template.base import FilterExpression, Parser, Token
+from django.template.base import FilterExpression
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django_components.templatetags.component_tags import (
@@ -20,6 +20,7 @@ from django_components.templatetags.component_tags import (
 )
 
 from livecomponents.sessions import get_session_id
+from livecomponents.templatetags.utils import capture_used_tokens
 from livecomponents.types import StateAddress
 from livecomponents.utils import find_component_id
 
@@ -75,17 +76,18 @@ def css_escape(value: str) -> str:
 
 @register.tag(name="livecomponent")
 def do_livecomponent(parser, token):
-    bits = token.split_contents()
-    bits, isolated_context = check_for_isolated_context_keyword(bits)
-    component_name, context_args, context_kwargs = parse_component_with_args(
-        parser, bits, "livecomponent"
-    )
+    with capture_used_tokens(parser, token) as captured_tokens:
+        bits = token.split_contents()
+        bits, isolated_context = check_for_isolated_context_keyword(bits)
+        component_name, context_args, context_kwargs = parse_component_with_args(
+            parser, bits, "livecomponent"
+        )
     return LiveComponentNode(
         FilterExpression(component_name, parser),
         context_args,
         context_kwargs,
         isolated_context=isolated_context,
-        component_template=_get_component_template(parser, token),
+        component_template=captured_tokens.render(),
     )
 
 
@@ -95,14 +97,16 @@ def do_livecomponent_block(parser, token):
     # with the name changed from "component_block" to "livecomponent_block",
     # and ComponentNode to LiveComponentNode.
 
-    # See the original function for more details.
-    bits = token.split_contents()
-    bits, isolated_context = check_for_isolated_context_keyword(bits)
-    component_name, context_args, context_kwargs = parse_component_with_args(
-        parser, bits, "livecomponent_block"
-    )
-    body: NodeList = parser.parse(parse_until=["endlivecomponent_block"])
-    parser.delete_first_token()
+    with capture_used_tokens(parser, token) as captured_tokens:
+        # See the original function for more details.
+        bits = token.split_contents()
+        bits, isolated_context = check_for_isolated_context_keyword(bits)
+        component_name, context_args, context_kwargs = parse_component_with_args(
+            parser, bits, "livecomponent_block"
+        )
+        body: NodeList = parser.parse(parse_until=["endlivecomponent_block"])
+        parser.delete_first_token()
+
     fill_nodes = ()
     if block_has_content(body):
         for parse_fn in (
@@ -126,7 +130,7 @@ def do_livecomponent_block(parser, token):
         context_kwargs,
         isolated_context=isolated_context,
         fill_nodes=fill_nodes,
-        component_template=_get_component_template(parser, token),
+        component_template=captured_tokens.render(),
     )
     return component_node
 
@@ -186,11 +190,3 @@ class LiveComponentNode(ComponentNode):
 
         state_manager = get_state_manager()
         state_manager.save_component_template(state_addr, self.component_template)
-
-
-def _get_component_template(parser: Parser, token: Token) -> str | None:
-    if not parser.origin or not parser.origin.loader:
-        # When we re-render the component, we don't have the original template
-        return None
-    contents = parser.origin.loader.get_contents(parser.origin)
-    return contents[token.position[0] : parser.tokens[-1].position[0]]
