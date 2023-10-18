@@ -9,7 +9,7 @@ from livecomponents.manager.manager import CallContext
 from livecomponents.types import CallMethodRequestArgs, StateAddress
 
 
-def call_method(request: HttpRequest):
+def call_command(request: HttpRequest):
     if request.method != "POST":
         return HttpResponse("Only POST allowed", status=405)
     args = CallMethodRequestArgs(**request.GET.dict())
