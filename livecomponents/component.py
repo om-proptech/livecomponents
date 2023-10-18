@@ -12,14 +12,11 @@ from livecomponents.utils import find_component_id
 DEFAULT_OWN_ID = "0"
 DEFAULT_PARENT_ID = ""
 
-COMMAND_MARKER = "__livecomponent_command__"
+COMMAND_MARKER = "__livecomponents_command__"
 
 
 def command(func):
-    """A decorator to mark the method as a command.
-
-    Under the hood, this will add a "__livecomponent_command__" attribute to the method
-    """
+    """A decorator to mark the method as a command."""
     setattr(func, COMMAND_MARKER, True)
     return func
 
