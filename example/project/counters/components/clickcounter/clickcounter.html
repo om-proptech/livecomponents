@@ -3,7 +3,8 @@
 <div {% component_attrs component_id %} style="display: flex; flex-direction: column;">
   <div>{{ title|default:"No title" }}</div>
   <div style="display: flex; gap: 10px">
-    <input style="text-align: right;" type="text" value="{{ value_str }}" readonly>
+    {# Currency is passed from the outer context #}
+    <input style="text-align: right;" type="text" value="{{ currency }} {{ value_str }}" readonly>
     {% livecomponent "incrementbutton" parent_id=component_id own_id="minus" value=-1 label="-" %}
     {% livecomponent "incrementbutton" parent_id=component_id own_id="plus" value=1 label="+" %}
   </div>

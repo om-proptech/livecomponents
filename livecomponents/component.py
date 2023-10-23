@@ -61,15 +61,20 @@ class LiveComponent(component.Component, Generic[State]):
             component_id=component_id,
         )
         state_store = get_state_manager()
-        state = state_store.get_or_create_component_state(
+        state, state_created = state_store.get_or_create_component_state(
             request,
             state_addr,
             self.init_state,
             self.outer_context,
             component_kwargs,
         )
+        restored_context = {}
+        if not state_created:
+            restored_context = state_store.get_component_context(state_addr)
+
         extra_context = self.get_extra_context_data(state)
         context = {
+            **restored_context,
             **component_kwargs,
             **state.model_dump(),
             **extra_context,

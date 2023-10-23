@@ -15,6 +15,26 @@ from livecomponents.utils import LiveComponentsModel
 if TYPE_CHECKING:
     from livecomponents.component import LiveComponent
 
+# Keys that are not serializable or don't need to be stored
+# when we store component's context.
+DEFAULT_CONTEXT_IGNORE_KEYS = {
+    "True",
+    "False",
+    "None",
+    "csrf_token",
+    "sql_queries",
+    "request",
+    "user",
+    "perms",
+    "messages",
+    "DEFAULT_MESSAGE_LEVELS",
+    "block",
+    "LIVECOMPONENTS_SESSION_ID",
+    "debug",
+    "session_id",
+    "component_id",
+}
+
 
 class CallContext(LiveComponentsModel, Generic[State]):
     request: HttpRequest
@@ -73,15 +93,18 @@ class StateManager:
         state_constructor: Callable[..., Any],
         outer_context: Context,
         component_kwargs: dict[str, Any],
-    ) -> Any:
+    ) -> tuple[Any, bool]:
         state = self.get_component_state(state_addr)
-        if state is None:
-            init_state_context = InitStateContext(
-                request=request, outer_context=outer_context
-            )
-            state = state_constructor(init_state_context, **component_kwargs)
-            self.set_component_state(state_addr, state)
-        return state
+        if state is not None:
+            return state, False
+
+        init_state_context = InitStateContext(
+            request=request, outer_context=outer_context
+        )
+        state = state_constructor(init_state_context, **component_kwargs)
+        self.set_component_state(state_addr, state)
+        self.set_component_context(state_addr, outer_context)
+        return state, True
 
     def get_component_state(self, state_addr: StateAddress) -> Any | None:
         raw_state = self.store.restore_state(state_addr)
@@ -91,6 +114,29 @@ class StateManager:
 
     def set_component_state(self, state_addr: StateAddress, state: Any):
         self.store.save_state(state_addr, self.serializer.serialize(state))
+
+    def get_component_context(self, state_addr: StateAddress) -> dict[str, Any]:
+        raw_context = self.store.restore_context(state_addr)
+        if raw_context is None:
+            return {}
+        flat_context = self.serializer.deserialize(raw_context)
+        return flat_context
+
+    def set_component_context(self, state_addr: StateAddress, context: Context):
+        flat_context = dict(context.flatten())
+        filtered_context = self.filter_flat_context(flat_context)
+        if filtered_context:
+            self.store.save_context(
+                state_addr, self.serializer.serialize(filtered_context)
+            )
+
+    def filter_flat_context(self, flat_context: dict[str, Any]) -> dict[str, Any]:
+        """Remove keys that are not serializable or don't need to be stored."""
+        return {
+            key: value
+            for key, value in flat_context.items()
+            if key not in DEFAULT_CONTEXT_IGNORE_KEYS and not key.startswith("_")
+        }
 
     def get_component_class(self, component_name: str) -> type["LiveComponent"]:
         return registry.get(component_name)
