@@ -50,7 +50,7 @@ class CallContext(BaseModel, Generic[State]):
 
 class InitStateContext(BaseModel):
     request: HttpRequest
-    outer_context: Context
+    outer_context: Context = Field(default_factory=Context)
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
