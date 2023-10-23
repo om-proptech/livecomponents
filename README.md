@@ -234,9 +234,22 @@ LIVECOMPONENTS = {
         "cls": "livecomponents.manager.stores.RedisStateStore",
         # See "RedisStateStore" constructor for config options.
         "config": {},
-    }
+    },
+    "state_manager": {
+        "cls": "livecomponents.manager.manager.StateManager",
+        "config": {},
+    },
 }
 ```
+
+## On storing component context
+
+On first render, the components stores the context that it's been used with. On subsequent renders, the component
+will restore the same context.
+
+There is a hard-coded list of variables that are excluded from the context, because they're either non-needed or
+can't be pickled. The list is available in the "livecomponents/manager/manager.py" file as the "DEFAULT_CONTEXT_IGNORE_KEYS" constant.
+
 
 
 ## On Storing Raw HTML Templates

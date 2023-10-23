@@ -4,6 +4,7 @@ from django.conf import settings
 from django.utils.module_loading import import_string
 from pydantic import BaseModel, Field
 
+from livecomponents.manager import StateManager
 from livecomponents.manager.serializers import IStateSerializer
 from livecomponents.manager.stores import IStateStore
 
@@ -16,8 +17,8 @@ class ClassConfig(BaseModel, Generic[T]):
     cls: str
     config: dict = Field(default_factory=dict)
 
-    def get_instance(self) -> T:
-        return import_string(self.cls)(**self.config)
+    def get_instance(self, **kwargs) -> T:
+        return import_string(self.cls)(**self.config, **kwargs)
 
 
 class LivecomponentsConfig(BaseModel):
@@ -35,6 +36,12 @@ class LivecomponentsConfig(BaseModel):
     state_store: ClassConfig[IStateStore] = Field(
         default_factory=lambda: ClassConfig(
             cls="livecomponents.manager.stores.RedisStateStore"
+        )
+    )
+
+    state_manager: ClassConfig[StateManager] = Field(
+        default_factory=lambda: ClassConfig(
+            cls="livecomponents.manager.manager.StateManager"
         )
     )
 

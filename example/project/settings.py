@@ -132,4 +132,8 @@ LIVECOMPONENTS = {
             "redis_url": env("REDIS_URL"),
         },
     },
+    "state_manager": {
+        "cls": "livecomponents.manager.manager.StateManager",
+        "config": {},
+    },
 }
