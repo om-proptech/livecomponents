@@ -1,19 +1,17 @@
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 from django_components import component
-from pydantic import BaseModel, ConfigDict
 
 from livecomponents import CallContext, InitStateContext, LiveComponent, command
 from livecomponents.manager.execution_results import ParentDirty
+from livecomponents.utils import LiveComponentsModel
 from project.coffee.models import CoffeeBean
 
 
-class RowState(BaseModel):
+class RowState(LiveComponentsModel):
     edit_mode: bool = False
     bean: CoffeeBean
     bean_form: ModelForm | None = None
-
-    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 class BeanForm(ModelForm):

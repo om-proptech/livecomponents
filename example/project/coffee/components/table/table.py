@@ -1,15 +1,13 @@
 from django.db.models import Q
 from django_components import component
-from pydantic import BaseModel, ConfigDict
 
 from livecomponents import CallContext, InitStateContext, LiveComponent, command
+from livecomponents.utils import LiveComponentsModel
 from project.coffee.models import CoffeeBean
 
 
-class TableState(BaseModel):
+class TableState(LiveComponentsModel):
     search: str = ""
-
-    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 @component.register("table")

@@ -4,25 +4,24 @@ from typing import TYPE_CHECKING, Any, Generic
 from django.http import HttpRequest
 from django.template import Context
 from django_components.component_registry import registry
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import Field
 
 from livecomponents.manager.execution_results import ExecutionResults
 from livecomponents.manager.serializers import IStateSerializer
 from livecomponents.manager.stores import IStateStore
 from livecomponents.types import State, StateAddress
+from livecomponents.utils import LiveComponentsModel
 
 if TYPE_CHECKING:
     from livecomponents.component import LiveComponent
 
 
-class CallContext(BaseModel, Generic[State]):
+class CallContext(LiveComponentsModel, Generic[State]):
     request: HttpRequest
     state: State
     state_address: StateAddress
     state_manager: "StateManager"
     execution_results: ExecutionResults = Field(default_factory=ExecutionResults)
-
-    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     def find_one(self, component_id: str) -> "CallContext":
         state = self.state_manager.get_component_state(
@@ -48,10 +47,9 @@ class CallContext(BaseModel, Generic[State]):
         return call
 
 
-class InitStateContext(BaseModel):
+class InitStateContext(LiveComponentsModel):
     request: HttpRequest
     outer_context: Context = Field(default_factory=Context)
-    model_config = ConfigDict(arbitrary_types_allowed=True)
 
 
 class StateManager:

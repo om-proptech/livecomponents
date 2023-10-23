@@ -1,3 +1,5 @@
+from pydantic import BaseModel, ConfigDict
+
 from livecomponents.const import HIER_SEP, TYPE_SEP
 
 
@@ -28,3 +30,9 @@ def find_component_id(
     # Used to render the component for the first time
     basename = f"{component_name}{TYPE_SEP}{own_id}"
     return f"{parent_id}{HIER_SEP}{basename}"
+
+
+class LiveComponentsModel(BaseModel):
+    """A subclass of Pydantic's model that allows arbitrary types."""
+
+    model_config = ConfigDict(arbitrary_types_allowed=True)
