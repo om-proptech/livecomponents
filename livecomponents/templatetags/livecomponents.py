@@ -62,11 +62,10 @@ def component_attrs(component_id: str, swap_style="morph") -> str:
     return flatatt(attrs)
 
 
-@register.simple_tag(takes_context=True)
-def livecomponents_session_id(context) -> str:
+@register.simple_tag
+def livecomponents_session_id() -> str:
     """Return the session ID for the live components session."""
-    request = context["request"]
-    return get_session_id(request)
+    return get_session_id()
 
 
 @register.filter(name="css_escape")
