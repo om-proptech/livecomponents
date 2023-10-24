@@ -116,6 +116,19 @@ urlpatterns = [
 ]
 ```
 
+### Create new component
+
+There is a management command to create new component:
+
+```bash
+./manage.py createlivecomponent <app_name> <ComponentClass>
+```
+
+The command with create a "components" subdirectory in the app directory and create a new component, consisting
+of one Python, and one HTML file.
+
+Make sure that your STATICFILES_DIRS setting includes the "components" directory of the app.
+
 
 ## On component IDs.
 
