@@ -111,7 +111,6 @@ INTERNAL_IPS = [
 
 # Static files (CSS, JavaScript, Images)
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
     # To load django-components specific to apps
     BASE_DIR / "project/counters/components",
     BASE_DIR / "project/coffee/components",
@@ -119,6 +118,33 @@ STATICFILES_DIRS = [
 ]
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static_root"
+
+
+# Custom logging settings
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "verbose": {
+            "format": "[{asctime}] {levelname}: {module}: {message}",
+            "style": "{",
+            "datefmt": "%d/%b/%Y %H:%M:%S",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
+        },
+    },
+    "loggers": {
+        "livecomponents": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
+    },
+}
+
 
 # Live components settings
 LIVECOMPONENTS = {
