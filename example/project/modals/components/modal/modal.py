@@ -27,8 +27,3 @@ class Modal(LiveComponent[ModalState]):
     @command
     def open(self, call_context: CallContext[ModalState]):
         call_context.state.open = True
-
-    @command
-    def send_email(self, call_context: CallContext[ModalState], email: str):
-        print(f"Sending email to {email}")
-        call_context.state.open = False

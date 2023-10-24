@@ -21,6 +21,7 @@
         <a href="#" hx-post="{% call_command "/modal."|add:user.username "open" %}">
           Send email
         </a>
+        {% livecomponent "emailsender" own_id=user.username only %}
         {% livecomponent_block "modal" own_id=user.username only %}
           {% fill "modal_title" %}
             {{ user.username }}
@@ -31,7 +32,7 @@
           {% fill "modal_footer" %}
             <a href="#" role="button" class="secondary" hx-post="{% call_command "/modal."|add:user.username "close" %}">Cancel</a>
             <a href="#" role="button"
-               hx-post="{% call_command "/modal."|add:user.username "send_email" %}"
+               hx-post="{% call_command "/emailsender."|add:user.username "send_email" %}"
                hx-vals='{"email": "{{ user.email }}"}'
             >Send email</a>
           {% endfill %}
