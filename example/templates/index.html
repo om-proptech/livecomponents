@@ -4,8 +4,10 @@
 {% block body %}
   <div style="display: flex;  flex-direction: column; gap: 10px">
     {% livecomponent "message" own_id="0" %}
-    {% livecomponent "clickcounter" own_id="1" title="First counter" %}
-    {% livecomponent "clickcounter" own_id="2" title="Second counter" %}
-    {% livecomponent "clickcounter" own_id="3" title="Third counter" %}
+    {% only_with currency=currency %}
+      {% livecomponent "clickcounter" own_id="1" title="First counter" save_context %}
+      {% livecomponent "clickcounter" own_id="2" title="Second counter" save_context %}
+      {% livecomponent "clickcounter" own_id="3" title="Third counter" save_context %}
+    {% endonly_with %}
   </div>
 {% endblock %}

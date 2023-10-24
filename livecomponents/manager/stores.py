@@ -10,6 +10,10 @@ from livecomponents.types import StateAddress
 
 class IStateStore(abc.ABC):
     @abc.abstractmethod
+    def is_component_initialized(self, state_addr: StateAddress) -> bool:
+        ...
+
+    @abc.abstractmethod
     def save_state(self, state_addr: StateAddress, raw_state: bytes) -> None:
         ...
 
@@ -47,6 +51,9 @@ class MemoryStateStore(IStateStore):
         self._store: dict[StateAddress, bytes] = {}
         self._context: dict[StateAddress, bytes] = {}
         self._components: dict[StateAddress, bytes] = {}
+
+    def is_component_initialized(self, state_addr: StateAddress) -> bool:
+        return state_addr in self._store
 
     def save_state(self, state_addr: StateAddress, raw_state: bytes) -> None:
         self._store[state_addr] = raw_state
@@ -98,6 +105,10 @@ class RedisStateStore(IStateStore):
         self.templates_prefix = templates_prefix
         self.template_cache_prefix = template_cache_prefix
         self.ttl = ttl
+
+    def is_component_initialized(self, state_addr: StateAddress) -> bool:
+        key_name = self._get_key_name(self.key_prefix, state_addr.session_id)
+        return self.client.hexists(key_name, state_addr.component_id)
 
     def save_state(self, state_addr: StateAddress, raw_state: bytes) -> None:
         return self._save_by_prefix(state_addr, self.key_prefix, raw_state)

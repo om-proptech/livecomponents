@@ -257,12 +257,40 @@ LIVECOMPONENTS = {
 
 ## On storing component context
 
-On first render, the components stores the context that it's been used with. On subsequent renders, the component
-will restore the same context.
+On the first render, the components render themselves using the entire page context.
 
-There is a hard-coded list of variables that are excluded from the context, because they're either non-needed or
-can't be pickled. The list is available in the "livecomponents/manager/manager.py" file as the "DEFAULT_CONTEXT_IGNORE_KEYS" constant.
+On subsequent (partial) renders, the components by default render themselves using the context that is populated from their state.
 
+However, it is possible to override this behavior and save the context from the first render. To do this, pass the
+`save_context` flag to the livecomponent tamplatetag. By default, the component will try to store everything from the
+context. Most likely, this is not what you want, because the context contains a lot of variables that are not needed.
+
+It is recommended to limit the outer context with the `{% only_with %}` templatetag. The `{% only_with %}` templatetag
+works almost like Django's own `{% with %}` templatetag, but it only populates the context with the variables that are
+explicitly listed in the templatetag.
+
+Quite likely, you will use this approach to work with live component slots.
+
+First, let's see the example of a "non-prepared" component that will work only on the first render:
+
+
+```html
+{% livecomponent_block "alert" %}
+  {% fill "body" %}Sending a message to {{ user.email }}!{% endfill %}
+{% endlivecomponent_block %}
+```
+This will not work on partial renders because the component will be rendered without the "user" variable.
+
+The way to address it, is to wrap `{% livecomponent_block %}` with `{% only_with %}` and add the "save_context" flag
+
+```diff
++{% only_with user=user %}
+-{% livecomponent_block "alert" %}
++{% livecomponent_block "alert" save_context %}
+   {% fill "body" %}Sending a message to {{ user.email }}!{% endfill %}
+ {% endlivecomponent_block %}
++{% endonly_with %}
+```
 
 
 ## On Storing Raw HTML Templates

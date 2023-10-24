@@ -41,3 +41,11 @@ def render_token(token: Token) -> str:
     elif token.token_type == TokenType.COMMENT:
         return "{# " + token.contents + " #}"
     raise ValueError(f"Unknown token type: {token.token_type}")
+
+
+def check_for_save_context_keyword(bits):
+    """Return True and strip the last word if token ends with 'only' keyword."""
+
+    if bits[-1] == "save_context":
+        return bits[:-1], True
+    return bits, False

@@ -23,7 +23,7 @@
         </a>
         {% only_with username=user.username email=user.email name=user.username|capfirst %}
           {% livecomponent "emailsender" own_id=username %}
-          {% livecomponent_block "modal" own_id=username %}
+          {% livecomponent_block "modal" own_id=username save_context %}
             {% fill "modal_title" %}
               {{ name }}
             {% endfill %}

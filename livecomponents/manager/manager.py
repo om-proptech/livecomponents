@@ -6,6 +6,7 @@ from django.template import Context
 from django_components.component_registry import registry
 from pydantic import Field
 
+from livecomponents.logging import logger
 from livecomponents.manager.execution_results import ExecutionResults
 from livecomponents.manager.serializers import IStateSerializer
 from livecomponents.manager.stores import IStateStore
@@ -76,6 +77,9 @@ class StateManager:
             return html_bytes.decode("utf-8")
         return None
 
+    def is_component_initialized(self, state_addr: StateAddress) -> bool:
+        return self.store.is_component_initialized(state_addr)
+
     def get_or_create_component_state(
         self,
         request: HttpRequest,
@@ -83,45 +87,56 @@ class StateManager:
         state_constructor: Callable[..., Any],
         outer_context: Context,
         component_kwargs: dict[str, Any],
-    ) -> tuple[Any, bool]:
+    ) -> Any:
         state = self.get_component_state(state_addr)
         if state is not None:
-            return state, False
+            return state
 
         init_state_context = InitStateContext(
             request=request, outer_context=outer_context
         )
         state = state_constructor(init_state_context, **component_kwargs)
         self.set_component_state(state_addr, state)
-        self.set_component_context(state_addr, outer_context)
-        return state, True
+        return state
 
     def get_component_state(self, state_addr: StateAddress) -> Any | None:
         raw_state = self.store.restore_state(state_addr)
         if raw_state is None:
-            print("get_component_state", state_addr, "not found")
             return None
         state = self.serializer.deserialize(raw_state)
-        print("get_component_state", state_addr, state)
+        logger.debug("Getting component state for %r: %r", state_addr, state)
         return state
 
     def set_component_state(self, state_addr: StateAddress, state: Any):
-        print("set_component_state", state_addr, state)
+        logger.debug(
+            "Setting component state for %r: %r", state_addr.component_id, state
+        )
         self.store.save_state(state_addr, self.serializer.serialize(state))
 
     def get_component_context(self, state_addr: StateAddress) -> dict[str, Any]:
         raw_context = self.store.restore_context(state_addr)
         if raw_context is None:
-            print("get_component_context", state_addr, "not found")
+            logger.debug(
+                "Getting component context for %r: not found", state_addr.component_id
+            )
             return {}
         flat_context = self.serializer.deserialize(raw_context)
-        print("get_component_context", state_addr, flat_context)
+        logger.debug(
+            "Getting component context for %r: %r",
+            state_addr.component_id,
+            flat_context,
+        )
         return flat_context
 
     def set_component_context(self, state_addr: StateAddress, context: Context):
         flat_context = dict(context.flatten())
         filtered_context = self.filter_flat_context(flat_context)
         if filtered_context:
+            logger.debug(
+                "Setting component context for %s: %r",
+                state_addr.component_id,
+                filtered_context,
+            )
             self.store.save_context(
                 state_addr, self.serializer.serialize(filtered_context)
             )

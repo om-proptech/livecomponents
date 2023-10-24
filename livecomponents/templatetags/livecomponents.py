@@ -20,7 +20,10 @@ from django_components.templatetags.component_tags import (
 )
 
 from livecomponents.sessions import get_session_id
-from livecomponents.templatetags.utils import capture_used_tokens
+from livecomponents.templatetags.utils import (
+    capture_used_tokens,
+    check_for_save_context_keyword,
+)
 from livecomponents.types import StateAddress
 from livecomponents.utils import find_component_id
 
@@ -117,6 +120,7 @@ def do_livecomponent(parser, token):
     with capture_used_tokens(parser, token) as captured_tokens:
         bits = token.split_contents()
         bits, isolated_context = check_for_isolated_context_keyword(bits)
+        bits, save_context = check_for_save_context_keyword(bits)
         component_name, context_args, context_kwargs = parse_component_with_args(
             parser, bits, "livecomponent"
         )
@@ -125,6 +129,7 @@ def do_livecomponent(parser, token):
         context_args,
         context_kwargs,
         isolated_context=isolated_context,
+        save_context=save_context,
         component_template=captured_tokens.render(),
     )
 
@@ -139,6 +144,7 @@ def do_livecomponent_block(parser, token):
         # See the original function for more details.
         bits = token.split_contents()
         bits, isolated_context = check_for_isolated_context_keyword(bits)
+        bits, save_context = check_for_save_context_keyword(bits)
         component_name, context_args, context_kwargs = parse_component_with_args(
             parser, bits, "livecomponent_block"
         )
@@ -167,6 +173,7 @@ def do_livecomponent_block(parser, token):
         context_args,
         context_kwargs,
         isolated_context=isolated_context,
+        save_context=save_context,
         fill_nodes=fill_nodes,
         component_template=captured_tokens.render(),
     )
@@ -180,6 +187,7 @@ class LiveComponentNode(ComponentNode):
         context_args,
         context_kwargs,
         isolated_context=False,
+        save_context=False,
         fill_nodes: ImplicitFillNode | Iterable[NamedFillNode] = (),
         component_template: str | None = None,
     ):
@@ -191,6 +199,7 @@ class LiveComponentNode(ComponentNode):
             fill_nodes=fill_nodes,
         )
         self.component_template = component_template
+        self.save_context = save_context
 
     def render(self, context: Context):
         # move "full_component_id" from context to context_kwargs
@@ -198,16 +207,41 @@ class LiveComponentNode(ComponentNode):
             self.context_kwargs["full_component_id"] = context["full_component_id"]
             context["full_component_id"] = None
 
+        state_addr = self.get_state_addr(context)
         if self.component_template is not None:
-            self.save_component_template(context)
+            self.save_component_template(state_addr, self.component_template)
+        if self.save_context:
+            context = self.save_or_restore_context(state_addr, context)
         return super().render(context)
 
-    def save_component_template(self, context: Context):
-        from livecomponents.component import DEFAULT_OWN_ID
+    def save_component_template(
+        self, state_addr: StateAddress, component_template: str
+    ):
         from livecomponents.manager import get_state_manager
 
-        if not self.component_template:
-            raise ValueError("Component template is not set")
+        state_manager = get_state_manager()
+        state_manager.save_component_template(state_addr, component_template)
+
+    def save_or_restore_context(self, state_addr: StateAddress, context: Context):
+        from livecomponents.manager import get_state_manager
+
+        effective_context = {
+            "request": context["request"],
+            "LIVECOMPONENTS_SESSION_ID": context["LIVECOMPONENTS_SESSION_ID"],
+        }
+
+        state_manager = get_state_manager()
+        if state_manager.is_component_initialized(state_addr):
+            restored_context = state_manager.get_component_context(state_addr)
+            new_context = context.new(effective_context)
+            new_context.update(restored_context)
+            return new_context
+        else:
+            state_manager.set_component_context(state_addr, context)
+            return context
+
+    def get_state_addr(self, context: Context):
+        from livecomponents.component import DEFAULT_OWN_ID
 
         # Context kwargs are the keyword arguments, passed to the component itself.
         # They can contain variables, that will be resolved against the parent context.
@@ -216,7 +250,6 @@ class LiveComponentNode(ComponentNode):
             key: safe_resolve(kwarg, context)
             for key, kwarg in self.context_kwargs.items()
         }
-
         session_id = context["LIVECOMPONENTS_SESSION_ID"]
         component_id = find_component_id(
             full_component_id=resolved_context_kwargs.get("full_component_id"),
@@ -224,7 +257,4 @@ class LiveComponentNode(ComponentNode):
             own_id=resolved_context_kwargs.get("own_id", DEFAULT_OWN_ID),
             parent_id=resolved_context_kwargs.get("parent_id", ""),
         )
-        state_addr = StateAddress(session_id=session_id, component_id=component_id)
-
-        state_manager = get_state_manager()
-        state_manager.save_component_template(state_addr, self.component_template)
+        return StateAddress(session_id=session_id, component_id=component_id)
