@@ -1,6 +1,8 @@
 from contextlib import contextmanager
 
-from django.template.base import Parser, Token, TokenType
+from django.template import Context
+from django.template.base import FilterExpression, Parser, Token, TokenType
+from django_components.templatetags.component_tags import safe_resolve
 
 
 class CapturedTokens:
@@ -43,9 +45,16 @@ def render_token(token: Token) -> str:
     raise ValueError(f"Unknown token type: {token.token_type}")
 
 
-def check_for_save_context_keyword(bits):
-    """Return True and strip the last word if token ends with 'only' keyword."""
+def get_save_context_vars(
+    context_kwargs: dict[str, FilterExpression]
+) -> FilterExpression | None:
+    return context_kwargs.pop("save_context", None)
 
-    if bits[-1] == "save_context":
-        return bits[:-1], True
-    return bits, False
+
+def render_save_context_vars(
+    save_context_vars: FilterExpression | None, context: Context
+) -> list[str]:
+    if save_context_vars is None:
+        return []
+    resolved = safe_resolve(save_context_vars, context)
+    return [value.strip() for value in resolved.split(",")]

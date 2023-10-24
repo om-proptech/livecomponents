@@ -255,43 +255,34 @@ LIVECOMPONENTS = {
 }
 ```
 
-## On storing component context
+## Storing Component Context
 
-On the first render, the components render themselves using the entire page context.
+During the first render, components use the entire page context to render themselves.
 
-On subsequent (partial) renders, the components by default render themselves using the context that is populated from their state.
+During subsequent renders, components by default use the context populated from their state.
 
-However, it is possible to override this behavior and save the context from the first render. To do this, pass the
-`save_context` flag to the livecomponent tamplatetag. By default, the component will try to store everything from the
-context. Most likely, this is not what you want, because the context contains a lot of variables that are not needed.
+However, it is possible to save some variables from the context of the first render. To do this, pass the `save_context` variable with a comma-separated list of variables that need to be sent to the `livecomponent` templatetag.
 
-It is recommended to limit the outer context with the `{% only_with %}` templatetag. The `{% only_with %}` templatetag
-works almost like Django's own `{% with %}` templatetag, but it only populates the context with the variables that are
-explicitly listed in the templatetag.
+This approach is commonly used when working with live component slots.
 
-Quite likely, you will use this approach to work with live component slots.
-
-First, let's see the example of a "non-prepared" component that will work only on the first render:
-
+Let's first look at an example of a "non-prepared" component that will only work on the first render:
 
 ```html
 {% livecomponent_block "alert" %}
   {% fill "body" %}Sending a message to {{ user.email }}!{% endfill %}
 {% endlivecomponent_block %}
 ```
+
 This will not work on partial renders because the component will be rendered without the "user" variable.
 
-The way to address it, is to wrap `{% livecomponent_block %}` with `{% only_with %}` and add the "save_context" flag
+To address this, add the "save_context" variable:
 
 ```diff
-+{% only_with user=user %}
 -{% livecomponent_block "alert" %}
-+{% livecomponent_block "alert" save_context %}
++{% livecomponent_block "alert" save_context="user" %}
    {% fill "body" %}Sending a message to {{ user.email }}!{% endfill %}
  {% endlivecomponent_block %}
-+{% endonly_with %}
 ```
-
 
 ## On Storing Raw HTML Templates
 

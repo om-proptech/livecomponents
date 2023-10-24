@@ -22,7 +22,8 @@ from django_components.templatetags.component_tags import (
 from livecomponents.sessions import get_session_id
 from livecomponents.templatetags.utils import (
     capture_used_tokens,
-    check_for_save_context_keyword,
+    get_save_context_vars,
+    render_save_context_vars,
 )
 from livecomponents.types import StateAddress
 from livecomponents.utils import find_component_id
@@ -120,16 +121,16 @@ def do_livecomponent(parser, token):
     with capture_used_tokens(parser, token) as captured_tokens:
         bits = token.split_contents()
         bits, isolated_context = check_for_isolated_context_keyword(bits)
-        bits, save_context = check_for_save_context_keyword(bits)
         component_name, context_args, context_kwargs = parse_component_with_args(
             parser, bits, "livecomponent"
         )
+        save_context_vars = get_save_context_vars(context_kwargs)
     return LiveComponentNode(
         FilterExpression(component_name, parser),
         context_args,
         context_kwargs,
         isolated_context=isolated_context,
-        save_context=save_context,
+        save_context_vars=save_context_vars,
         component_template=captured_tokens.render(),
     )
 
@@ -144,10 +145,10 @@ def do_livecomponent_block(parser, token):
         # See the original function for more details.
         bits = token.split_contents()
         bits, isolated_context = check_for_isolated_context_keyword(bits)
-        bits, save_context = check_for_save_context_keyword(bits)
         component_name, context_args, context_kwargs = parse_component_with_args(
             parser, bits, "livecomponent_block"
         )
+        save_context_vars = get_save_context_vars(context_kwargs)
         body: NodeList = parser.parse(parse_until=["endlivecomponent_block"])
         parser.delete_first_token()
 
@@ -173,7 +174,7 @@ def do_livecomponent_block(parser, token):
         context_args,
         context_kwargs,
         isolated_context=isolated_context,
-        save_context=save_context,
+        save_context_vars=save_context_vars,
         fill_nodes=fill_nodes,
         component_template=captured_tokens.render(),
     )
@@ -187,7 +188,7 @@ class LiveComponentNode(ComponentNode):
         context_args,
         context_kwargs,
         isolated_context=False,
-        save_context=False,
+        save_context_vars: FilterExpression | None = None,
         fill_nodes: ImplicitFillNode | Iterable[NamedFillNode] = (),
         component_template: str | None = None,
     ):
@@ -199,7 +200,7 @@ class LiveComponentNode(ComponentNode):
             fill_nodes=fill_nodes,
         )
         self.component_template = component_template
-        self.save_context = save_context
+        self.save_context_vars = save_context_vars
 
     def render(self, context: Context):
         # move "full_component_id" from context to context_kwargs
@@ -210,8 +211,14 @@ class LiveComponentNode(ComponentNode):
         state_addr = self.get_state_addr(context)
         if self.component_template is not None:
             self.save_component_template(state_addr, self.component_template)
-        if self.save_context:
-            context = self.save_or_restore_context(state_addr, context)
+
+        rendered_save_context_vars = render_save_context_vars(
+            self.save_context_vars, context
+        )
+        if rendered_save_context_vars:
+            context = self.save_or_restore_context(
+                state_addr, context, rendered_save_context_vars
+            )
         return super().render(context)
 
     def save_component_template(
@@ -222,22 +229,31 @@ class LiveComponentNode(ComponentNode):
         state_manager = get_state_manager()
         state_manager.save_component_template(state_addr, component_template)
 
-    def save_or_restore_context(self, state_addr: StateAddress, context: Context):
+    def save_or_restore_context(
+        self,
+        state_addr: StateAddress,
+        context: Context,
+        rendered_save_context_vars: list[str],
+    ):
         from livecomponents.manager import get_state_manager
-
-        effective_context = {
-            "request": context["request"],
-            "LIVECOMPONENTS_SESSION_ID": context["LIVECOMPONENTS_SESSION_ID"],
-        }
 
         state_manager = get_state_manager()
         if state_manager.is_component_initialized(state_addr):
+            effective_context = {
+                "request": context["request"],
+                "LIVECOMPONENTS_SESSION_ID": context["LIVECOMPONENTS_SESSION_ID"],
+            }
             restored_context = state_manager.get_component_context(state_addr)
             new_context = context.new(effective_context)
             new_context.update(restored_context)
             return new_context
         else:
-            state_manager.set_component_context(state_addr, context)
+            effective_context = {
+                var: context[var]
+                for var in rendered_save_context_vars
+                if var in context
+            }
+            state_manager.set_component_context(state_addr, effective_context)
             return context
 
     def get_state_addr(self, context: Context):

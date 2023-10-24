@@ -128,9 +128,8 @@ class StateManager:
         )
         return flat_context
 
-    def set_component_context(self, state_addr: StateAddress, context: Context):
-        flat_context = dict(context.flatten())
-        filtered_context = self.filter_flat_context(flat_context)
+    def set_component_context(self, state_addr: StateAddress, context: dict[str, Any]):
+        filtered_context = self.filter_flat_context(context)
         if filtered_context:
             logger.debug(
                 "Setting component context for %s: %r",

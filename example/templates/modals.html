@@ -21,24 +21,22 @@
         <a href="#" hx-post="{% call_command "/modal."|add:user.username "open" %}">
           Send email
         </a>
-        {% only_with username=user.username email=user.email name=user.username|capfirst %}
-          {% livecomponent "emailsender" own_id=username %}
-          {% livecomponent_block "modal" own_id=username save_context %}
-            {% fill "modal_title" %}
-              {{ name }}
-            {% endfill %}
-            {% fill "modal_body" %}
-              Send email to {{ email }}?
-            {% endfill %}
-            {% fill "modal_footer" %}
-              <a href="#" role="button" class="secondary" hx-post="{% call_command "/modal."|add:username "close" %}">Cancel</a>
-              <a href="#" role="button"
-                 hx-post="{% call_command "/emailsender."|add:username "send_email" %}"
-                 hx-vals='{"email": "{{ email }}"}'
-              >Send email</a>
-            {% endfill %}
-          {% endlivecomponent_block %}
-        {% endonly_with %}
+        {% livecomponent "emailsender" own_id=user.username %}
+        {% livecomponent_block "modal" own_id=user.username save_context="user" %}
+          {% fill "modal_title" %}
+            {{ user.username|capfirst }}
+          {% endfill %}
+          {% fill "modal_body" %}
+            Send email to {{ user.email }}?
+          {% endfill %}
+          {% fill "modal_footer" %}
+            <a href="#" role="button" class="secondary" hx-post="{% call_command "/modal."|add:user.username "close" %}">Cancel</a>
+            <a href="#" role="button"
+               hx-post="{% call_command "/emailsender."|add:user.username "send_email" %}"
+               hx-vals='{"email": "{{ user.email }}"}'
+            >Send email</a>
+          {% endfill %}
+        {% endlivecomponent_block %}
       </td>
     {% endfor %}
   </table>
