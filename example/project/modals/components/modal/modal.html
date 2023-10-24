@@ -1,0 +1,18 @@
+{% load livecomponents component_tags %}
+
+<dialog  {% component_attrs component_id %} {% if open %}open{% endif %}>
+  <article  style="width: 60vw;">
+    <header>
+      <a href="#"
+         hx-post="{% call_command component_id "close" %}"
+         aria-label="Close" class="close"></a>
+      {% slot "modal_title" %}{% endslot %}
+    </header>
+    <p>
+      {% slot "modal_body" %}{% endslot %}
+    </p>
+    <footer>
+      {% slot "modal_footer" %}{% endslot %}
+    </footer>
+  </article>
+</dialog>

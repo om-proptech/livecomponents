@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load livecomponents component_tags %}
+
+{% block body %}
+
+  <table>
+
+    <thead>
+    <tr>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+
+    {% for user in users %}
+      <tr>
+      <td>{{ user.username }}</td>
+      <td>{{ user.email }}</td>
+      <td>
+        <a href="#" hx-post="{% call_command "/modal."|add:user.username "open" %}">
+          Send email
+        </a>
+        {% livecomponent_block "modal" own_id=user.username only %}
+          {% fill "modal_title" %}
+            {{ user.username }}
+          {% endfill %}
+          {% fill "modal_body" %}
+            Send email to {{ user.email }}?
+          {% endfill %}
+          {% fill "modal_footer" %}
+            <a href="#" role="button" class="secondary" hx-post="{% call_command "/modal."|add:user.username "close" %}">Cancel</a>
+            <a href="#" role="button"
+               hx-post="{% call_command "/modal."|add:user.username "send_email" %}"
+               hx-vals='{"email": "{{ user.email }}"}'
+            >Send email</a>
+          {% endfill %}
+        {% endlivecomponent_block %}
+      </td>
+    {% endfor %}
+  </table>
+{% endblock %}

@@ -29,9 +29,10 @@ INSTALLED_APPS = [
     "django_htmx",
     # Live components (the reason we have this sample project)
     "livecomponents",
-    # Local app (sample)
+    # Local apps (samples)
     "project.counters",
     "project.coffee",
+    "project.modals",
 ]
 
 MIDDLEWARE = [
@@ -114,6 +115,7 @@ STATICFILES_DIRS = [
     # To load django-components specific to apps
     BASE_DIR / "project/counters/components",
     BASE_DIR / "project/coffee/components",
+    BASE_DIR / "project/modals/components",
 ]
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static_root"
