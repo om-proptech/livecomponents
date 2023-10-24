@@ -21,18 +21,8 @@ DEFAULT_CONTEXT_IGNORE_KEYS = {
     "True",
     "False",
     "None",
-    "csrf_token",
-    "sql_queries",
     "request",
-    "user",
-    "perms",
-    "messages",
-    "DEFAULT_MESSAGE_LEVELS",
-    "block",
     "LIVECOMPONENTS_SESSION_ID",
-    "debug",
-    "session_id",
-    "component_id",
 }
 
 
@@ -109,17 +99,23 @@ class StateManager:
     def get_component_state(self, state_addr: StateAddress) -> Any | None:
         raw_state = self.store.restore_state(state_addr)
         if raw_state is None:
+            print("get_component_state", state_addr, "not found")
             return None
-        return self.serializer.deserialize(raw_state)
+        state = self.serializer.deserialize(raw_state)
+        print("get_component_state", state_addr, state)
+        return state
 
     def set_component_state(self, state_addr: StateAddress, state: Any):
+        print("set_component_state", state_addr, state)
         self.store.save_state(state_addr, self.serializer.serialize(state))
 
     def get_component_context(self, state_addr: StateAddress) -> dict[str, Any]:
         raw_context = self.store.restore_context(state_addr)
         if raw_context is None:
+            print("get_component_context", state_addr, "not found")
             return {}
         flat_context = self.serializer.deserialize(raw_context)
+        print("get_component_context", state_addr, flat_context)
         return flat_context
 
     def set_component_context(self, state_addr: StateAddress, context: Context):

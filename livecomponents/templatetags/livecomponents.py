@@ -4,7 +4,7 @@ from urllib.parse import urlencode
 from django import template
 from django.forms.utils import flatatt
 from django.template import Context, NodeList, TemplateSyntaxError
-from django.template.base import FilterExpression
+from django.template.base import FilterExpression, token_kwargs
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django_components.templatetags.component_tags import (
@@ -25,6 +25,44 @@ from livecomponents.types import StateAddress
 from livecomponents.utils import find_component_id
 
 register = template.Library()
+
+
+@register.tag(name="only_with")
+def do_only_with(parser, token):
+    bits = token.split_contents()
+    remaining_bits = bits[1:]
+    new_context = token_kwargs(remaining_bits, parser)
+    if not new_context:
+        raise TemplateSyntaxError(
+            "%r expected at least one variable assignment" % bits[0]
+        )
+    if remaining_bits:
+        raise TemplateSyntaxError(
+            f"{bits[0]!r} received an invalid token: {remaining_bits[0]!r}"
+        )
+
+    nodelist = parser.parse(("endonly_with",))
+    parser.delete_first_token()
+    return OnlyWithNode(nodelist, new_context)
+
+
+class OnlyWithNode(template.Node):
+    def __init__(self, nodelist, new_context):
+        self.nodelist = nodelist
+        self.new_context = new_context
+
+    def render(self, context):
+        resolved_context = {
+            key: safe_resolve(value, context) for key, value in self.new_context.items()
+        }
+        effective_context = {
+            **resolved_context,
+            "request": context["request"],
+            "LIVECOMPONENTS_SESSION_ID": context["LIVECOMPONENTS_SESSION_ID"],
+        }
+        isolated_context = context.new()
+        with isolated_context.push(effective_context):
+            return self.nodelist.render(isolated_context)
 
 
 @register.simple_tag(takes_context=True)
