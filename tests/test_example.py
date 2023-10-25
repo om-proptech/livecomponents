@@ -64,3 +64,24 @@ def test_coffee(live_server, page: Page):
     page.on("dialog", lambda dialog: dialog.accept())
     page.get_by_test_id("coffee-delete-button").click()
     expect(page.get_by_test_id("coffee-row")).to_have_count(0)
+
+
+@pytest.mark.django_db
+def test_modals(live_server, page: Page):
+    modals_url = str(live_server) + reverse("modals:index")
+
+    page.set_default_timeout(5_000)
+    page.goto(modals_url)
+
+    # Click on the "Send email" link and see that the modal is shown
+    # and has text populated by the context.
+    page.get_by_text("Send email").first.click()
+    expect(page.get_by_test_id("modal").first).to_be_visible()
+    expect(page.get_by_test_id("modal-title").first).to_have_text("Alice")
+    expect(page.get_by_test_id("modal-body").first).to_have_text(
+        "Send email to alice@example.com?"
+    )
+
+    # Click the "Close" button and see that the modal is hidden.
+    page.get_by_test_id("modal-close").first.click()
+    expect(page.get_by_test_id("modal").first).to_be_hidden()

@@ -30,7 +30,7 @@
             Send email to {{ user.email }}?
           {% endfill %}
           {% fill "modal_footer" %}
-            <a href="#" role="button" class="secondary" hx-post="{% call_command "/modal."|add:user.username "close" %}">Cancel</a>
+            <a data-testid="modal-close" href="#" role="button" class="secondary" hx-post="{% call_command "/modal."|add:user.username "close" %}">Cancel</a>
             <a href="#" role="button"
                hx-post="{% call_command "/emailsender."|add:user.username "send_email" %}"
                hx-vals='{"email": "{{ user.email }}"}'
