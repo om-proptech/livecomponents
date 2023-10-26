@@ -86,13 +86,24 @@ There, we need support for HTMX and Live Components:
 
   <script>
     // Optionally, clear the session on page unload.
+    //
+    // Firefox does not support keepalive fetches, so we need to use a workaround.
+    // See https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon
+    // and https://bugzilla.mozilla.org/show_bug.cgi?id=1342484
+    const fetchUrl = "{% url 'livecomponents:clear-session' %}?session_id={{ LIVECOMPONENTS_SESSION_ID }}";
+    const csrfmiddlewaretoken = "{{ csrf_token }}";
     window.addEventListener("beforeunload", function () {
-      fetch(`{% url 'livecomponents:clear-session' %}?session_id={{ LIVECOMPONENTS_SESSION_ID }}`, {
-        keepalive: true,
-        method: "POST",
-        headers: {"X-CSRFToken": "{{ csrf_token }}"},
-      })
-    })
+        navigator.sendBeacon(fetchUrl, new URLSearchParams({csrfmiddlewaretoken}))
+    });
+
+    // Alternatively, use a regular fetch if you don't care about the issue above.
+    // window.addEventListener("beforeunload", function () {
+    //   fetch(fetchUrl, {
+    //     keepalive: true,
+    //     method: "POST",
+    //     headers: {"X-CSRFToken": csrfmiddlewaretoken}
+    //   });
+    // });
   </script>
   ...
 </head>

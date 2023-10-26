@@ -17,13 +17,11 @@
   {% livecomponents_session_id as LIVECOMPONENTS_SESSION_ID %}
   {% block head %}{% endblock %}
   <script>
+    const fetchUrl = "{% url 'livecomponents:clear-session' %}?session_id={{ LIVECOMPONENTS_SESSION_ID }}";
+    const csrfmiddlewaretoken = "{{ csrf_token }}";
     window.addEventListener("beforeunload", function () {
-      fetch(`{% url 'livecomponents:clear-session' %}?session_id={{ LIVECOMPONENTS_SESSION_ID }}`, {
-        keepalive: true,
-        method: "POST",
-        headers: {"X-CSRFToken": "{{ csrf_token }}"},
-      })
-    })
+        navigator.sendBeacon(fetchUrl, new URLSearchParams({csrfmiddlewaretoken}))
+    });
   </script>
 </head>
 <body hx-ext="morph, json-enc"
