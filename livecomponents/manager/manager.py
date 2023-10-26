@@ -77,8 +77,11 @@ class StateManager:
             return html_bytes.decode("utf-8")
         return None
 
-    def is_component_initialized(self, state_addr: StateAddress) -> bool:
-        return self.store.is_component_initialized(state_addr)
+    def session_exists(self, session_id: str) -> bool:
+        return self.store.session_exists(session_id)
+
+    def component_initialized(self, state_addr: StateAddress) -> bool:
+        return self.store.component_initialized(state_addr)
 
     def get_or_create_component_state(
         self,
