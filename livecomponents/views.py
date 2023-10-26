@@ -4,6 +4,7 @@ from typing import Any
 from django.http import HttpRequest, HttpResponse
 from django.template import RequestContext, Template
 
+from livecomponents.logging import logger
 from livecomponents.manager import get_state_manager
 from livecomponents.manager.manager import CallContext
 from livecomponents.types import CallMethodRequestArgs, StateAddress
@@ -15,6 +16,12 @@ def call_command(request: HttpRequest):
     args = CallMethodRequestArgs(**request.GET.dict())
     state_manager = get_state_manager()
     kwargs = parse_json_body(request)
+
+    if not state_manager.session_exists(args.session_id):
+        logger.warning(
+            "Session %s does not exist. It may have expired", args.session_id
+        )
+        return HttpResponse("Session does not exist. It may have expired", status=410)
 
     call_context = state_manager.call_component_method(
         request,

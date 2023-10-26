@@ -10,7 +10,11 @@ from livecomponents.types import StateAddress
 
 class IStateStore(abc.ABC):
     @abc.abstractmethod
-    def is_component_initialized(self, state_addr: StateAddress) -> bool:
+    def session_exists(self, session_id: str) -> bool:
+        ...
+
+    @abc.abstractmethod
+    def component_initialized(self, state_addr: StateAddress) -> bool:
         ...
 
     @abc.abstractmethod
@@ -43,6 +47,10 @@ class IStateStore(abc.ABC):
     def clear_session(self, session_id: str) -> None:
         ...
 
+    @abc.abstractmethod
+    def clear_all_sessions(self) -> None:
+        ...
+
 
 class MemoryStateStore(IStateStore):
     """In-memory state store. Suitable for tests."""
@@ -52,7 +60,12 @@ class MemoryStateStore(IStateStore):
         self._context: dict[StateAddress, bytes] = {}
         self._components: dict[StateAddress, bytes] = {}
 
-    def is_component_initialized(self, state_addr: StateAddress) -> bool:
+    def session_exists(self, session_id: str) -> bool:
+        return any(
+            state_addr.session_id == session_id for state_addr in self._store.keys()
+        )
+
+    def component_initialized(self, state_addr: StateAddress) -> bool:
         return state_addr in self._store
 
     def save_state(self, state_addr: StateAddress, raw_state: bytes) -> None:
@@ -86,6 +99,11 @@ class MemoryStateStore(IStateStore):
             if state_addr.session_id == session_id:
                 del self._components[state_addr]
 
+    def clear_all_sessions(self) -> None:
+        self._store.clear()
+        self._context.clear()
+        self._components.clear()
+
 
 class RedisStateStore(IStateStore):
     """Redis-based state store."""
@@ -106,7 +124,11 @@ class RedisStateStore(IStateStore):
         self.template_cache_prefix = template_cache_prefix
         self.ttl = ttl
 
-    def is_component_initialized(self, state_addr: StateAddress) -> bool:
+    def session_exists(self, session_id: str) -> bool:
+        key_name = self._get_key_name(self.key_prefix, session_id)
+        return bool(self.client.exists(key_name))
+
+    def component_initialized(self, state_addr: StateAddress) -> bool:
         key_name = self._get_key_name(self.key_prefix, state_addr.session_id)
         return self.client.hexists(key_name, state_addr.component_id)
 
@@ -176,6 +198,9 @@ class RedisStateStore(IStateStore):
             pipe.delete(self._get_key_name(self.key_prefix, session_id))
             pipe.delete(self._get_key_name(self.templates_prefix, session_id))
             pipe.execute()
+
+    def clear_all_sessions(self) -> None:
+        self.client.flushdb()
 
     @staticmethod
     def _get_key_name(key_prefix: str, session_id: str) -> str:

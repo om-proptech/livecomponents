@@ -10,6 +10,7 @@
   <script src="https://unpkg.com/htmx.org@1.9.6"></script>
   <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
   <script src="https://unpkg.com/idiomorph/dist/idiomorph-ext.min.js"></script>
+  <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
   {% django_htmx_script %}
 
   {% component_css_dependencies %}
@@ -25,7 +26,10 @@
     })
   </script>
 </head>
-<body hx-ext="morph, json-enc" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+<body hx-ext="morph, json-enc"
+      hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+      _="on htmx:responseError[detail.xhr.status == 410] window.location.reload()"
+>
 <main class="container">
   <nav>
     <ul>
@@ -37,6 +41,10 @@
   <hr>
   {% block body %}{% endblock %}
 </main>
+<hr>
+<footer class="container">
+  <a hx-post="{% url 'livecomponents:clear-session' %}?session_id={{ LIVECOMPONENTS_SESSION_ID }}" href="#">Clear Session</a>
+</footer>
 
 {% component_js_dependencies %}
 </body>

@@ -199,7 +199,7 @@ class LiveComponentNode(ComponentNode):
         from livecomponents.manager import get_state_manager
 
         state_manager = get_state_manager()
-        if state_manager.is_component_initialized(state_addr):
+        if state_manager.component_initialized(state_addr):
             effective_context = {
                 "request": context["request"],
                 "LIVECOMPONENTS_SESSION_ID": context["LIVECOMPONENTS_SESSION_ID"],
