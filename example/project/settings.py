@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "project.counters",
     "project.coffee",
     "project.modals",
+    "project.uploads",
 ]
 
 MIDDLEWARE = [
@@ -115,6 +116,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "project/counters/components",
     BASE_DIR / "project/coffee/components",
     BASE_DIR / "project/modals/components",
+    BASE_DIR / "project/uploads/components",
 ]
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static_root"

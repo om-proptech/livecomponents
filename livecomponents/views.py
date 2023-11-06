@@ -15,7 +15,7 @@ def call_command(request: HttpRequest):
         return HttpResponse("Only POST allowed", status=405)
     args = CallMethodRequestArgs(**request.GET.dict())
     state_manager = get_state_manager()
-    kwargs = parse_json_body(request)
+    kwargs = parse_body(request)
 
     if not state_manager.session_exists(args.session_id):
         logger.warning(
@@ -58,10 +58,12 @@ def clear_session(request: HttpRequest):
     return HttpResponse("")
 
 
-def parse_json_body(request: HttpRequest) -> dict[str, Any]:
-    if request.body == b"":
-        return {}
-    return json.loads(request.body.decode())
+def parse_body(request: HttpRequest) -> dict[str, Any]:
+    if request.content_type == "application/json":
+        if request.body == b"":
+            return {}
+        return json.loads(request.body.decode())
+    return request.POST.dict()
 
 
 def deduplicate_dirty_components(dirty_components: set[StateAddress]):

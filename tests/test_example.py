@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 from django.core.management import call_command
 from django.urls import reverse
@@ -85,3 +87,15 @@ def test_modals(live_server, page: Page):
     # Click the "Close" button and see that the modal is hidden.
     page.get_by_test_id("modal-close").first.click()
     expect(page.get_by_test_id("modal").first).to_be_hidden()
+
+
+def test_uploads(live_server, page: Page):
+    uploads_url = str(live_server) + reverse("uploads:index")
+
+    page.set_default_timeout(5000)
+    page.goto(uploads_url)
+
+    coffee_csv = Path(__file__).parents[1] / "example" / "coffee.csv"
+    page.set_input_files("input[name=csv_file]", coffee_csv)
+    page.get_by_role("button", name="Upload").click()
+    expect(page.get_by_test_id("filename")).to_have_text("coffee.csv")

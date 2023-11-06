@@ -1,0 +1,22 @@
+# The storage can be cleaned up by running the command:
+# docker-compose down -v
+#
+# Connect to this instance from the command-line:
+# redis-cli -p 6379
+#
+# Connect to this instance from Python:
+#
+# REDIS_URL = "redis://localhost:6379"
+# redis = Redis.from_url(REDIS_URL)
+version: '3.3'
+
+services:
+  redis:
+    image: redis:alpine
+    ports:
+      - '127.0.0.1:6379:6379'
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data: {}

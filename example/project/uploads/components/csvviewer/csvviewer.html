@@ -1,0 +1,53 @@
+{% load livecomponents %}
+
+<div {% component_attrs component_id %}>
+  <form hx-ext="ignore:json-enc" hx-encoding='multipart/form-data' hx-post="{% call_command component_id "upload_file" %}">
+    <div class="grid">
+      <div>
+        <label for="csv_file">CSV file</label>
+        <input type="file" id="csv_file" name="csv_file" placeholder="CSV file" required>
+      </div>
+      <div>
+        <label for="delimiter">CSV delimiter</label>
+        <select id="delimiter" name="delimiter">
+          <option value=",">comma (,)</option>
+          <option value=";">semicolon (;)</option>
+          <option value="|">pipe (|)</option>
+        </select>
+      </div>
+      <div>
+        <label>&nbsp;</label>
+        <button type="submit">Upload CSV file</button>
+      </div>
+    </div>
+  </form>
+
+  {% if file_name %}
+    <hr>
+    <h6 data-testid="filename">{{ file_name }}</h6>
+  {% endif %}
+
+  {% if error %}
+    <article data-testid="error">{{ error }}</article>
+  {% endif %}
+
+  <table>
+    <thead>
+    <tr>
+      {% for name in header %}
+        <th>{{ name }}</th>
+      {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+      {% for record in records %}
+        <tr>
+          {% for value in record %}
+            <td>{{ value }}</td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+</div>
