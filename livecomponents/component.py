@@ -3,6 +3,7 @@ from collections.abc import Callable
 from typing import Generic
 
 from django_components import component
+from django_components.component import SimplifiedInterfaceMediaDefiningClass
 
 from livecomponents.manager import get_state_manager
 from livecomponents.manager.manager import InitStateContext, UpdateStateContext
@@ -21,7 +22,11 @@ def command(func):
     return func
 
 
-class LiveComponent(component.Component, Generic[State]):
+class LiveComponentMeta(abc.ABCMeta, SimplifiedInterfaceMediaDefiningClass):
+    pass
+
+
+class LiveComponent(component.Component, Generic[State], metaclass=LiveComponentMeta):
     def get_command(self, command_name: str) -> Callable:
         """Get a command method by name.
 
