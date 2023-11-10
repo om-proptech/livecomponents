@@ -63,6 +63,12 @@ class InitStateContext(LiveComponentsModel):
     outer_context: Context = Field(default_factory=Context)
 
 
+class UpdateStateContext(LiveComponentsModel, Generic[State]):
+    request: HttpRequest
+    outer_context: Context = Field(default_factory=Context)
+    state: State
+
+
 class StateManager:
     def __init__(self, serializer: IStateSerializer, store: IStateStore):
         self.serializer = serializer
@@ -87,18 +93,24 @@ class StateManager:
         self,
         request: HttpRequest,
         state_addr: StateAddress,
-        state_constructor: Callable[..., Any],
+        init_state: Callable[..., Any],
+        update_state: Callable[..., Any],
         outer_context: Context,
         component_kwargs: dict[str, Any],
     ) -> Any:
         state = self.get_component_state(state_addr)
         if state is not None:
+            update_state_context: UpdateStateContext = UpdateStateContext(
+                request=request, state=state, outer_context=outer_context
+            )
+            update_state(update_state_context, **component_kwargs)
+            self.set_component_state(state_addr, state)
             return state
 
         init_state_context = InitStateContext(
             request=request, outer_context=outer_context
         )
-        state = state_constructor(init_state_context, **component_kwargs)
+        state = init_state(init_state_context, **component_kwargs)
         self.set_component_state(state_addr, state)
         return state
 

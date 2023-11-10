@@ -5,7 +5,7 @@ from typing import Generic
 from django_components import component
 
 from livecomponents.manager import get_state_manager
-from livecomponents.manager.manager import InitStateContext
+from livecomponents.manager.manager import InitStateContext, UpdateStateContext
 from livecomponents.types import State, StateAddress
 from livecomponents.utils import find_component_id
 
@@ -65,6 +65,7 @@ class LiveComponent(component.Component, Generic[State]):
             request,
             state_addr,
             self.init_state,
+            self.update_state,
             self.outer_context,
             component_kwargs,
         )
@@ -87,3 +88,31 @@ class LiveComponent(component.Component, Generic[State]):
     @abc.abstractmethod
     def init_state(self, context: InitStateContext, **component_kwargs) -> State:
         ...
+
+    def update_state(self, context: UpdateStateContext, **kwargs) -> None:
+        """Update in-place the state of this component if necessary during a re-render.
+
+        This method is invoked in two scenarios:
+
+        1. When the parent component re-renders and subsequently renders this child
+           component, often due to the parent's command execution.
+        2. When this child component re-renders independently, typically triggered by
+           its own command execution.
+
+        The **kwargs parameter contains arguments passed to this live component in the
+        template. For example, {% livecomponent "dialog" title="Foo" %} results in
+        kwargs as {"title": "Foo"}.
+
+        Note: If the component re-renders by itself, **kwargs will not be passed,
+        resulting in empty string values in kwargs.
+
+        This method is primarily useful when the parent component re-renders and
+        chooses to update the state of its child components. The child component should
+        process **kwargs to determine if a state update is necessary.
+
+        Example:
+            def update_state(self, context: UpdateStateContext, **kwargs) -> State:
+                if kwargs.get("title"):
+                    context.state.title = kwargs["title"]
+        """
+        pass
