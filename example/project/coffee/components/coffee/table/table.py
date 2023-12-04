@@ -10,9 +10,9 @@ class TableState(LiveComponentsModel):
     search: str = ""
 
 
-@component.register("table")
+@component.register("coffee/table")
 class TableComponent(LiveComponent[TableState]):
-    template_name = "table/table.html"
+    template_name = "coffee/table/table.html"
 
     def get_extra_context_data(self, state: TableState):
         if state.search:

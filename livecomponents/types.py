@@ -1,7 +1,8 @@
-from pathlib import PurePosixPath
 from typing import TypeVar
 
 from pydantic import BaseModel, ConfigDict
+
+from livecomponents.utils import LiveComponentsPath
 
 State = TypeVar("State")
 
@@ -14,8 +15,8 @@ class StateAddress(BaseModel):
         """Returns the parent of this component or None.
 
         Reutrn None if this component is a root component."""
-        parent = PurePosixPath(self.component_id).parent
-        if parent == PurePosixPath("/"):
+        parent = LiveComponentsPath(self.component_id).parent
+        if parent == LiveComponentsPath("|"):
             return None
         return StateAddress(session_id=self.session_id, component_id=str(parent))
 
@@ -30,7 +31,7 @@ class StateAddress(BaseModel):
         return parent
 
     def get_component_name(self):
-        return PurePosixPath(self.component_id).stem
+        return LiveComponentsPath(self.component_id).stem
 
     model_config = ConfigDict(frozen=True)
 

@@ -1,7 +1,7 @@
 {% load livecomponents component_tags %}
 
 <div {% component_attrs component_id %}>
-  {% livecomponent "search" parent_id=component_id search=search %}
+  {% livecomponent "coffee/search" parent_id=component_id search=search %}
 
   <table data-testid="coffee-table">
     <thead>
@@ -17,7 +17,7 @@
     </thead>
     <tbody data-testid="coffee-table-body">
     {% for bean in beans %}
-      {% livecomponent_block "row" bean=bean parent_id=component_id own_id=bean.id %}
+      {% livecomponent_block "coffee/row" bean=bean parent_id=component_id own_id=bean.id %}
         {% fill "stock_actions" %}
           <a href="#"
              hx-post="{% call_command component_id "change_stock" %}" hx-vals='{"amount": 1}'>+1</a>
