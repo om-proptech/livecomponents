@@ -4,6 +4,7 @@ from django_components import component
 from pydantic import BaseModel
 
 from livecomponents import CallContext, InitStateContext, LiveComponent, command
+from livecomponents.const import HIER_SEP, TYPE_SEP
 
 
 class ClickCounterState(BaseModel):
@@ -26,7 +27,7 @@ class ClickCounter(LiveComponent[ClickCounterState]):
     @command
     def increment(self, call_context: CallContext[ClickCounterState], value: int = 1):
         call_context.state.value += value
-        call_context.find_one("/message.0").set_message(
+        call_context.find_one(f"{HIER_SEP}message{TYPE_SEP}0").set_message(
             message=(
                 f"Counter {call_context.state.title!r} incremented "
                 f"to {value}. "

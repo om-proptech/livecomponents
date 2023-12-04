@@ -14,15 +14,17 @@
     </thead>
 
     {% for user in users %}
+      {% component_id "modal" user.username as modal_username %}
+      {% component_id "emailsender" user.username as emailsender_username %}
       <tr>
       <td>{{ user.username }}</td>
       <td>{{ user.email }}</td>
       <td>
-        <a href="#" hx-post="{% call_command "/modal."|add:user.username "open" %}">
+        <a href="#" hx-post="{% call_command modal_username "open" %}">
           Send email
         </a>
         {% livecomponent "emailsender" own_id=user.username %}
-        {% livecomponent_block "modal" own_id=user.username save_context="user" %}
+        {% livecomponent_block "modal" own_id=user.username save_context="user, modal_username, emailsender_username" %}
           {% fill "modal_title" %}
             {{ user.username|capfirst }}
           {% endfill %}
@@ -30,9 +32,9 @@
             Send email to {{ user.email }}?
           {% endfill %}
           {% fill "modal_footer" %}
-            <a data-testid="modal-close" href="#" role="button" class="secondary" hx-post="{% call_command "/modal."|add:user.username "close" %}">Cancel</a>
+            <a data-testid="modal-close" href="#" role="button" class="secondary" hx-post="{% call_command modal_username "close" %}">Cancel</a>
             <a href="#" role="button"
-               hx-post="{% call_command "/emailsender."|add:user.username "send_email" %}"
+               hx-post="{% call_command emailsender_username "send_email" %}"
                hx-vals='{"email": "{{ user.email }}"}'
             >Send email</a>
           {% endfill %}

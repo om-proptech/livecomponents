@@ -19,6 +19,7 @@ from django_components.templatetags.component_tags import (
     try_parse_as_named_fill_tag_set,
 )
 
+from livecomponents.const import HIER_SEP, TYPE_SEP
 from livecomponents.sessions import get_session_id
 from livecomponents.templatetags.utils import (
     capture_used_tokens,
@@ -29,6 +30,24 @@ from livecomponents.types import StateAddress
 from livecomponents.utils import find_component_id
 
 register = template.Library()
+
+
+@register.simple_tag
+def component_id(*args) -> str:
+    """Component ID, built from type and ID pairs, following one after another.
+
+    For example:
+
+    {% component_id "table" "primary" "row" 1 "cell" "x" as cell_x %}
+
+    will return
+
+    |table:primary|row:1|cell:x
+    """
+    chunks = [""]
+    for type_, id_ in zip(args[::2], args[1::2]):
+        chunks.append(f"{type_}{TYPE_SEP}{id_}")
+    return HIER_SEP.join(chunks)
 
 
 @register.simple_tag(takes_context=True)

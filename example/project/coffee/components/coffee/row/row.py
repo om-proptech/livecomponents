@@ -26,9 +26,9 @@ class BeanForm(ModelForm):
         fields = ["name", "origin", "roast_level", "flavor_notes", "stock_quantity"]
 
 
-@component.register("row")
+@component.register("coffee/row")
 class RowComponent(LiveComponent[RowState]):
-    template_name = "row/row.html"
+    template_name = "coffee/row/row.html"
 
     def init_state(self, context: InitStateContext, **component_kwargs) -> RowState:
         return RowState(**component_kwargs)
