@@ -60,11 +60,15 @@ class CallContext(LiveComponentsModel, Generic[State]):
 
 class InitStateContext(LiveComponentsModel):
     request: HttpRequest
+    state_addr: StateAddress
+    component_kwargs: dict[str, Any]
     outer_context: Context = Field(default_factory=Context)
 
 
 class UpdateStateContext(LiveComponentsModel, Generic[State]):
     request: HttpRequest
+    state_addr: StateAddress
+    component_kwargs: dict[str, Any]
     outer_context: Context = Field(default_factory=Context)
     state: State
 
@@ -101,14 +105,21 @@ class StateManager:
         state = self.get_component_state(state_addr)
         if state is not None:
             update_state_context: UpdateStateContext = UpdateStateContext(
-                request=request, state=state, outer_context=outer_context
+                request=request,
+                state=state,
+                state_addr=state_addr,
+                component_kwargs=component_kwargs,
+                outer_context=outer_context,
             )
             update_state(update_state_context, **component_kwargs)
             self.set_component_state(state_addr, state)
             return state
 
         init_state_context = InitStateContext(
-            request=request, outer_context=outer_context
+            request=request,
+            state_addr=state_addr,
+            component_kwargs=component_kwargs,
+            outer_context=outer_context,
         )
         state = init_state(init_state_context, **component_kwargs)
         self.set_component_state(state_addr, state)
