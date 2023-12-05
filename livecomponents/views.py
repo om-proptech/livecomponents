@@ -95,7 +95,12 @@ def re_render_component(call_context: CallContext, state_address: StateAddress) 
     )
     html = call_context.state_manager.restore_component_template(state_address)
     if not html:
-        raise ValueError(f"HTML for {state_address!r} not found")
+        error_message = (
+            f"Cannot find HTML for '{state_address}'. "
+            f"Did you use '{{% component ... %}}' instead of "
+            f"'{{% livecomponent ... %}}' in the Django template?"
+        )
+        raise ValueError(error_message)
 
     template = "{% load livecomponents component_tags %}" + html
     return Template(template).render(context)
