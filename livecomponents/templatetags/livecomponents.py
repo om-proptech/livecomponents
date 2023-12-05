@@ -50,8 +50,31 @@ def component_id(*args) -> str:
     return HIER_SEP.join(chunks)
 
 
+@register.simple_tag
+def component_ancestor(component_id_: str, ancestor_type: str) -> str:
+    """Return the ID of the closest ancestor component of the given type.
+
+    For example:
+
+    {% component_ancestor component_id "table" %}
+
+    Will return the full ID of the table component, that is the ancestor of the given
+    component (e.g., "|table:primary").
+    """
+    chunks = component_id_.split(HIER_SEP)
+    while chunks:
+        chunk = chunks.pop()
+        if not chunk:
+            continue
+        type_, id_ = chunk.split(TYPE_SEP)
+        if type_ == ancestor_type:
+            return HIER_SEP.join(chunks + [chunk])
+    return ""
+
+
 @register.simple_tag(takes_context=True)
 def call_command(context, component_id: str, command_name: str) -> str:
+    """Return the URL for calling a command on a component."""
     session_id = context["LIVECOMPONENTS_SESSION_ID"]
     url = reverse(
         "livecomponents:call-command",
