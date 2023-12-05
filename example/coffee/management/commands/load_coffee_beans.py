@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 
-from project.coffee.models import CoffeeBean
+from coffee.models import CoffeeBean
 
 sample = [
     ("Colombian Arabica", "Colombia", "Medium", "Nutty, Fruity", 20),

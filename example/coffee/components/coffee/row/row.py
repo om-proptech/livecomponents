@@ -2,10 +2,10 @@ from django.core.exceptions import ValidationError
 from django.forms import ModelForm
 from django_components import component
 
+from coffee.models import CoffeeBean
 from livecomponents import CallContext, InitStateContext, LiveComponent, command
 from livecomponents.manager.execution_results import ParentDirty
 from livecomponents.utils import LiveComponentsModel
-from project.coffee.models import CoffeeBean
 
 
 class RowState(LiveComponentsModel):

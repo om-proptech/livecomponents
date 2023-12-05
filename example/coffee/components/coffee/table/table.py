@@ -1,9 +1,9 @@
 from django.db.models import Q
 from django_components import component
 
+from coffee.models import CoffeeBean
 from livecomponents import CallContext, InitStateContext, LiveComponent, command
 from livecomponents.utils import LiveComponentsModel
-from project.coffee.models import CoffeeBean
 
 
 class TableState(LiveComponentsModel):

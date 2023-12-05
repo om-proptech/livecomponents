@@ -1,8 +1,8 @@
 from django.urls import path
 
-from project.coffee.views import index
+from modals.views import index
 
-app_name = "coffee"
+app_name = "modals"
 
 urlpatterns = [
     path("", index, name="index"),

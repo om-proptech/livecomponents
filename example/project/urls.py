@@ -1,9 +1,9 @@
 from django.urls import include, path
 
 urlpatterns = [
-    path("", include("project.counters.urls")),
-    path("coffee/", include("project.coffee.urls")),
+    path("", include("counters.urls")),
+    path("coffee/", include("coffee.urls")),
+    path("modals/", include("modals.urls")),
+    path("uploads/", include("uploads.urls")),
     path("livecomponents/", include("livecomponents.urls")),
-    path("modals/", include("project.modals.urls")),
-    path("uploads/", include("project.uploads.urls")),
 ]
