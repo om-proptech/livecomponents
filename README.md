@@ -132,7 +132,7 @@ urlpatterns = [
 There is a management command to create new component:
 
 ```bash
-./manage.py createlivecomponent <app_name> <ComponentClass>
+./manage.py createlivecomponent <app_name> <directory/component_name>
 ```
 
 The command with create a "components" subdirectory in the app directory and create a new component, consisting
