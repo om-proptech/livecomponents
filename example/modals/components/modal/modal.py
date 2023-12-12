@@ -14,7 +14,9 @@ class ModalState(BaseModel):
 class Modal(LiveComponent[ModalState]):
     template_name = "modal/modal.html"
 
-    def get_extra_context_data(self, state: ModalState) -> dict[str, Any]:
+    def get_extra_context_data(
+        self, state: ModalState, **component_kwargs
+    ) -> dict[str, Any]:
         return {}
 
     def init_state(self, context: InitStateContext, **component_kwargs) -> ModalState:

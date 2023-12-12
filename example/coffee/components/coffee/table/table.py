@@ -14,7 +14,7 @@ class TableState(LiveComponentsModel):
 class TableComponent(LiveComponent[TableState]):
     template_name = "coffee/table/table.html"
 
-    def get_extra_context_data(self, state: TableState):
+    def get_extra_context_data(self, state: TableState, **component_kwargs):
         if state.search:
             beans = CoffeeBean.objects.filter(
                 Q(name__icontains=state.search)
