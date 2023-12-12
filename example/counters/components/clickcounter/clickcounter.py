@@ -16,7 +16,9 @@ class ClickCounterState(BaseModel):
 class ClickCounter(LiveComponent[ClickCounterState]):
     template_name = "clickcounter/clickcounter.html"
 
-    def get_extra_context_data(self, state: ClickCounterState) -> dict[str, Any]:
+    def get_extra_context_data(
+        self, state: ClickCounterState, **component_kwargs
+    ) -> dict[str, Any]:
         return {"value_str": f"{state.value:,}"}
 
     def init_state(

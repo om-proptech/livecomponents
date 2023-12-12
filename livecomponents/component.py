@@ -75,7 +75,7 @@ class LiveComponent(component.Component, Generic[State], metaclass=LiveComponent
             component_kwargs,
         )
 
-        extra_context = self.get_extra_context_data(state)
+        extra_context = self.get_extra_context_data(state, **component_kwargs)
         context = {
             **component_kwargs,
             **state.model_dump(),
@@ -86,8 +86,25 @@ class LiveComponent(component.Component, Generic[State], metaclass=LiveComponent
         }
         return context
 
-    def get_extra_context_data(self, state: State):
-        """Optionally add additional context data to the component."""
+    def get_extra_context_data(self, state: State, **component_kwargs) -> dict:
+        """Optionally add additional context data to the component.
+
+        Override this method to add additional context data to the component.
+
+        Args:
+            state: The state of the component, that's been previously initialized
+                by `init_state`. The state is stored in Redis and is maintained
+                between re-renders of the component.
+            component_kwargs: The keyword arguments passed to the component in the
+                template tag. For example, if the component is rendered with
+                `{% component "mycomponent" foo="bar" %}`, then `component_kwargs`
+                will be `{"foo": "bar"}`. Remember that when the component is
+                re-rendered as a result of the command execution, no component
+                kwargs are passed.
+
+        Returns:
+            A dictionary with extra context to render the component template.
+        """
         return {}
 
     @abc.abstractmethod
