@@ -104,6 +104,7 @@ def component_attrs(component_id: str, swap_style="morph") -> str:
         "hx-swap-oob": (
             f"{swap_style}:[data-livecomponent-id='{css_escape(component_id)}']"
         ),
+        "key": component_id,
     }
     return flatatt(attrs)
 

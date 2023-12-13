@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## UNRELEASED
 
+- Added `key={component_id}` to the output of the `{% component_attrs %}` templatetag. The "key" attribute is used as a hint for Apline Morph to identify
+elements that need to be updated.
 - Modified get_extra_context_data() method to accept component_kwargs, allowing extra context population from parent components without storing in Redis. Note: This change is backward incompatible, altering the method signature to include **component_kwargs.
 
 ## 1.6.0 (2023-12-05)
