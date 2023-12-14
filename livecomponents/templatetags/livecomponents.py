@@ -27,7 +27,7 @@ from livecomponents.templatetags.utils import (
     render_save_context_vars,
 )
 from livecomponents.types import StateAddress
-from livecomponents.utils import find_component_id
+from livecomponents.utils import find_component_id, get_ancestor_id
 
 register = template.Library()
 
@@ -61,15 +61,7 @@ def component_ancestor(component_id_: str, ancestor_type: str) -> str:
     Will return the full ID of the table component, that is the ancestor of the given
     component (e.g., "|table:primary").
     """
-    chunks = component_id_.split(HIER_SEP)
-    while chunks:
-        chunk = chunks.pop()
-        if not chunk:
-            continue
-        type_, id_ = chunk.split(TYPE_SEP)
-        if type_ == ancestor_type:
-            return HIER_SEP.join(chunks + [chunk])
-    return ""
+    return get_ancestor_id(component_id_, ancestor_type) or ""
 
 
 @register.simple_tag(takes_context=True)

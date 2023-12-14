@@ -11,7 +11,7 @@ from livecomponents.manager.execution_results import ExecutionResults
 from livecomponents.manager.serializers import IStateSerializer
 from livecomponents.manager.stores import IStateStore
 from livecomponents.types import State, StateAddress
-from livecomponents.utils import LiveComponentsModel
+from livecomponents.utils import LiveComponentsModel, get_ancestor_id
 
 if TYPE_CHECKING:
     from livecomponents.component import LiveComponent
@@ -35,10 +35,18 @@ class CallContext(LiveComponentsModel, Generic[State]):
     execution_results: ExecutionResults = Field(default_factory=ExecutionResults)
 
     def find_one(self, component_id: str) -> "CallContext":
+        """Find a component by its ID."""
         state = self.state_manager.get_component_state(
             self.state_address.model_copy(update={"component_id": component_id})
         )
         return self.model_copy(update={"component_id": component_id, "state": state})
+
+    def find_ancestor(self, ancestor_type: str) -> "CallContext":
+        """Find the closest ancestor of the given type."""
+        ancestor_id = get_ancestor_id(self.state_address.component_id, ancestor_type)
+        if ancestor_id is None:
+            raise ValueError(f"Ancestor {ancestor_type} not found")
+        return self.find_one(ancestor_id)
 
     @property
     def parent(self) -> "CallContext":

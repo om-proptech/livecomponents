@@ -65,3 +65,24 @@ class LiveComponentsPath:
     @property
     def stem(self) -> str:
         return self.name.split(TYPE_SEP)[0]
+
+
+def get_ancestor_id(component_id: str, ancestor_type: str) -> str | None:
+    """Return the ID of the closest ancestor component of the given type.
+
+    For example:
+
+    {% component_ancestor component_id "table" %}
+
+    Will return the full ID of the table component, that is the ancestor of the given
+    component (e.g., "|table:primary").
+    """
+    chunks = component_id.split(HIER_SEP)
+    while chunks:
+        chunk = chunks.pop()
+        if not chunk:
+            continue
+        type_, id_ = chunk.split(TYPE_SEP)
+        if type_ == ancestor_type:
+            return HIER_SEP.join(chunks + [chunk])
+    return None
