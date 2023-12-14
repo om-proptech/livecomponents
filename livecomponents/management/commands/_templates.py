@@ -33,8 +33,8 @@ class {class_name}Component(LiveComponent[{class_name}State]):
                 between re-renders of the component.
             component_kwargs: The keyword arguments passed to the component in the
                 template tag. For example, if the component is rendered with
-                `{% component "mycomponent" foo="bar" %}`, then `component_kwargs`
-                will be `{"foo": "bar"}`. Remember that when the component is
+                `{{% component "mycomponent" foo="bar" %}}`, then `component_kwargs`
+                will be `{{"foo": "bar"}}`. Remember that when the component is
                 re-rendered as a result of the command execution, no component
                 kwargs are passed.
 
