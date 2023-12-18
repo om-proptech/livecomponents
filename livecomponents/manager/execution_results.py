@@ -12,7 +12,17 @@ class IExecutionResult(abc.ABC):
 
 
 class ComponentDirty(IExecutionResult):
+    def __init__(self, component_id: str | None = None):
+        """Mark the component as dirty.
+
+        If component_id is None, the current component is marked as dirty. Otherwise,
+        use the component_id to mark another component as dirty.
+        """
+        self.component_id = component_id
+
     def process(self, state_address: StateAddress, results: "ExecutionResults") -> None:
+        if self.component_id is not None:
+            state_address = state_address.with_component_id(self.component_id)
         results.dirty_components.add(state_address)
 
 

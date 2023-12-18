@@ -237,7 +237,8 @@ partial HTTP response.
 More specifically here's what you can do:
 
 - Return ComponentDirty() to mark the component as dirty. This will result in the component being re-rendered and sent to the client. This is the default behavior. If you don't return anything, the component will be marked as dirty.
-- Return ComponentClean() to mark the component as clean (not needing re-rendering).
+- Return ComponentDirty(component_id) to mark a different component as dirty.
+- Return ComponentClean() to mark the current component as clean (not needing re-rendering).
 - Return ParentDirty() to mark the parent component as dirty.
 - Return RefreshPage(). If at least one component returns RefreshPage(), a "HX-Refresh: true" header will be sent to the client.
 - Return Redirect(url). If at least one component returns Redirect(), a "HX-Redirect: url" header will be sent to the client.
