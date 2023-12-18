@@ -169,6 +169,7 @@ Assuming that the component will be re-rendered on partial render, the state mus
 ```python
 from pydantic import BaseModel
 from livecomponents.component import LiveComponent
+from livecomponents.manager.manager import InitStateContext
 
 class AlertState(BaseModel):
     message: str = ""
@@ -179,19 +180,42 @@ class Alert(LiveComponent):
     template_name = "alert.html"
 
 
-    def init_state(self, **component_kwargs) -> AlertState:
-        return AlertState(**component_kwargs)
+    def init_state(self, context: InitStateContext) -> AlertState:
+        return AlertState(**context.component_kwargs)
 ```
 
 Component states don't need to be stored if components are not expected to be re-rendered independently, and only
 as part of the parent component. For example, components for buttons are rarely re-rendered independently, so
 you get away without the state model.
 
-## On calling component methods from others
 
-There are two ways to call component methods from other components:
+## Stateless components
 
-Using the component ID. For example, if you have a component with ID "|message.0" and a method "set_message", you can call it like this:
+If the component doesn't store any state, you can inherit it from the StatelessLiveComponent class. You may find it
+helpful for rendering the hierarchy of components where the shared state is stored in the root components.
+
+```python
+from livecomponents.component import StatelessLiveComponent
+
+class StatelessAlert(StatelessLiveComponent):
+
+    template_name = "alert.html"
+
+    def get_extra_context_data(
+        self, extra_context_request: "ExtraContextRequest[State]"
+    ) -> dict:
+        state_manager = extra_context_request.state_manager
+        root_addr = extra_context_request.state_addr.must_find_ancestor("root")
+        root_state = state_manager.get_component_state(root_addr)
+        return {"message": root_state.message}
+```
+
+
+## Calling component methods from others
+
+There are several ways to call component methods from other components:
+
+**Using the component ID.** For example, if you have a component with ID "|message.0" and a method "set_message", you can call it like this:
 
 ```python
 from livecomponents import LiveComponent, command, CallContext
@@ -203,7 +227,7 @@ class MyComponent(LiveComponent):
         call_context.find_one("|message:0").set_message("Hello, world!")
 ```
 
-Using the "parent" reference.
+**Using the "parent" reference.**
 
 ```python
 from livecomponents import LiveComponent, command, CallContext
@@ -385,9 +409,9 @@ class SampleState(BaseModel):
 class Sample(LiveComponent):
     ...
 
-    def init_state(self, context: InitStateContext, **component_kwargs) -> SampleState:
+    def init_state(self, context: InitStateContext) -> SampleState:
         var = context.outer_context.get("var", "unset")
-        effective_kwargs = {**component_kwargs, "var": var}
+        effective_kwargs = {**context.component_kwargs, "var": var}
         return SampleState(**effective_kwargs)
 ```
 

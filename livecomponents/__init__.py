@@ -1,14 +1,23 @@
-from livecomponents.component import LiveComponent, command
+from livecomponents.component import (
+    ExtraContextRequest,
+    LiveComponent,
+    StatelessLiveComponent,
+    command,
+)
 from livecomponents.manager.manager import (
     CallContext,
     InitStateContext,
     UpdateStateContext,
 )
+from livecomponents.utils import LiveComponentsModel
 
 __all__ = [
-    "LiveComponent",
     "command",
     "CallContext",
     "InitStateContext",
     "UpdateStateContext",
+    "ExtraContextRequest",
+    "LiveComponent",
+    "LiveComponentsModel",
+    "StatelessLiveComponent",
 ]

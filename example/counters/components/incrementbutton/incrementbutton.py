@@ -13,10 +13,8 @@ class IncrementButtonState(BaseModel):
 class IncrementButton(LiveComponent[IncrementButtonState]):
     template_name = "incrementbutton/incrementbutton.html"
 
-    def init_state(
-        self, context: InitStateContext, **component_kwargs
-    ) -> IncrementButtonState:
-        return IncrementButtonState(**component_kwargs)
+    def init_state(self, context: InitStateContext) -> IncrementButtonState:
+        return IncrementButtonState(**context.component_kwargs)
 
     @command
     def increment_parent_counter(

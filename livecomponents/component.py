@@ -1,14 +1,15 @@
 import abc
 from collections.abc import Callable
-from typing import Generic
+from typing import Any, Generic
 
+from django.http import HttpRequest
 from django_components import component
 from django_components.component import SimplifiedInterfaceMediaDefiningClass
 
-from livecomponents.manager import get_state_manager
+from livecomponents.manager import StateManager, get_state_manager
 from livecomponents.manager.manager import InitStateContext, UpdateStateContext
 from livecomponents.types import State, StateAddress
-from livecomponents.utils import find_component_id
+from livecomponents.utils import LiveComponentsModel, find_component_id
 
 DEFAULT_OWN_ID = "0"
 DEFAULT_PARENT_ID = ""
@@ -75,7 +76,14 @@ class LiveComponent(component.Component, Generic[State], metaclass=LiveComponent
             component_kwargs,
         )
 
-        extra_context = self.get_extra_context_data(state, **component_kwargs)
+        extra_context_request: ExtraContextRequest[State] = ExtraContextRequest(
+            request=request,
+            state=state,
+            state_manager=state_manager,
+            state_addr=state_addr,
+            component_kwargs=component_kwargs,
+        )
+        extra_context = self.get_extra_context_data(extra_context_request)
         context = {
             **component_kwargs,
             **state.model_dump(),
@@ -86,32 +94,39 @@ class LiveComponent(component.Component, Generic[State], metaclass=LiveComponent
         }
         return context
 
-    def get_extra_context_data(self, state: State, **component_kwargs) -> dict:
+    def get_extra_context_data(
+        self, extra_context_request: "ExtraContextRequest[State]"
+    ) -> dict:
         """Optionally add additional context data to the component.
 
         Override this method to add additional context data to the component.
 
-        Args:
-            state: The state of the component, that's been previously initialized
-                by `init_state`. The state is stored in Redis and is maintained
-                between re-renders of the component.
-            component_kwargs: The keyword arguments passed to the component in the
-                template tag. For example, if the component is rendered with
-                `{% component "mycomponent" foo="bar" %}`, then `component_kwargs`
-                will be `{"foo": "bar"}`. Remember that when the component is
-                re-rendered as a result of the command execution, no component
-                kwargs are passed.
+        Extra context request is a dataclass that contains enough information to
+        calculate the extra context data. It contains the following fields:
 
-        Returns:
-            A dictionary with extra context to render the component template.
+        - request: The current request.
+        - state: The state of the component that's been previously initialized by
+            `init_state`. The state is stored in Redis and is maintained between
+            re-renders of the component.
+        - state_manager: The state manager. You can use the manager to get the state
+            of other components.
+        - state_addr: The state address of the component. You can use
+            state_addr.with_component_id() to get the state address of other
+            components.
+        - component_kwargs: The keyword arguments passed to the component in the
+            template tag. For example, if the component is rendered with
+            `{% component "mycomponent" foo="bar" %}`, then `component_kwargs`
+            will be `{"foo": "bar"}`. Remember that when the component is
+            re-rendered as a result of the command execution, no component
+            kwargs are passed.
         """
         return {}
 
     @abc.abstractmethod
-    def init_state(self, context: InitStateContext, **component_kwargs) -> State:
+    def init_state(self, context: InitStateContext) -> State:
         ...
 
-    def update_state(self, context: UpdateStateContext, **kwargs) -> None:
+    def update_state(self, context: UpdateStateContext) -> None:
         """Update in-place the state of this component if necessary during a re-render.
 
         This method is invoked in two scenarios:
@@ -138,3 +153,30 @@ class LiveComponent(component.Component, Generic[State], metaclass=LiveComponent
                     context.state.title = kwargs["title"]
         """
         pass
+
+
+class StatelessModel(LiveComponentsModel):
+    pass
+
+
+class StatelessLiveComponent(LiveComponent[StatelessModel]):
+    """A stateless subclass of LiveComponent.
+
+    Technically, it still stores the state in Redis, but the state is always
+    initialized to an empty model.
+
+    Usually, the state is stored outside the component, e.g. in the parent
+    component, and can be addressed from get_extra_context_data() where
+    extra_context_request contains the state_manager and state_addr.
+    """
+
+    def init_state(self, context: InitStateContext) -> StatelessModel:
+        return StatelessModel()
+
+
+class ExtraContextRequest(LiveComponentsModel, Generic[State]):
+    request: HttpRequest
+    state: State
+    state_manager: StateManager
+    state_addr: StateAddress
+    component_kwargs: dict[str, Any]

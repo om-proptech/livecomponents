@@ -123,7 +123,7 @@ class StateManager:
                 component_kwargs=component_kwargs,
                 outer_context=outer_context,
             )
-            update_state(update_state_context, **component_kwargs)
+            update_state(update_state_context)
             self.set_component_state(state_addr, state)
             return state
 
@@ -134,7 +134,7 @@ class StateManager:
             component_kwargs=component_kwargs,
             outer_context=outer_context,
         )
-        state = init_state(init_state_context, **component_kwargs)
+        state = init_state(init_state_context)
         self.set_component_state(state_addr, state)
         return state
 

@@ -30,8 +30,8 @@ class BeanForm(ModelForm):
 class RowComponent(LiveComponent[RowState]):
     template_name = "coffee/row/row.html"
 
-    def init_state(self, context: InitStateContext, **component_kwargs) -> RowState:
-        return RowState(**component_kwargs)
+    def init_state(self, context: InitStateContext) -> RowState:
+        return RowState(**context.component_kwargs)
 
     @command
     def edit_on(self, call_context: CallContext[RowState]):
