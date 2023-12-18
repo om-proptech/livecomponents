@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## UNRELEASED
 
-- Added "find_ancestor(ancestor_type)" method to CallContext.
+- Added "find_ancestor(ancestor_type)" method to StateAddress and CallContext.
 
 ## 1.7.0 (2023-12-13)
 
