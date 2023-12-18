@@ -11,6 +11,10 @@ class StateAddress(BaseModel):
     session_id: str
     component_id: str
 
+    def with_component_id(self, component_id: str) -> "StateAddress":
+        """Return a new StateAddress with the given component_id."""
+        return StateAddress(session_id=self.session_id, component_id=component_id)
+
     def find_ancestor(self, ancestor_type: str) -> "StateAddress | None":
         """Find the closest ancestor of the given type."""
         ancestor_component_id = get_ancestor_id(self.component_id, ancestor_type)
