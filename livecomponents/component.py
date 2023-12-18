@@ -65,8 +65,8 @@ class LiveComponent(component.Component, Generic[State], metaclass=LiveComponent
             session_id=session_id,
             component_id=component_id,
         )
-        state_store = get_state_manager()
-        state = state_store.get_or_create_component_state(
+        state_manager = get_state_manager()
+        state = state_manager.get_or_create_component_state(
             request,
             state_addr,
             self.init_state,
