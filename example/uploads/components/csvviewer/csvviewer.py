@@ -27,10 +27,8 @@ class CsvViewerState(BaseModel):
 class CsvViewer(LiveComponent[CsvViewerState]):
     template_name = "csvviewer/csvviewer.html"
 
-    def init_state(
-        self, context: InitStateContext, **component_kwargs
-    ) -> CsvViewerState:
-        return CsvViewerState(**component_kwargs)
+    def init_state(self, context: InitStateContext) -> CsvViewerState:
+        return CsvViewerState(**context.component_kwargs)
 
     @command
     def upload_file(self, call_context: CallContext[CsvViewerState], delimiter: str):
