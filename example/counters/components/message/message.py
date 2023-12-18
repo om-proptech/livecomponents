@@ -14,13 +14,13 @@ class MessageState(BaseModel):
 class MessageComponent(LiveComponent[MessageState]):
     template_name = "message/message.html"
 
-    def init_state(self, context: InitStateContext, **component_kwargs) -> MessageState:
+    def init_state(self, context: InitStateContext) -> MessageState:
         initialized_from = context.request.META["REMOTE_ADDR"]
 
         if context.request.GET.get("forbidden"):
             raise PermissionDenied()
 
-        return MessageState(initialized_from=initialized_from, **component_kwargs)
+        return MessageState(initialized_from=initialized_from)
 
     @command
     def set_message(self, call_context: CallContext, message: str):

@@ -2,8 +2,14 @@ from django.db.models import Q
 from django_components import component
 
 from coffee.models import CoffeeBean
-from livecomponents import CallContext, InitStateContext, LiveComponent, command
-from livecomponents.utils import LiveComponentsModel
+from livecomponents import (
+    CallContext,
+    ExtraContextRequest,
+    InitStateContext,
+    LiveComponent,
+    LiveComponentsModel,
+    command,
+)
 
 
 class TableState(LiveComponentsModel):
@@ -14,7 +20,10 @@ class TableState(LiveComponentsModel):
 class TableComponent(LiveComponent[TableState]):
     template_name = "coffee/table/table.html"
 
-    def get_extra_context_data(self, state: TableState, **component_kwargs):
+    def get_extra_context_data(
+        self, extra_context_request: ExtraContextRequest[TableState]
+    ):
+        state = extra_context_request.state
         if state.search:
             beans = CoffeeBean.objects.filter(
                 Q(name__icontains=state.search)
@@ -26,8 +35,8 @@ class TableComponent(LiveComponent[TableState]):
             beans = CoffeeBean.objects.all()
         return {"beans": beans}
 
-    def init_state(self, context: InitStateContext, **component_kwargs) -> TableState:
-        return TableState(**component_kwargs)
+    def init_state(self, context: InitStateContext) -> TableState:
+        return TableState(**context.component_kwargs)
 
     @command
     def update_search(self, call_context: CallContext[TableState], search: str):
