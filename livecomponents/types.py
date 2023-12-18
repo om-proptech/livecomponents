@@ -4,7 +4,7 @@ from pydantic import BaseModel, ConfigDict
 
 from livecomponents.utils import LiveComponentsPath, get_ancestor_id
 
-State = TypeVar("State")
+State = TypeVar("State", bound=BaseModel)
 
 
 class StateAddress(BaseModel):
