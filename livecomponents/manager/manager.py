@@ -11,7 +11,7 @@ from livecomponents.manager.execution_results import ExecutionResults
 from livecomponents.manager.serializers import IStateSerializer
 from livecomponents.manager.stores import IStateStore
 from livecomponents.types import State, StateAddress
-from livecomponents.utils import LiveComponentsModel, get_ancestor_id
+from livecomponents.utils import LiveComponentsModel
 
 if TYPE_CHECKING:
     from livecomponents.component import LiveComponent
@@ -43,10 +43,11 @@ class CallContext(LiveComponentsModel, Generic[State]):
 
     def find_ancestor(self, ancestor_type: str) -> "CallContext":
         """Find the closest ancestor of the given type."""
-        ancestor_id = get_ancestor_id(self.state_address.component_id, ancestor_type)
-        if ancestor_id is None:
-            raise ValueError(f"Ancestor {ancestor_type} not found")
-        return self.find_one(ancestor_id)
+        ancestor = self.state_address.must_find_ancestor(ancestor_type)
+        ancestor_state = self.state_manager.get_component_state(ancestor)
+        return self.model_copy(
+            update={"component_id": ancestor.component_id, "state": ancestor_state}
+        )
 
     @property
     def parent(self) -> "CallContext":
@@ -69,6 +70,7 @@ class CallContext(LiveComponentsModel, Generic[State]):
 class InitStateContext(LiveComponentsModel):
     request: HttpRequest
     state_addr: StateAddress
+    state_manager: "StateManager"
     component_kwargs: dict[str, Any]
     outer_context: Context = Field(default_factory=Context)
 
@@ -76,6 +78,7 @@ class InitStateContext(LiveComponentsModel):
 class UpdateStateContext(LiveComponentsModel, Generic[State]):
     request: HttpRequest
     state_addr: StateAddress
+    state_manager: "StateManager"
     component_kwargs: dict[str, Any]
     outer_context: Context = Field(default_factory=Context)
     state: State
@@ -116,6 +119,7 @@ class StateManager:
                 request=request,
                 state=state,
                 state_addr=state_addr,
+                state_manager=self,
                 component_kwargs=component_kwargs,
                 outer_context=outer_context,
             )
@@ -126,6 +130,7 @@ class StateManager:
         init_state_context = InitStateContext(
             request=request,
             state_addr=state_addr,
+            state_manager=self,
             component_kwargs=component_kwargs,
             outer_context=outer_context,
         )
@@ -185,7 +190,7 @@ class StateManager:
     def get_component_class(self, component_name: str) -> type["LiveComponent"]:
         return registry.get(component_name)
 
-    def call_component_method(
+    def call_component_command(
         self,
         request: HttpRequest,
         state_addr: StateAddress,

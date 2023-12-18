@@ -23,7 +23,7 @@ def call_command(request: HttpRequest):
         )
         return HttpResponse("Session does not exist. It may have expired", status=410)
 
-    call_context = state_manager.call_component_method(
+    call_context = state_manager.call_component_command(
         request,
         args.get_state_address(),
         args.command_name,
