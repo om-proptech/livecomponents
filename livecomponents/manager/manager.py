@@ -200,7 +200,9 @@ class StateManager:
         component_cls = self.get_component_class(state_addr.get_component_name())
         component_instance = component_cls()
 
-        state = self.get_component_state(state_addr)
+        # Delegate fetching the state to the component instance because it may
+        # want to decide not to fetch the state from Redis.
+        state = component_instance.get_state(self, state_addr)
         if state is None:
             raise ValueError(f"Component state not found: {state_addr}")
 

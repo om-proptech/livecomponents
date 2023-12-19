@@ -45,6 +45,33 @@ class LiveComponent(component.Component, Generic[State], metaclass=LiveComponent
             )
         return command_func
 
+    def get_state(
+        self, state_manager: StateManager, state_addr: StateAddress
+    ) -> State | None:
+        """Get the state of this component."""
+        return state_manager.get_component_state(state_addr)
+
+    def get_or_create_state(
+        self,
+        state_manager: StateManager,
+        state_addr: StateAddress,
+        request: HttpRequest,
+        component_kwargs: dict[str, Any],
+    ) -> State:
+        """Internal function to get or create the state of this component.
+
+        We used it to override the function for the stateless component
+        where we don't need to store the state in Redis.
+        """
+        return state_manager.get_or_create_component_state(
+            request,
+            state_addr,
+            self.init_state,
+            self.update_state,
+            self.outer_context,
+            component_kwargs,
+        )
+
     def get_context_data(
         self,
         own_id: str = DEFAULT_OWN_ID,
@@ -67,15 +94,9 @@ class LiveComponent(component.Component, Generic[State], metaclass=LiveComponent
             component_id=component_id,
         )
         state_manager = get_state_manager()
-        state = state_manager.get_or_create_component_state(
-            request,
-            state_addr,
-            self.init_state,
-            self.update_state,
-            self.outer_context,
-            component_kwargs,
+        state = self.get_or_create_state(
+            state_manager, state_addr, request, component_kwargs
         )
-
         extra_context_request: ExtraContextRequest[State] = ExtraContextRequest(
             request=request,
             state=state,
@@ -169,6 +190,20 @@ class StatelessLiveComponent(LiveComponent[StatelessModel]):
     component, and can be addressed from get_extra_context_data() where
     extra_context_request contains the state_manager and state_addr.
     """
+
+    def get_state(
+        self, state_manager: StateManager, state_addr: StateAddress
+    ) -> StatelessModel | None:
+        return StatelessModel()
+
+    def get_or_create_state(
+        self,
+        state_manager: StateManager,
+        state_addr: StateAddress,
+        request: HttpRequest,
+        component_kwargs: dict[str, Any],
+    ) -> StatelessModel:
+        return StatelessModel()
 
     def init_state(self, context: InitStateContext) -> StatelessModel:
         return StatelessModel()
