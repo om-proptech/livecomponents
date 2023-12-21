@@ -49,6 +49,19 @@ class RedirectPage(IExecutionResult):
         results.response_headers["HX-Redirect"] = self.url
 
 
+class ReplaceUrl(IExecutionResult):
+    """Make it possible to replace the current URL in the browser.
+
+    See https://htmx.org/headers/hx-replace-url/.
+    """
+
+    def __init__(self, url: str):
+        self.url = url
+
+    def process(self, state_address: StateAddress, results: "ExecutionResults") -> None:
+        results.response_headers["HX-Replace-Url"] = self.url
+
+
 class ExecutionResults(BaseModel):
     dirty_components: set[StateAddress] = Field(default_factory=set)
     response_headers: dict[str, str] = Field(default_factory=dict)

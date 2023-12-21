@@ -264,8 +264,9 @@ More specifically here's what you can do:
 - Return ComponentDirty(component_id) to mark a different component as dirty.
 - Return ComponentClean() to mark the current component as clean (not needing re-rendering).
 - Return ParentDirty() to mark the parent component as dirty.
-- Return RefreshPage(). If at least one component returns RefreshPage(), a "HX-Refresh: true" header will be sent to the client.
-- Return Redirect(url). If at least one component returns Redirect(), a "HX-Redirect: url" header will be sent to the client.
+- Return RefreshPage(). If the command returns RefreshPage(), a "HX-Refresh: true" header will be sent to the client.
+- Return RedirectPage(url). If the command returns Redirect(), a "HX-Redirect: url" header will be sent to the client.
+- Return ReplaceUrl(url). If the command returns ReplaceUrl(), a "HX-Replace: url" header will be sent to the client. This will replace the current URL in the browser without reloading the page.
 
 
 ## Configuration

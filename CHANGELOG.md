@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## UNRELEASED
 
+- Added ReplaceUrl execution result. This result is used to replace the current URL in the browser as a result of a command execution.
 - Improved support for stateless live components. They don't store mock state objects in Redis anymore.
 
 ## 1.8.0 (2023-12-18)
