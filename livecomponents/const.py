@@ -8,3 +8,4 @@
 #   components that have "/" in their names. See "coffee/row" for example.
 HIER_SEP = "|"
 TYPE_SEP = ":"
+DEFAULT_OWN_ID = "0"

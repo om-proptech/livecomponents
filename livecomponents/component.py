@@ -6,12 +6,12 @@ from django.http import HttpRequest
 from django_components import component
 from django_components.component import SimplifiedInterfaceMediaDefiningClass
 
+from livecomponents.const import DEFAULT_OWN_ID
 from livecomponents.manager import StateManager, get_state_manager
 from livecomponents.manager.manager import InitStateContext, UpdateStateContext
 from livecomponents.types import State, StateAddress
 from livecomponents.utils import LiveComponentsModel, find_component_id
 
-DEFAULT_OWN_ID = "0"
 DEFAULT_PARENT_ID = ""
 
 COMMAND_MARKER = "__livecomponents_command__"

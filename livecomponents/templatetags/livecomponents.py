@@ -19,7 +19,7 @@ from django_components.templatetags.component_tags import (
     try_parse_as_named_fill_tag_set,
 )
 
-from livecomponents.const import HIER_SEP, TYPE_SEP
+from livecomponents.const import DEFAULT_OWN_ID, HIER_SEP, TYPE_SEP
 from livecomponents.sessions import get_session_id
 from livecomponents.templatetags.utils import (
     capture_used_tokens,
@@ -253,8 +253,6 @@ class LiveComponentNode(ComponentNode):
             return context
 
     def get_state_addr(self, context: Context):
-        from livecomponents.component import DEFAULT_OWN_ID
-
         # Context kwargs are the keyword arguments, passed to the component itself.
         # They can contain variables, that will be resolved against the parent context.
         resolved_component_name = self.name_fexp.resolve(context)
