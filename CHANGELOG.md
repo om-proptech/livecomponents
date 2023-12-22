@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## UNRELEASED
+## 1.9.0 (2023-12-22)
 
 - Added ComponentId, which is a str subclass that can be used to create child component IDs from a parent component ID using the "|" separator.
 - Added ReplaceUrl execution result. This result is used to replace the current URL in the browser as a result of a command execution.
