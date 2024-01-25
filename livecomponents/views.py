@@ -4,6 +4,7 @@ from typing import Any
 from django.http import HttpRequest, HttpResponse
 from django.template import RequestContext, Template
 
+from livecomponents.exceptions import CancelRendering
 from livecomponents.logging import logger
 from livecomponents.manager import get_state_manager
 from livecomponents.manager.manager import CallContext
@@ -41,10 +42,10 @@ def call_command(request: HttpRequest):
     dirty_components = deduplicate_dirty_components(
         call_context.execution_results.dirty_components
     )
-    rendered_components = [
-        re_render_component(call_context, component_address)
-        for component_address in dirty_components
-    ]
+    rendered_components = re_render_components(
+        component_addresses=dirty_components,
+        call_context=call_context,
+    )
     return HttpResponse("\n".join(rendered_components), headers=headers)
 
 
@@ -82,6 +83,27 @@ def deduplicate_dirty_components(dirty_components: set[StateAddress]):
         ):
             deduplicated.add(component_address)
     return deduplicated
+
+
+def re_render_components(
+    component_addresses: set[StateAddress], call_context: CallContext
+) -> list[str]:
+    """Re-render components and return their HTML.
+
+    If any of the components raises an CancelRendering() exception, then
+    this component rendering is cancelled and an empty string is returned
+    instead of the HTML for this component.
+    """
+    ret: list[str] = []
+    for component_address in component_addresses:
+        try:
+            ret.append(re_render_component(call_context, component_address))
+        except CancelRendering:
+            logger.warning(
+                "Component %s cancelled rendering", component_address.component_id
+            )
+            ret.append("")
+    return ret
 
 
 def re_render_component(call_context: CallContext, state_address: StateAddress) -> str:

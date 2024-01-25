@@ -279,6 +279,28 @@ More specifically here's what you can do:
 - Return RedirectPage(url). If the command returns Redirect(), a "HX-Redirect: url" header will be sent to the client.
 - Return ReplaceUrl(url). If the command returns ReplaceUrl(), a "HX-Replace: url" header will be sent to the client. This will replace the current URL in the browser without reloading the page.
 
+## Raising exceptions from command handlers
+
+In some rare scenarios, you may need to cancel rendering the component and instruct the command handler to return an empty string to the client.
+
+If this is the case, you can raise a `livecomponents.exceptions.CancelRendering()` exception.
+
+The exception can be raised directly from a command handler or from one of the methods that it will call, such as `get_extra_context_data()`.
+
+```python
+from livecomponents.exceptions import CancelRendering
+...
+
+class MyComponent(LiveComponent):
+
+    @command
+    def my_command_handler(self, call_context: CallContext, **kwargs):
+        if not self.pre_condition_met(call_context):
+            raise CancelRendering()
+        ...
+```
+
+We encountered this situation at least once, where a race condition caused the pre-condition that was true when we started executing a command to no longer be true when we rendered a sub-component. In this case, we couldn't render the sub-component but also didn't want to return a partially rendered component. The best solution was to return an empty string, effectively making the command have no effect.
 
 ## Configuration
 
