@@ -106,7 +106,26 @@ class MemoryStateStore(IStateStore):
 
 
 class RedisStateStore(IStateStore):
-    """Redis-based state store."""
+    """Redis-based state store.
+
+    Args:
+        redis_url: URL of the Redis server.
+        state_prefix: Prefix for keys that store component states.
+        context_prefix: Prefix for keys that store component contexts.
+        templates_prefix: Prefix for keys that store component templates.
+        template_cache_prefix: Prefix for keys that store cached component templates.
+        ttl: Time-to-live for session keys. Each time the session is accessed, the TTL
+            is reset. If the session is not accessed for this time, it is deleted, and
+            subsequent accesses will result in a "Session not found" error and a 410
+            status code in the response. How this status is handled is up to the
+            client. There is no default behavior, but the client can choose to reload
+            the page, for example.
+        ttl_gc: Time-to-live for garbage collection. This TTL is lower than the session
+            TTL, and it's set for sessions scheduled for deletion in response to
+            a "clear_session" call. We don't delete the session immediately in case the
+            client decides to access the page again when clicking the back button,
+            for example.
+    """
 
     def __init__(
         self,
@@ -116,6 +135,7 @@ class RedisStateStore(IStateStore):
         templates_prefix: str = "lc:templates:",
         template_cache_prefix: str = "lc:template_cache:",
         ttl: datetime.timedelta = datetime.timedelta(days=1),
+        ttl_gc: datetime.timedelta = datetime.timedelta(hours=1),
     ):
         self.client = Redis.from_url(redis_url)  # type: ignore
         self.key_prefix = state_prefix
@@ -123,6 +143,7 @@ class RedisStateStore(IStateStore):
         self.templates_prefix = templates_prefix
         self.template_cache_prefix = template_cache_prefix
         self.ttl = ttl
+        self.ttl_gc = ttl_gc
 
     def session_exists(self, session_id: str) -> bool:
         key_name = self._get_key_name(self.key_prefix, session_id)
@@ -195,8 +216,11 @@ class RedisStateStore(IStateStore):
 
     def clear_session(self, session_id: str) -> None:
         with self.client.pipeline() as pipe:
-            pipe.delete(self._get_key_name(self.key_prefix, session_id))
-            pipe.delete(self._get_key_name(self.templates_prefix, session_id))
+            # Instead of deleting the keys, we set a TTL for garbage collection.
+            pipe.expire(self._get_key_name(self.key_prefix, session_id), self.ttl_gc)
+            pipe.expire(
+                self._get_key_name(self.templates_prefix, session_id), self.ttl_gc
+            )
             pipe.execute()
 
     def clear_all_sessions(self) -> None:
