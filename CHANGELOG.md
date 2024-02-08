@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## UNRELEASED
+## 1.11.0 (2024-02-08)
 
 - Kept sessions marked as deleted for an hour before purging them from the Redis store. This change is to allow the client to recover from a session deletion when the user navigates back to the page.
 
