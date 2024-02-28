@@ -1,0 +1,17 @@
+{% load livecomponents %}
+<div {% component_attrs component_id %}>
+  {% if user_registered %}
+    <article>
+      <h2>Thank you for registering!</h2>
+      <p>You are now registered and can log in.</p>
+      <p><a hx-post="{% call_command component_id "try_again" %}">Try again</a></p>
+    </article>
+  {% else %}
+    <form hx-post="{% call_command component_id "register" %}">
+      <table>
+        {{ form.as_table }}
+      </table>
+      <button type="submit">Register</button>
+    </form>
+  {% endif %}
+</div>
