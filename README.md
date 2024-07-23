@@ -158,7 +158,7 @@ Or like this, with explicitly setting the child own_id:
 
     state_address.component_id | ("child_component", "child_own_id")
 
-## On component states
+## Component State
 
 
 The state is defined in a separate class. The state must include parameters, passed to the component as keyword arguments, so that the component gets all necessary information to re-render itself on partial render.
@@ -198,6 +198,23 @@ class Alert(LiveComponent):
 Component states don't need to be stored if components are not expected to be re-rendered independently, and only
 as part of the parent component. For example, components for buttons are rarely re-rendered independently, so
 you get away without the state model.
+
+## Serializing Component State
+
+When the page is rendered for the first time, a new session is created, and each component is initialized with its
+state by calling the `init_state()` method.
+
+The state is then serialized and stored in the session store, and as long as the session is the same (in other words,
+while the page is not loaded), the state is reused.
+
+The state is serialized using the `StateSerializer` class and saved in Redis. By default, the `PickleStateSerializer`
+is used. The serializer uses custom pickler and is optimized to store effectively the most common types of data, used
+in a Django app. More specifically:
+
+- When serializing a Django model, only the model's name and primary key are stored. The serializer takes advantage of
+  the persistent_id/persistent_load pickle mechanism.
+- When serializing a Pydantic model, only the model's name and the values of the fields are stored.
+- When serializing a Django form, only the form's class name, as well as initial data and data, are stored.
 
 
 ## Stateless components
