@@ -1,11 +1,8 @@
-from typing import Any
-
 from django import forms
 from django_components import component
 
 from livecomponents import (
     CallContext,
-    ExtraContextRequest,
     InitStateContext,
     LiveComponent,
     LiveComponentsModel,
@@ -14,7 +11,7 @@ from livecomponents import (
 
 
 class RegistrationForm(forms.Form):
-    email = forms.CharField(initial="user@example.com")
+    email = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput())
     password_confirm = forms.CharField(widget=forms.PasswordInput())
 
@@ -53,24 +50,17 @@ class RegistrationFormState(LiveComponentsModel):
     """
 
     user_registered: bool = False
-    form_data: dict | None = None
+    form: RegistrationForm
 
 
 @component.register("registration_form")
 class RegistrationFormComponent(LiveComponent[RegistrationFormState]):
     template_name = "registration_form/registration_form.html"
 
-    def get_extra_context_data(
-        self, extra_context_request: ExtraContextRequest[RegistrationFormState]
-    ) -> dict[str, Any]:
-        """Return extra context to render the component template."""
-        form_data = extra_context_request.state.form_data
-        return {
-            "form": RegistrationForm(data=form_data),
-        }
-
     def init_state(self, context: InitStateContext) -> RegistrationFormState:
-        return RegistrationFormState()
+        return RegistrationFormState(
+            form=RegistrationForm(initial=context.component_kwargs)
+        )
 
     @command
     def register(
@@ -78,15 +68,13 @@ class RegistrationFormComponent(LiveComponent[RegistrationFormState]):
         call_context: CallContext[RegistrationFormState],
         **form_data: dict,
     ):
-        form = RegistrationForm(data=form_data)
-        if form.is_valid():
+        call_context.state.form = RegistrationForm(data=form_data)
+        if call_context.state.form.is_valid():
             call_context.state.user_registered = True
-            call_context.state.form_data = None
         else:
             call_context.state.user_registered = False
-            call_context.state.form_data = dict(form_data)
 
     @command
     def try_again(self, call_context: CallContext[RegistrationFormState]):
         call_context.state.user_registered = False
-        call_context.state.form_data = None
+        call_context.state.form = RegistrationForm()
