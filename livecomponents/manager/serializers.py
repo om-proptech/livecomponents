@@ -6,7 +6,7 @@ from typing import Any
 
 from django.apps import apps
 from django.db.models import Model
-from django.forms import Form
+from django.forms import BaseForm
 from django.forms.renderers import DjangoTemplates
 from pydantic import BaseModel
 
@@ -52,7 +52,7 @@ class LivecomponentsPickler(pickle.Pickler):
     def reducer_override(self, obj):
         if isinstance(obj, DjangoTemplates):
             return pickle_django_templates(obj)
-        if isinstance(obj, Form):
+        if isinstance(obj, BaseForm):
             return pickle_django_form(obj)
         if isinstance(obj, BaseModel):
             return pickle_pydantic_model(obj)
@@ -96,7 +96,7 @@ def pickle_django_templates(instance: DjangoTemplates):
     return DjangoTemplates, ()
 
 
-def pickle_django_form(instance: Form):
+def pickle_django_form(instance: BaseForm):
     logger.debug(
         "Custom pickling: Form with initial and data: class=%s", instance.__class__
     )
