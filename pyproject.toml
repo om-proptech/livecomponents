@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "livecomponents"
-version = "1.12.0"
+version = "1.12.1"
 description = "Django Live Components"
 readme = "README.md"
 homepage = "https://github.com/om-proptech/live-components-sample"
