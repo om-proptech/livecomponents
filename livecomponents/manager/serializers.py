@@ -101,14 +101,31 @@ def pickle_django_form(instance: BaseForm):
         "Custom pickling: Form with initial and data: class=%s", instance.__class__
     )
     data = instance.data if instance.is_bound else None
-    return unpickle_django_form, (instance.__class__, instance.initial, data)
+    constructor_kwargs = {
+        "initial": instance.initial,
+        "data": data,
+    }
+
+    # If the form is a ModelForm, we need to store the instance separately.
+    if hasattr(instance, "instance") and instance.instance.pk:
+        constructor_kwargs["instance"] = instance.instance
+
+    return unpickle_django_form_v2, (instance.__class__, constructor_kwargs)
 
 
 def unpickle_django_form(cls, initial: dict | None, data: dict | None):
+    # Legacy (v1) form unpickling.
     logger.debug(
         "Custom unpickling: Form with initial and data: class=%s", cls.__name__
     )
     return cls(initial=initial, data=data)
+
+
+def unpickle_django_form_v2(cls, constructor_kwargs: dict):
+    logger.debug(
+        "Custom unpickling: Form with constructor_kwargs: class=%s", cls.__name__
+    )
+    return cls(**constructor_kwargs)
 
 
 def pickle_pydantic_model(instance: BaseModel):

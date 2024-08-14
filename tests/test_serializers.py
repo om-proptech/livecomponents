@@ -4,6 +4,8 @@ from pickletools import dis, genops
 import pytest
 from coffee.models import CoffeeBean
 from django import forms
+from django.contrib.auth.models import User
+from django.forms import ModelForm
 from pydantic import BaseModel
 
 from livecomponents.manager.serializers import PickleStateSerializer
@@ -17,11 +19,20 @@ class MyForm(forms.Form):
     name = forms.CharField(max_length=100)
 
 
+class MyModelForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ["username", "email"]
+
+
 @pytest.mark.parametrize(
     "obj, expected_arg",
     [
         (MyModel(foo="bar"), "unpickle_pydantic_model"),
-        (MyForm(initial={"name": "foo"}, data={"name": "bar"}), "unpickle_django_form"),
+        (
+            MyForm(initial={"name": "foo"}, data={"name": "bar"}),
+            "unpickle_django_form_v2",
+        ),
         (CoffeeBean(id=1), "django_model"),
     ],
 )
@@ -76,6 +87,20 @@ def test_form_serializarion_without_data():
 
     deserialized = reserialize(form)
     assert deserialized.is_bound is False
+
+
+@pytest.mark.django_db
+def test_model_form_serialization_no_instance():
+    form = MyModelForm()
+    deserialized = reserialize(form)
+    assert deserialized.instance.pk is None
+
+
+@pytest.mark.django_db
+def test_model_form_serialization(admin_user):
+    form = MyModelForm(instance=admin_user)
+    deserialized = reserialize(form)
+    assert deserialized.instance == admin_user
 
 
 def reserialize(obj):
