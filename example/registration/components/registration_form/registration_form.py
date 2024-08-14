@@ -8,6 +8,7 @@ from livecomponents import (
     LiveComponentsModel,
     command,
 )
+from livecomponents.form_utils import populate_form_with_data
 
 
 class RegistrationForm(forms.Form):
@@ -68,8 +69,10 @@ class RegistrationFormComponent(LiveComponent[RegistrationFormState]):
         call_context: CallContext[RegistrationFormState],
         **form_data: dict,
     ):
-        call_context.state.form = RegistrationForm(data=form_data)
-        if call_context.state.form.is_valid():
+        form = call_context.state.form = populate_form_with_data(
+            call_context.state.form, form_data
+        )
+        if form.is_valid():
             call_context.state.user_registered = True
         else:
             call_context.state.user_registered = False
