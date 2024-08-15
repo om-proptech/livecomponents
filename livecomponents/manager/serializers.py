@@ -56,16 +56,26 @@ class LivecomponentsPickler(pickle.Pickler):
             return pickle_django_form(obj)
         if isinstance(obj, BaseModel):
             return pickle_pydantic_model(obj)
+        if isinstance(obj, Model):
+            # This works only for unsaved models. Saved models are pickled by their pk.
+            return pickle_django_model(obj)
         return NotImplemented
 
     def persistent_id(self, obj):
         if isinstance(obj, Model):
-            logger.debug(
-                "Custom pickling: Django model with persistent_id: class=%s, pk=%s",
-                obj.__class__,
-                obj.pk,
-            )
-            return "django_model", obj._meta.app_label, obj._meta.model_name, obj.pk
+            if obj.pk:
+                # Saved Django model.
+                logger.debug(
+                    "Custom pickling: Django model with persistent_id: class=%s, pk=%s",
+                    obj.__class__,
+                    obj.pk,
+                )
+                return "django_model", obj._meta.app_label, obj._meta.model_name, obj.pk
+            else:
+                # Unsaved Django model. Don't use persistent_id.
+                logger.debug(
+                    "Custom pickling: Unsaved Django model: class=%s", obj.__class__
+                )
         return None
 
 
@@ -81,7 +91,12 @@ class LivecomponentsUnpickler(pickle.Unpickler):
                 pk,
             )
             model_class = apps.get_model(app_label, model_name)
-            return model_class.objects.get(pk=pk)
+            try:
+                return model_class.objects.get(pk=pk)
+            except model_class.DoesNotExist:
+                raise pickle.UnpicklingError(
+                    f"Model {model_class} with pk={pk} does not exist"
+                )
         raise pickle.UnpicklingError(f"Unsupported persistent id: {pid}")
 
 
@@ -97,19 +112,19 @@ def pickle_django_templates(instance: DjangoTemplates):
 
 
 def pickle_django_form(instance: BaseForm):
-    logger.debug(
-        "Custom pickling: Form with initial and data: class=%s", instance.__class__
-    )
     data = instance.data if instance.is_bound else None
     constructor_kwargs = {
         "initial": instance.initial,
         "data": data,
     }
-
     # If the form is a ModelForm, we need to store the instance separately.
-    if hasattr(instance, "instance") and instance.instance.pk:
+    if hasattr(instance, "instance"):
         constructor_kwargs["instance"] = instance.instance
-
+    logger.debug(
+        "Custom pickling: Form with initial and data: class=%s, constructor_kwargs=%r",
+        instance.__class__,
+        constructor_kwargs,
+    )
     return unpickle_django_form_v2, (instance.__class__, constructor_kwargs)
 
 
@@ -125,7 +140,10 @@ def unpickle_django_form_v2(cls, constructor_kwargs: dict):
     logger.debug(
         "Custom unpickling: Form with constructor_kwargs: class=%s", cls.__name__
     )
-    return cls(**constructor_kwargs)
+    form = cls(**constructor_kwargs)
+    if form.is_bound:
+        form.full_clean()
+    return form
 
 
 def pickle_pydantic_model(instance: BaseModel):
@@ -144,3 +162,21 @@ def unpickle_pydantic_model(cls, model_dict: dict):
         "Custom unpickling: Pydantic model with model_dump: class=%s", cls.__name__
     )
     return cls(**model_dict)
+
+
+def pickle_django_model(instance: Model):
+    """Pickle Django models.
+
+    This function pickles only unsaved models. Saved models are pickled by their
+    primary key in the persistent_id method and retrieved from the database in
+    persistent_load method.
+    """
+    logger.debug("Custom pickling: Django model: class=%s", instance.__class__)
+    field_data = instance.__dict__.copy()
+    field_data.pop("_state", None)
+    return unpickle_django_model, (instance.__class__, field_data)
+
+
+def unpickle_django_model(cls, field_data: dict):
+    logger.debug("Custom unpickling: Django model: class=%s", cls.__name__)
+    return cls(**field_data)

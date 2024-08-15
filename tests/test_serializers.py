@@ -18,6 +18,10 @@ class MyModel(BaseModel):
 class MyForm(forms.Form):
     name = forms.CharField(max_length=100)
 
+    def clean_name(self):
+        if self.cleaned_data["name"] == "BAD":
+            raise forms.ValidationError("Name cannot be BAD")
+
 
 class MyModelForm(ModelForm):
     class Meta:
@@ -60,6 +64,17 @@ def test_django_serialization():
     assert deserialized == bean
 
 
+def test_django_serialization_unsaved():
+    bean = CoffeeBean(
+        name="Bean", origin="Origin", roast_level="Roast", flavor_notes="Notes"
+    )
+    deserialized = reserialize(bean)
+    assert deserialized.name == "Bean"
+    assert deserialized.origin == "Origin"
+    assert deserialized.roast_level == "Roast"
+    assert deserialized.flavor_notes == "Notes"
+
+
 def test_pydantic_serialization():
     model = MyModel(foo="bar")
     deserialized = reserialize(model)
@@ -79,6 +94,15 @@ def test_form_serialization_with_data():
 
     deserialized = reserialize(form)
     assert deserialized.is_bound is True
+
+
+def test_form_serialization_with_data_and_errors():
+    """Deserialization should keep errors (called by full_clean)."""
+    form = MyForm(data={"name": "BAD"})
+
+    deserialized = reserialize(form)
+    assert deserialized.is_bound is True
+    assert deserialized.errors == {"name": ["Name cannot be BAD"]}
 
 
 def test_form_serializarion_without_data():
@@ -101,6 +125,13 @@ def test_model_form_serialization(admin_user):
     form = MyModelForm(instance=admin_user)
     deserialized = reserialize(form)
     assert deserialized.instance == admin_user
+
+
+def test_model_form_serialization_unsaved_instance():
+    form = MyModelForm()
+    form.instance.username = "foo"
+    deserialized = reserialize(form)
+    assert deserialized.instance.username == "foo"
 
 
 def reserialize(obj):
