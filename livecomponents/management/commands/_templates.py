@@ -36,10 +36,38 @@ class {class_name}Component(LiveComponent[{class_name}State]):
         return {{}}
 
     def init_state(self, context: InitStateContext) -> {class_name}State:
-        return {class_name}State(**component_kwargs)
+        return {class_name}State(**context.component_kwargs)
 
-    # @command
-    # def say_hello(self, call_context: CallContext[{class_name}State]):
-    #     \"\"\"Example command.\"\"\"
-    #     pass
+    @command
+    def say_hello(self, call_context: CallContext[{class_name}State]):
+        \"\"\"Example command.\"\"\"
+        pass
+"""
+
+STATELESS_COMPONENT_PYTHON_TEMPLATE = """from typing import Any
+from typing import Any
+from django_components import component
+
+from livecomponents import (
+    ExtraContextRequest,
+    StatelessLiveComponent,
+    command,
+    CallContext,
+)
+
+@component.register("{component_name}")
+class {class_name}Component(StatelessLiveComponent):
+    template_name = "{component_name}/{proper_name}.html"
+
+
+    def get_extra_context_data(
+        self, extra_context_request: ExtraContextRequest
+    ) -> dict[str, Any]:
+        \"\"\"Return extra context to render the component template.\"\"\"
+        return {{}}
+
+    @command
+    def say_hello(self, call_context: CallContext):
+        \"\"\"Example command.\"\"\"
+        pass
 """

@@ -140,6 +140,8 @@ of one Python, and one HTML file.
 
 Make sure that your STATICFILES_DIRS setting includes the "components" directory of the app.
 
+Optionally, you can pass a `--stateless` flag to create a stateless component.
+
 
 ## On Component IDs
 

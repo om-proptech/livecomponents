@@ -6,6 +6,7 @@ from django.core.management import BaseCommand, CommandError
 from livecomponents.management.commands._templates import (
     COMPONENT_HTML_TEMPLATE,
     COMPONENT_PYTHON_TEMPLATE,
+    STATELESS_COMPONENT_PYTHON_TEMPLATE,
 )
 
 
@@ -40,10 +41,16 @@ class Command(BaseCommand):
             action="store_true",
             help="Overwrite existing files",
         )
+        parser.add_argument(
+            "--stateless",
+            action="store_true",
+            help="Create a stateless component",
+        )
 
     def handle(self, *args, **options):
         app_name = options["app_name"]
         component_name = options["component_name"]
+        stateless = options["stateless"]
         proper_name = component_name.split("/")[-1]
 
         class_name = options["class_name"]
@@ -83,7 +90,7 @@ class Command(BaseCommand):
             "proper_name": proper_name,
             "class_name": class_name,
         }
-        component_py.write_text(COMPONENT_PYTHON_TEMPLATE.format(**context))
+        component_py.write_text(self.get_python_template(stateless).format(**context))
         component_html.write_text(COMPONENT_HTML_TEMPLATE.format(**context))
         self.stdout.write(
             self.style.SUCCESS(
@@ -97,6 +104,15 @@ class Command(BaseCommand):
         self.stdout.write(
             f'- Use component as {{% livecomponent "{component_name}" %}}'
         )
+        self.stdout.write(
+            f"- If the component is called from a parent component, use it as "
+            f'{{% livecomponent "{component_name}" parent_id=component_id %}}'
+        )
+
+    def get_python_template(self, stateless: bool) -> str:
+        if stateless:
+            return STATELESS_COMPONENT_PYTHON_TEMPLATE
+        return COMPONENT_PYTHON_TEMPLATE
 
     def get_app_path(self, app_name: str) -> Path:
         for app_config in apps.get_app_configs():
