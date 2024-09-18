@@ -1,6 +1,23 @@
 site_name: Django Live Components
 site_url: https://om-proptech.github.io/livecomponents/
 repo_url: https://github.com/om-proptech/livecomponents
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
 nav:
   - index.md
   - quickstart.md
@@ -19,3 +36,6 @@ nav:
     - component_ids.md
   - About:
       - Changelog: https://github.com/om-proptech/livecomponents/blob/main/CHANGELOG.md
+
+markdown_extensions:
+  - pymdownx.superfences
