@@ -26,4 +26,4 @@ Here's an example of how the handler can look:
         ...
 ```
 
-You can see a full example in the [uploads](example/uploads) app of the sample project.
+You can see a full example in the [uploads](https://github.com/om-proptech/livecomponents/tree/main/example/uploads) app of the sample project.

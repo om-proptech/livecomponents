@@ -11,3 +11,5 @@ cp env.example .env
 poetry run python manage.py migrate
 poetry run python manage.py runserver
 ```
+
+See [example](https://github.com/om-proptech/livecomponents/tree/main/example).

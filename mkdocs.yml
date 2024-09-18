@@ -1,4 +1,6 @@
 site_name: Django Live Components
+site_url: https://om-proptech.github.io/livecomponents/
+repo_url: https://github.com/om-proptech/livecomponents
 nav:
   - index.md
   - quickstart.md
@@ -11,7 +13,9 @@ nav:
   - Reference:
     - decorators.md
     - templatetags.md
-  - Advanced Topics:
+  - Advanced:
     - context.md
     - templates.md
     - component_ids.md
+  - About:
+      - Changelog: https://github.com/om-proptech/livecomponents/blob/main/CHANGELOG.md
