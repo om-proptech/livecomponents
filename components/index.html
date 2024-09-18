@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Components - Django Live Components</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../css/brands.min.css" rel="stylesheet">
+        <link href="../css/solid.min.css" rel="stylesheet">
+        <link href="../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="..">Django Live Components</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href=".." class="nav-link">Django Live Components</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="../quickstart/" class="nav-link">Quickstart</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">User Guide</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Components</a>
+</li>
+                                    
+<li>
+    <a href="../configuration/" class="dropdown-item">Configuration</a>
+</li>
+                                    
+<li>
+    <a href="../uploads/" class="dropdown-item">Handling Uploads</a>
+</li>
+                                    
+<li>
+    <a href="../error_handling/" class="dropdown-item">Error handling</a>
+</li>
+                                    
+<li>
+    <a href="../example_project/" class="dropdown-item">Example project</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Reference</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../decorators/" class="dropdown-item">Decorators</a>
+</li>
+                                    
+<li>
+    <a href="../templatetags/" class="dropdown-item">Templatetags</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Advanced Topics</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../context/" class="dropdown-item">Storing Component Context</a>
+</li>
+                                    
+<li>
+    <a href="../templates/" class="dropdown-item">On Storing Raw HTML Templates</a>
+</li>
+                                    
+<li>
+    <a href="../component_ids/" class="dropdown-item">Component IDs</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../quickstart/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../configuration/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#components" class="nav-link">Components</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#component-state" class="nav-link">Component State</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#serializing-component-state" class="nav-link">Serializing Component State</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#stateless-components" class="nav-link">Stateless components</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#returning-results-from-command-handlers" class="nav-link">Returning results from command handlers</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#raising-exceptions-from-command-handlers" class="nav-link">Raising exceptions from command handlers</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#calling-component-methods-from-others" class="nav-link">Calling component methods from others</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="components">Components</h1>
+<h2 id="component-state">Component State</h2>
+<p>The state is defined in a separate class. The state must include parameters, passed to the component as keyword arguments, so that the component gets all necessary information to re-render itself on partial render.</p>
+<p>For example, given the template the alert component:</p>
+<pre><code class="language-html">&lt;alert&gt;{{ message }}&lt;/alert&gt;
+</code></pre>
+<p>that you want to use as</p>
+<pre><code class="language-html">{% component &quot;alert&quot; message=&quot;Hello, world!&quot; %}
+</code></pre>
+<p>Assuming that the component will be re-rendered on partial render, the state must include the "message" parameter:</p>
+<pre><code class="language-python">from pydantic import BaseModel
+from livecomponents.component import LiveComponent
+from livecomponents.manager.manager import InitStateContext
+
+class AlertState(BaseModel):
+    message: str = &quot;&quot;
+
+
+class Alert(LiveComponent):
+
+    template_name = &quot;alert.html&quot;
+
+
+    def init_state(self, context: InitStateContext) -&gt; AlertState:
+        return AlertState(**context.component_kwargs)
+</code></pre>
+<p>Component states don't need to be stored if components are not expected to be re-rendered independently, and only
+as part of the parent component. For example, components for buttons are rarely re-rendered independently, so
+you get away without the state model.</p>
+<h2 id="serializing-component-state">Serializing Component State</h2>
+<p>When the page is rendered for the first time, a new session is created, and each component is initialized with its
+state by calling the <code>init_state()</code> method.</p>
+<p>The state is then serialized and stored in the session store, and as long as the session is the same (in other words,
+while the page is not loaded), the state is reused.</p>
+<p>The state is serialized using the <code>StateSerializer</code> class and saved in Redis. By default, the <code>PickleStateSerializer</code>
+is used. The serializer uses custom pickler and is optimized to store effectively the most common types of data, used
+in a Django app. More specifically:</p>
+<ul>
+<li>When serializing a Django model, only the model's name and primary key are stored. The serializer takes advantage of
+  the persistent_id/persistent_load pickle mechanism.</li>
+<li>When serializing a Pydantic model, only the model's name and the values of the fields are stored.</li>
+<li>When serializing a Django form, only the form's class name, as well as initial data and data, are stored.</li>
+</ul>
+<h2 id="stateless-components">Stateless components</h2>
+<p>If the component doesn't store any state, you can inherit it from the StatelessLiveComponent class. You may find it
+helpful for rendering the hierarchy of components where the shared state is stored in the root components.</p>
+<pre><code class="language-python">from livecomponents.component import StatelessLiveComponent
+
+class StatelessAlert(StatelessLiveComponent):
+
+    template_name = &quot;alert.html&quot;
+
+    def get_extra_context_data(
+        self, extra_context_request: &quot;ExtraContextRequest[State]&quot;
+    ) -&gt; dict:
+        state_manager = extra_context_request.state_manager
+        root_addr = extra_context_request.state_addr.must_find_ancestor(&quot;root&quot;)
+        root_state = state_manager.get_component_state(root_addr)
+        return {&quot;message&quot;: root_state.message}
+</code></pre>
+<h2 id="returning-results-from-command-handlers">Returning results from command handlers</h2>
+<p>Here's the signature of the Livecomponent function:</p>
+<pre><code class="language-python">from livecomponents import LiveComponent, CallContext, command
+from livecomponents.manager.execution_results import IExecutionResult
+
+class MyComponent(LiveComponent):
+
+    @command
+    def my_command_handler(self , call_context: CallContext, **kwargs) -&gt; list[IExecutionResult] | IExecutionResult | None :
+        ...
+</code></pre>
+<p>Notice the type of the returned value for the handler. If set to something other than None, it can shape the
+partial HTTP response.</p>
+<p>More specifically here's what you can do:</p>
+<ul>
+<li>Return ComponentDirty() to mark the component as dirty. This will result in the component being re-rendered and sent to the client. This is the default behavior. If you don't return anything, the component will be marked as dirty.</li>
+<li>Return ComponentDirty(component_id) to mark a different component as dirty.</li>
+<li>Return ComponentClean() to mark the current component as clean (not needing re-rendering).</li>
+<li>Return ParentDirty() to mark the parent component as dirty.</li>
+<li>Return RefreshPage(). If the command returns RefreshPage(), a "HX-Refresh: true" header will be sent to the client.</li>
+<li>Return RedirectPage(url). If the command returns Redirect(), a "HX-Redirect: url" header will be sent to the client.</li>
+<li>Return ReplaceUrl(url). If the command returns ReplaceUrl(), a "HX-Replace: url" header will be sent to the client. This will replace the current URL in the browser without reloading the page.</li>
+</ul>
+<h2 id="raising-exceptions-from-command-handlers">Raising exceptions from command handlers</h2>
+<p>In some rare scenarios, you may need to cancel rendering the component and instruct the command handler to return an empty string to the client.</p>
+<p>If this is the case, you can raise a <code>livecomponents.exceptions.CancelRendering()</code> exception.</p>
+<p>The exception can be raised directly from a command handler or from one of the methods that it will call, such as <code>get_extra_context_data()</code>.</p>
+<pre><code class="language-python">from livecomponents.exceptions import CancelRendering
+...
+
+class MyComponent(LiveComponent):
+
+    @command
+    def my_command_handler(self, call_context: CallContext, **kwargs):
+        if not self.pre_condition_met(call_context):
+            raise CancelRendering()
+        ...
+</code></pre>
+<p>We encountered this situation at least once, where a race condition caused the pre-condition that was true when we started executing a command to no longer be true when we rendered a sub-component. In this case, we couldn't render the sub-component but also didn't want to return a partially rendered component. The best solution was to return an empty string, effectively making the command have no effect.</p>
+<h2 id="calling-component-methods-from-others">Calling component methods from others</h2>
+<p>There are several ways to call component methods from other components:</p>
+<p><strong>Using the component ID.</strong> For example, if you have a component with ID "|message.0" and a method "set_message", you can call it like this:</p>
+<pre><code class="language-python">from livecomponents import LiveComponent, command, CallContext
+
+class MyComponent(LiveComponent):
+
+    @command
+    def do_something(self, call_context: CallContext):
+        call_context.find_one(&quot;|message:0&quot;).set_message(&quot;Hello, world!&quot;)
+</code></pre>
+<p><strong>Using the "parent" reference.</strong></p>
+<pre><code class="language-python">from livecomponents import LiveComponent, command, CallContext
+
+class MyComponent(LiveComponent):
+
+    @command
+    def do_something(self, call_context: CallContext):
+        call_context.parent.set_message(&quot;Hello, world!&quot;)
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
