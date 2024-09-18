@@ -1,0 +1,17 @@
+site_name: Django Live Components
+nav:
+  - index.md
+  - quickstart.md
+  - User Guide:
+    - components.md
+    - configuration.md
+    - uploads.md
+    - error_handling.md
+    - example_project.md
+  - Reference:
+    - decorators.md
+    - templatetags.md
+  - Advanced Topics:
+    - context.md
+    - templates.md
+    - component_ids.md
