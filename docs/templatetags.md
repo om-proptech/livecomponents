@@ -66,3 +66,31 @@ This is useful if the component state is stored in the root component, and manag
 {% component_ancestor component_id "table" as table_id %}
 <button hx-post='{% call_command table_id "delete_row" %}' hx-vals='{"row_id": {{ row_id }}}'>Delete row</button>
 ```
+
+## component_selector
+
+Return the CSS selector for the component with the given ID.
+
+Can be used to select the component in JavaScript code. For example:
+
+```javascript
+const element = document.querySelector({% component_selector component_id %});
+```
+
+Note that the returned value is already quoted, so you don't need to add quotes
+around it.
+
+
+## no_morph
+
+Return a key that disables morphing for the component.
+
+Random key is generated to prevent morphing of the component.
+See https://alpinejs.dev/plugins/morph#keys for more details.
+
+Usage example:
+
+    <textarea {% no_morph %}></textarea>
+
+This way, the textarea DOM element will always be replaced, not morphed, which,
+for example, results in updating the component state from the server side.

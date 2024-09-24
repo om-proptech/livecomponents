@@ -1,3 +1,4 @@
+import secrets
 from collections.abc import Iterable
 from urllib.parse import urlencode
 
@@ -102,6 +103,22 @@ def component_attrs(component_id: str, swap_style="morph") -> str:
 
 
 @register.simple_tag
+def component_selector(component_id: str) -> str:
+    """Return the CSS selector for the component with the given ID.
+
+    Can be used to select the component in JavaScript code. For example:
+
+    ```javascript
+    const element = document.querySelector({% component_selector component_id %});
+    ```
+
+    Note that the returned value is already quoted, so you don't need to add quotes
+    around it.
+    """
+    return mark_safe(f"\"[data-livecomponent-id='{css_escape(component_id)}']\"")
+
+
+@register.simple_tag
 def livecomponents_session_id() -> str:
     """Return the session ID for the live components session."""
     return get_session_id()
@@ -110,6 +127,23 @@ def livecomponents_session_id() -> str:
 @register.filter(name="css_escape")
 def css_escape(value: str) -> str:
     return mark_safe("".join(char if char.isalnum() else f"\\{char}" for char in value))
+
+
+@register.simple_tag
+def no_morph():
+    """Return a key that disables morphing for the component.
+
+    Random key is generated to prevent morphing of the component.
+    See https://alpinejs.dev/plugins/morph#keys for more details.
+
+    Usage example:
+
+        <textarea {% no_morph %}></textarea>
+
+    This way, the textarea DOM element will always be replaced, not morphed, which,
+    for example, results in updating the component state from the server side.
+    """
+    return f'key="{secrets.token_urlsafe(8)}"'
 
 
 @register.tag(name="livecomponent")

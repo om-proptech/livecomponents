@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Created documentation for the project. The documentation is available in the "docs" directory and on the https://om-proptech.github.io/livecomponents/ website.
 - Improved the createlivecomponent management command: fixed the Python template and added a --stateless option to create a stateless component.
+- Added "no_morph" and "component_selector" templatetags.
 
 ## 1.12.4 (2024-08-15)
 
