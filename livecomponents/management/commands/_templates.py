@@ -14,9 +14,10 @@ from livecomponents import (
     command,
     ExtraContextRequest,
     InitStateContext,
-    LiveComponent,
     LiveComponentsModel,
 )
+
+{base_class_import}
 
 
 class {class_name}State(LiveComponentsModel):
@@ -25,7 +26,7 @@ class {class_name}State(LiveComponentsModel):
 
 
 @component.register("{component_name}")
-class {class_name}Component(LiveComponent[{class_name}State]):
+class {class_name}Component({base_class_name}[{class_name}State]):
     template_name = "{component_name}/{proper_name}.html"
 
 
@@ -44,19 +45,46 @@ class {class_name}Component(LiveComponent[{class_name}State]):
         pass
 """
 
+COMPONENT_PYTHON_TEMPLATE_MINIMAL = """from typing import Any
+from django_components import component
+
+from livecomponents import (
+    CallContext,
+    command,
+    InitStateContext,
+    LiveComponentsModel,
+)
+
+{base_class_import}
+
+
+class {class_name}State(LiveComponentsModel):
+    \"\"\"Define the state of your component here.\"\"\"
+    pass
+
+
+@component.register("{component_name}")
+class {class_name}Component({base_class_name}[{class_name}State]):
+    template_name = "{component_name}/{proper_name}.html"
+
+    def init_state(self, context: InitStateContext) -> {class_name}State:
+        return {class_name}State(**context.component_kwargs)
+"""
+
 STATELESS_COMPONENT_PYTHON_TEMPLATE = """from typing import Any
-from typing import Any
 from django_components import component
 
 from livecomponents import (
     ExtraContextRequest,
-    StatelessLiveComponent,
     command,
     CallContext,
 )
 
+{base_class_import}
+
+
 @component.register("{component_name}")
-class {class_name}Component(StatelessLiveComponent):
+class {class_name}Component({base_class_name}):
     template_name = "{component_name}/{proper_name}.html"
 
 
@@ -70,4 +98,15 @@ class {class_name}Component(StatelessLiveComponent):
     def say_hello(self, call_context: CallContext):
         \"\"\"Example command.\"\"\"
         pass
+"""
+
+
+STATELESS_COMPONENT_PYTHON_TEMPLATE_MINIMAL = """from typing import Any
+from django_components import component
+{base_class_import}
+
+
+@component.register("{component_name}")
+class {class_name}Component({base_class_name}):
+    template_name = "{component_name}/{proper_name}.html"
 """

@@ -6,8 +6,11 @@ from django.core.management import BaseCommand, CommandError
 from livecomponents.management.commands._templates import (
     COMPONENT_HTML_TEMPLATE,
     COMPONENT_PYTHON_TEMPLATE,
+    COMPONENT_PYTHON_TEMPLATE_MINIMAL,
     STATELESS_COMPONENT_PYTHON_TEMPLATE,
+    STATELESS_COMPONENT_PYTHON_TEMPLATE_MINIMAL,
 )
+from livecomponents.settings import get_config
 
 
 class Command(BaseCommand):
@@ -46,11 +49,25 @@ class Command(BaseCommand):
             action="store_true",
             help="Create a stateless component",
         )
+        parser.add_argument(
+            "--minimal",
+            action="store_true",
+            help="Create a minimal component without any commands",
+        )
+        parser.add_argument(
+            "--base-class",
+            type=str,
+            help=(
+                "Base class for the component. If not given,"
+                "value from settings is used."
+            ),
+        )
 
     def handle(self, *args, **options):
         app_name = options["app_name"]
         component_name = options["component_name"]
         stateless = options["stateless"]
+        base_class = options["base_class"]
         proper_name = component_name.split("/")[-1]
 
         class_name = options["class_name"]
@@ -89,6 +106,8 @@ class Command(BaseCommand):
             "component_name": component_name,
             "proper_name": proper_name,
             "class_name": class_name,
+            "base_class_import": self.get_base_class_import(base_class, stateless),
+            "base_class_name": self.get_base_class_name(base_class, stateless),
         }
         component_py.write_text(self.get_python_template(stateless).format(**context))
         component_html.write_text(COMPONENT_HTML_TEMPLATE.format(**context))
@@ -109,9 +128,13 @@ class Command(BaseCommand):
             f'{{% livecomponent "{component_name}" parent_id=component_id %}}'
         )
 
-    def get_python_template(self, stateless: bool) -> str:
+    def get_python_template(self, stateless: bool, minimal: bool) -> str:
         if stateless:
+            if minimal:
+                return STATELESS_COMPONENT_PYTHON_TEMPLATE_MINIMAL
             return STATELESS_COMPONENT_PYTHON_TEMPLATE
+        if minimal:
+            return COMPONENT_PYTHON_TEMPLATE_MINIMAL
         return COMPONENT_PYTHON_TEMPLATE
 
     def get_app_path(self, app_name: str) -> Path:
@@ -119,6 +142,22 @@ class Command(BaseCommand):
             if app_config.name == app_name:
                 return Path(app_config.path)
         raise CommandError(f"App not found: {app_name}")
+
+    def get_base_class(self, base_class: str | None, stateless: bool) -> str:
+        if base_class:
+            return base_class
+
+        config = get_config().createlivecomponent
+        return config.stateless_base_class if stateless else config.base_class
+
+    def get_base_class_import(self, base_class: str | None, stateless: bool) -> str:
+        base_class = self.get_base_class(base_class, stateless)
+        module, class_name = base_class.rsplit(".", 1)
+        return f"from {module} import {class_name}"
+
+    def get_base_class_name(self, base_class: str | None, stateless: bool) -> str:
+        base_class = self.get_base_class(base_class, stateless)
+        return base_class.rsplit(".", 1)[-1]
 
 
 def generate_class_name(proper_name: str) -> str:

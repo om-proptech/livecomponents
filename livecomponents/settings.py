@@ -21,6 +21,11 @@ class ClassConfig(BaseModel, Generic[T]):
         return import_string(self.cls)(**self.config, **kwargs)
 
 
+class CreateLiveComponentConfig(BaseModel):
+    base_class: str = "livecomponents.LiveComponent"
+    stateless_base_class: str = "livecomponents.StatelessLiveComponent"
+
+
 class LivecomponentsConfig(BaseModel):
     """Configuration for livecomponents.
 
@@ -44,6 +49,8 @@ class LivecomponentsConfig(BaseModel):
             cls="livecomponents.manager.manager.StateManager"
         )
     )
+
+    createlivecomponent: CreateLiveComponentConfig = CreateLiveComponentConfig()
 
 
 def get_config():
