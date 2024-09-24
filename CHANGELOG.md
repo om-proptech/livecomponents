@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## UNRELEASED
+## 1.13.0 (2024-09-24)
 
 - Created documentation for the project. The documentation is available in the "docs" directory and on the https://om-proptech.github.io/livecomponents/ website.
 - Improved the createlivecomponent management command: fixed the Python template and added --stateless and --minimal options to create stateless components or minimal components (without sample methods).
