@@ -14,7 +14,7 @@
         <link rel="prev" href="../decorators/">
       
       
-        <link rel="next" href="../context/">
+        <link rel="next" href="../management_commands/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -579,10 +579,49 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#component_selector" class="md-nav__link">
+    <span class="md-ellipsis">
+      component_selector
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#no_morph" class="md-nav__link">
+    <span class="md-ellipsis">
+      no_morph
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../management_commands/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Management commands
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -825,6 +864,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#component_selector" class="md-nav__link">
+    <span class="md-ellipsis">
+      component_selector
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#no_morph" class="md-nav__link">
+    <span class="md-ellipsis">
+      no_morph
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -882,6 +939,22 @@
 <div class="highlight"><pre><span></span><code>{% component_ancestor component_id &quot;table&quot; as table_id %}
 <span class="p">&lt;</span><span class="nt">button</span> <span class="na">hx-post</span><span class="o">=</span><span class="s">&#39;{% call_command table_id &quot;delete_row&quot; %}&#39;</span> <span class="na">hx-vals</span><span class="o">=</span><span class="s">&#39;{&quot;row_id&quot;: {{ row_id }}}&#39;</span><span class="p">&gt;</span>Delete row<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
 </code></pre></div>
+<h2 id="component_selector">component_selector</h2>
+<p>Return the CSS selector for the component with the given ID.</p>
+<p>Can be used to select the component in JavaScript code. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">element</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">({</span><span class="o">%</span><span class="w"> </span><span class="nx">component_selector</span><span class="w"> </span><span class="nx">component_id</span><span class="w"> </span><span class="o">%</span><span class="p">});</span>
+</code></pre></div>
+<p>Note that the returned value is already quoted, so you don't need to add quotes
+around it.</p>
+<h2 id="no_morph">no_morph</h2>
+<p>Return a key that disables morphing for the component.</p>
+<p>Random key is generated to prevent morphing of the component.
+See https://alpinejs.dev/plugins/morph#keys for more details.</p>
+<p>Usage example:</p>
+<pre><code>&lt;textarea {% no_morph %}&gt;&lt;/textarea&gt;
+</code></pre>
+<p>This way, the textarea DOM element will always be replaced, not morphed, which,
+for example, results in updating the component state from the server side.</p>
 
 
 

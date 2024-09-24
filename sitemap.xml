@@ -2,50 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://om-proptech.github.io/livecomponents/</loc>
-         <lastmod>2024-09-18</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://om-proptech.github.io/livecomponents/component_ids/</loc>
-         <lastmod>2024-09-18</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://om-proptech.github.io/livecomponents/components/</loc>
-         <lastmod>2024-09-18</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://om-proptech.github.io/livecomponents/configuration/</loc>
-         <lastmod>2024-09-18</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://om-proptech.github.io/livecomponents/context/</loc>
-         <lastmod>2024-09-18</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://om-proptech.github.io/livecomponents/decorators/</loc>
-         <lastmod>2024-09-18</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://om-proptech.github.io/livecomponents/error_handling/</loc>
-         <lastmod>2024-09-18</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://om-proptech.github.io/livecomponents/example_project/</loc>
-         <lastmod>2024-09-18</lastmod>
+         <lastmod>2024-09-24</lastmod>
+    </url>
+    <url>
+         <loc>https://om-proptech.github.io/livecomponents/management_commands/</loc>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://om-proptech.github.io/livecomponents/quickstart/</loc>
-         <lastmod>2024-09-18</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://om-proptech.github.io/livecomponents/templates/</loc>
-         <lastmod>2024-09-18</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://om-proptech.github.io/livecomponents/templatetags/</loc>
-         <lastmod>2024-09-18</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
     <url>
          <loc>https://om-proptech.github.io/livecomponents/uploads/</loc>
-         <lastmod>2024-09-18</lastmod>
+         <lastmod>2024-09-24</lastmod>
     </url>
 </urlset>
