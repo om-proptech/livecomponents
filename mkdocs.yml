@@ -30,6 +30,7 @@ nav:
   - Reference:
     - decorators.md
     - templatetags.md
+    - management_commands.md
   - Advanced:
     - context.md
     - templates.md
