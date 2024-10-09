@@ -67,6 +67,7 @@ class Command(BaseCommand):
         app_name = options["app_name"]
         component_name = options["component_name"]
         stateless = options["stateless"]
+        minimal = options["minimal"]
         base_class = options["base_class"]
         proper_name = component_name.split("/")[-1]
 
@@ -109,7 +110,9 @@ class Command(BaseCommand):
             "base_class_import": self.get_base_class_import(base_class, stateless),
             "base_class_name": self.get_base_class_name(base_class, stateless),
         }
-        component_py.write_text(self.get_python_template(stateless).format(**context))
+        component_py.write_text(
+            self.get_python_template(stateless, minimal).format(**context)
+        )
         component_html.write_text(COMPONENT_HTML_TEMPLATE.format(**context))
         self.stdout.write(
             self.style.SUCCESS(
