@@ -4,6 +4,7 @@ from typing import Any
 from django.core.exceptions import BadRequest
 from django.http import HttpRequest, HttpResponse
 from django.template import RequestContext, Template
+from django_components.component_registry import NotRegistered
 
 from livecomponents.exceptions import CancelRendering
 from livecomponents.logging import logger
@@ -25,12 +26,15 @@ def call_command(request: HttpRequest):
         )
         return HttpResponse("Session does not exist. It may have expired", status=410)
 
-    call_context = state_manager.call_component_command(
-        request,
-        args.get_state_address(),
-        args.command_name,
-        kwargs=kwargs,
-    )
+    try:
+        call_context = state_manager.call_component_command(
+            request,
+            args.get_state_address(),
+            args.command_name,
+            kwargs=kwargs,
+        )
+    except NotRegistered as error:
+        raise BadRequest(f"Component {args.component_id} is not registered") from error
 
     headers = call_context.execution_results.response_headers
 
