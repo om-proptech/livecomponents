@@ -2,6 +2,7 @@ import abc
 from collections.abc import Callable
 from typing import Any, Generic
 
+from django.core.exceptions import BadRequest
 from django.http import HttpRequest
 from django_components import component
 from django_components.component import SimplifiedInterfaceMediaDefiningClass
@@ -35,14 +36,9 @@ class LiveComponent(component.Component, Generic[State], metaclass=LiveComponent
         """
         command_func = getattr(self, command_name, None)
         if not command_func:
-            raise ValueError(
-                f"Command {self.__class__.__name__}.{command_name}() does not exist."
-            )
+            raise BadRequest(f"Command {command_name} does not exist.")
         if not getattr(command_func, COMMAND_MARKER, False):
-            raise ValueError(
-                f"Method {self.__class__.__name__}.{command_name}() is not a command. "
-                f"Have you forgotten to wrap it with the @command decorator?"
-            )
+            raise BadRequest(f"Command {command_name} does not exist.")
         return command_func
 
     def get_state(

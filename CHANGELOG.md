@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## UNRELEASED
 
 - Fixed createlivecomponent management command
+- Raised BadRequest on invalid client input
 
 ## 1.13.0 (2024-09-24)
 

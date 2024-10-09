@@ -1,6 +1,7 @@
 import json
 from typing import Any
 
+from django.core.exceptions import BadRequest
 from django.http import HttpRequest, HttpResponse
 from django.template import RequestContext, Template
 
@@ -63,7 +64,10 @@ def parse_body(request: HttpRequest) -> dict[str, Any]:
     if request.content_type == "application/json":
         if request.body == b"":
             return {}
-        return json.loads(request.body.decode())
+        try:
+            return json.loads(request.body.decode())
+        except json.JSONDecodeError:
+            raise BadRequest("Invalid livecomponent request body (not valid JSON)")
     return request.POST.dict()
 
 
