@@ -1,3 +1,4 @@
+from django.core.exceptions import BadRequest
 from pydantic import BaseModel, ConfigDict
 
 from livecomponents.const import HIER_SEP, TYPE_SEP
@@ -24,7 +25,7 @@ def find_component_id(
     # Used to re-render the component
     if full_component_id is not None:
         if not full_component_id.startswith(HIER_SEP):
-            raise ValueError(f"full_component_id must start with '{HIER_SEP}'")
+            raise BadRequest(f"full_component_id must start with '{HIER_SEP}'")
         return full_component_id
 
     # Used to render the component for the first time
@@ -43,9 +44,9 @@ class LiveComponentsPath:
 
     def __init__(self, path: str):
         if not path:
-            raise ValueError("path must not be empty")
+            raise BadRequest("path must not be empty")
         if not path.startswith(HIER_SEP):
-            raise ValueError(f"path must start with '{HIER_SEP}'. Path: {path}")
+            raise BadRequest(f"path must start with '{HIER_SEP}'. Path: {path}")
         self._path = path
 
     def __str__(self):

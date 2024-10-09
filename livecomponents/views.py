@@ -66,7 +66,7 @@ def parse_body(request: HttpRequest) -> dict[str, Any]:
             return {}
         try:
             return json.loads(request.body.decode())
-        except json.JSONDecodeError:
+        except (json.JSONDecodeError, UnicodeDecodeError):
             raise BadRequest("Invalid livecomponent request body (not valid JSON)")
     return request.POST.dict()
 
