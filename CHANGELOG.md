@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## UNRELEASED
+
+- Added `xframe_options_exempt` setting to allow embedding livecomponents views in iframes.
+
 ## 1.14.0 (2024-12-26)
 
 - Relaxed Python and Django dependencies: Python: 3.11 and newer (3.12, etc.), Django: 4.x and 5.x.
@@ -72,12 +76,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🚨 **Breaking Change**. Removed the passing of component kwargs to init_state() and update_state(). These kwargs are redundant since both InitStateContext and UpdateStateContext already have them.
 - Added StatelessLiveComponent as a base class for components that do not need to store state.
 
-
 ## 1.7.0 (2023-12-13)
 
 - Added `key={component_id}` to the output of the `{% component_attrs %}` templatetag. The "key" attribute is used as a hint for Apline Morph to identify
-elements that need to be updated.
-- 🚨 **Breaking Change**. Modified get_extra_context_data() method to accept component_kwargs, allowing extra context population from parent components without storing in Redis. Note: This change is backward incompatible, altering the method signature to include **component_kwargs.
+  elements that need to be updated.
+- 🚨 **Breaking Change**. Modified get_extra_context_data() method to accept component_kwargs, allowing extra context population from parent components without storing in Redis. Note: This change is backward incompatible, altering the method signature to include \*\*component_kwargs.
 
 ## 1.6.0 (2023-12-05)
 

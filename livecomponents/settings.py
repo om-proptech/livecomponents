@@ -52,6 +52,14 @@ class LivecomponentsConfig(BaseModel):
 
     createlivecomponent: CreateLiveComponentConfig = CreateLiveComponentConfig()
 
+    xframe_options_exempt: bool = Field(
+        default=False,
+        description=(
+            "If True, wraps the livecomponents views with xframe_options_exempt "
+            "decorator. This allows the views to be embedded in iframes. "
+        ),
+    )
+
 
 def get_config():
     return LivecomponentsConfig(**getattr(settings, "LIVECOMPONENTS", {}))

@@ -4,15 +4,26 @@ from typing import Any
 from django.core.exceptions import BadRequest
 from django.http import HttpRequest, HttpResponse
 from django.template import RequestContext, Template
+from django.views.decorators.clickjacking import xframe_options_exempt
 from django_components.component_registry import NotRegistered
 
 from livecomponents.exceptions import CancelRendering
 from livecomponents.logging import logger
 from livecomponents.manager import get_state_manager
 from livecomponents.manager.manager import CallContext
+from livecomponents.settings import get_config
 from livecomponents.types import CallMethodRequestArgs, StateAddress
 
 
+def maybe_xframe_exempt(view_func):
+    """Conditionally apply xframe_options_exempt based on settings."""
+    config = get_config()
+    if config.xframe_options_exempt:
+        return xframe_options_exempt(view_func)
+    return view_func
+
+
+@maybe_xframe_exempt
 def call_command(request: HttpRequest):
     if request.method != "POST":
         return HttpResponse("Only POST allowed", status=405)
@@ -54,6 +65,7 @@ def call_command(request: HttpRequest):
     return HttpResponse("\n".join(rendered_components), headers=headers)
 
 
+@maybe_xframe_exempt
 def clear_session(request: HttpRequest):
     if request.method != "POST":
         return HttpResponse("Only POST allowed", status=405)
