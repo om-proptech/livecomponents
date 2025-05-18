@@ -8,7 +8,7 @@
       
       
       
-        <link rel="canonical" href="https://om-proptech.github.io/livecomponents/components/">
+        <link rel="canonical" href="https://om-proptech.github.io/livecomponents/livecomponents/">
       
       
         <link rel="prev" href="../quickstart/">
@@ -18,15 +18,15 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.35">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
     
     
       
-        <title>Components - Django Live Components</title>
+        <title>Livecomponent Anatomy - Django Live Components</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.35f28582.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.6f8fc17f.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#components" class="md-skip">
+        <a href="#livecomponent-anatomy" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Components
+              Livecomponent Anatomy
             
           </span>
         </div>
@@ -190,7 +190,7 @@
         <a href="https://github.com/om-proptech/livecomponents" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
   </div>
   <div class="md-source__repository">
     GitHub
@@ -236,7 +236,7 @@
       <a href="https://github.com/om-proptech/livecomponents" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
   </div>
   <div class="md-source__repository">
     GitHub
@@ -343,7 +343,7 @@
           
   
   <span class="md-ellipsis">
-    Components
+    Livecomponent Anatomy
   </span>
   
 
@@ -354,7 +354,7 @@
         
   
   <span class="md-ellipsis">
-    Components
+    Livecomponent Anatomy
   </span>
   
 
@@ -374,6 +374,51 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-a-livecomponent" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is a Livecomponent?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simple-livecomponent" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simple Livecomponent
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component-python-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component Python Class
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component Template
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component Commands
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#component-state" class="md-nav__link">
@@ -829,6 +874,51 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#what-is-a-livecomponent" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is a Livecomponent?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simple-livecomponent" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simple Livecomponent
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component-python-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component Python Class
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component Template
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#component-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      Component Commands
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#component-state" class="md-nav__link">
     <span class="md-ellipsis">
       Component State
@@ -900,10 +990,105 @@
   
 
 
-<h1 id="components">Components</h1>
+<h1 id="livecomponent-anatomy">Livecomponent Anatomy</h1>
+<h2 id="what-is-a-livecomponent">What is a Livecomponent?</h2>
+<p>A Livecomponent is a subclass of the Component class from the <a href="https://github.com/django-components/django-components/tree/0.28.3">django-components project</a>. The main goal of django-components is to provide reusable components for Django templates.</p>
+<p>Livecomponents extend these with dynamic rendering capabilities. Unlike basic components, livecomponents can store their own state and provide actions that can be called from the web page.</p>
+<p>Here and in some places below, we compare livecomponents with React components. If you are familiar with React, you will notice some similarities.</p>
+<p>You can think of a regular component from django-components as a React component that only has props and no state. Its appearance is defined purely in the template that calls it and passes arguments (props) to it. In contrast, a livecomponent is like a React component that has both props and state, and can re-render itself in response to user actions.</p>
+<div class="admonition note">
+<p class="admonition-title">Compatibility with django-components</p>
+<p>The version of django-components used with Livecomponents is 0.28.3. Since then, the upstream project has advanced significantly and introduced some breaking changes, but we are still using this version for compatibility reasons.</p>
+</div>
+<h2 id="simple-livecomponent">Simple Livecomponent</h2>
+<p>We usually store livecomponents in the <code>components</code> directory of the related Django app. For example, for an app called <code>counters</code>, we would store the livecomponents in the <code>counters/components</code> directory.</p>
+<p>Each component is stored in a separate directory, inside which we keep the Python file with the component class and the Django HTML template, like this:</p>
+<div class="highlight"><pre><span></span><code>counters/
+    components/
+        simplecounter/
+            simplecounter.py
+            simplecounter.html
+</code></pre></div>
+<p>Instead of creating the directory structure manually, you can use the <code>createlivecomponent</code> management command. This command will create the files with boilerplate code and provide brief instructions on how to use them.</p>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><code>./manage.py<span class="w"> </span>createlivecomponent<span class="w"> </span>counters<span class="w"> </span>simplecounter
+
+Created<span class="w"> </span>component<span class="w"> </span>files:<span class="w"> </span>...
+-<span class="w"> </span>If<span class="w"> </span>necessary,<span class="w"> </span>add<span class="w"> </span><span class="s1">&#39;counters.components.simplecounter.simplecounter&#39;</span><span class="w"> </span>to<span class="w"> </span>COMPONENTS<span class="o">[</span><span class="s1">&#39;libraries&#39;</span><span class="o">]</span><span class="w"> </span><span class="k">in</span><span class="w"> </span>your<span class="w"> </span>settings
+-<span class="w"> </span>Use<span class="w"> </span>component<span class="w"> </span>as<span class="w"> </span><span class="o">{</span>%<span class="w"> </span>livecomponent<span class="w"> </span><span class="s2">&quot;simplecounter&quot;</span><span class="w"> </span>%<span class="o">}</span>
+-<span class="w"> </span>If<span class="w"> </span>the<span class="w"> </span>component<span class="w"> </span>is<span class="w"> </span>called<span class="w"> </span>from<span class="w"> </span>a<span class="w"> </span>parent<span class="w"> </span>component,<span class="w"> </span>use<span class="w"> </span>it<span class="w"> </span>as<span class="w"> </span><span class="o">{</span>%<span class="w"> </span>livecomponent<span class="w"> </span><span class="s2">&quot;simplecounter&quot;</span><span class="w"> </span><span class="nv">parent_id</span><span class="o">=</span>component_id<span class="w"> </span>%<span class="o">}</span>
+</code></pre></div>
+<p>Assuming the Django project is correctly configured, the component can be inserted on any page with the following syntax:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">{%</span> <span class="k">load</span> <span class="nv">livecomponents</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">livecomponent</span> <span class="s2">&quot;&lt;component_name&gt;&quot;</span> <span class="o">&lt;</span><span class="nv">component_kwargs</span><span class="o">&gt;</span> <span class="cp">%}</span>
+</code></pre></div>
+<p>For example (with no arguments):</p>
+<div class="highlight"><pre><span></span><code><span class="cp">{%</span> <span class="k">load</span> <span class="nv">livecomponents</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">livecomponent</span> <span class="s2">&quot;simplecounter&quot;</span> <span class="cp">%}</span>
+</code></pre></div>
+<p>The livecomponent Python classes are defined in the <code>simplecounter.py</code> file. There are usually two classes: the component class and the state class.</p>
+<ul>
+<li>The component class is a subclass of the <code>LiveComponent</code> class.</li>
+<li>The state class is a subclass of the <code>BaseModel</code> class from the <code>pydantic</code> library.</li>
+</ul>
+<h2 id="component-python-class">Component Python Class</h2>
+<p>Here's the Python class for the simplecounter component.</p>
+<p>As you can see, there are two classes: the state class and the component class.
+The state keeps the counter value, and the component class defines two commands: <code>increment</code> and <code>decrement</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">django_components</span> <span class="kn">import</span> <span class="n">component</span>
+
+<span class="kn">from</span> <span class="nn">livecomponents</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">LiveComponent</span><span class="p">,</span>
+    <span class="n">LiveComponentsModel</span><span class="p">,</span>
+    <span class="n">command</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">SimplecounterState</span><span class="p">(</span><span class="n">LiveComponentsModel</span><span class="p">):</span>
+    <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+<span class="nd">@component</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;simplecounter&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">SimplecounterComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">[</span><span class="n">SimplecounterState</span><span class="p">]):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;simplecounter/simplecounter.html&quot;</span>
+
+    <span class="k">def</span> <span class="nf">init_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">SimplecounterState</span><span class="p">()</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span> <span class="nf">increment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Example command.&quot;&quot;&quot;</span>
+        <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span> <span class="nf">decrement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Example command.&quot;&quot;&quot;</span>
+        <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">count</span> <span class="o">-=</span> <span class="mi">1</span>
+</code></pre></div>
+<h2 id="component-template">Component Template</h2>
+<p>The template is defined in the <code>simplecounter.html</code> file.</p>
+<div class="highlight"><pre><span></span><code>{% load livecomponents %}
+
+<span class="p">&lt;</span><span class="nt">div</span> <span class="err">{%</span> <span class="na">component_attrs</span> <span class="na">component_id</span> <span class="err">%}</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">button</span> <span class="na">hx-post</span><span class="o">=</span><span class="s">&quot;{% call_command component_id &#39;decrement&#39; %}&quot;</span><span class="p">&gt;</span>-1<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">button</span> <span class="na">hx-post</span><span class="o">=</span><span class="s">&quot;{% call_command component_id &#39;increment&#39; %}&quot;</span><span class="p">&gt;</span>+1<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>Count: {{ count }}<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>The important points here are:</p>
+<ul>
+<li>The component must be wrapped with an HTML element (a top-level div in this case).</li>
+<li>The top-level div must contain the "magic" template tag <code>{% component_attrs component_id %}</code>. This tag expands to a set of livecomponent-specific and HTMX-specific attributes that are used to correctly address the element when re-rendering it in response to commands.</li>
+<li>Actions are defined as HTMX-style POST requests.</li>
+</ul>
+<p>The result will look like this:</p>
+<p><img alt="Simplecounter component" src="../img/simplecounter.gif" /></p>
+<h2 id="component-commands">Component Commands</h2>
+<p>The <code>{% call_command component_id 'increment' %}</code> template tag expands to a URL that looks like this: <code>/livecomponents/call_command/?session_id=&lt;session&gt;&amp;component_id=&lt;component_id&gt;&amp;command_name=&lt;command_name&gt;</code>.</p>
+<p>On the server side, the command is called by the livecomponent handler, which finds the component class, fetches the state from the store, and calls the command handler. Then the command handler redraws the component and returns the result to the client.</p>
 <h2 id="component-state">Component State</h2>
-<p>The state is defined in a separate class. The state must include parameters, passed to the component as keyword arguments, so that the component gets all necessary information to re-render itself on partial render.</p>
-<p>For example, given the template the alert component:</p>
+<p>The state is defined in a separate class. The state must include parameters passed to the component as keyword arguments, so that the component gets all the necessary information to re-render itself on partial render.</p>
+<p>For example, given the template for the alert component:</p>
 <div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">alert</span><span class="p">&gt;</span>{{ message }}<span class="p">&lt;/</span><span class="nt">alert</span><span class="p">&gt;</span>
 </code></pre></div>
 <p>that you want to use as</p>
@@ -922,30 +1107,25 @@
 
     <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;alert.html&quot;</span>
 
-
     <span class="k">def</span> <span class="nf">init_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">InitStateContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AlertState</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">AlertState</span><span class="p">(</span><span class="o">**</span><span class="n">context</span><span class="o">.</span><span class="n">component_kwargs</span><span class="p">)</span>
 </code></pre></div>
-<p>Component states don't need to be stored if components are not expected to be re-rendered independently, and only
-as part of the parent component. For example, components for buttons are rarely re-rendered independently, so
-you get away without the state model.</p>
+<p>Component states don't need to be stored if components are not expected to be re-rendered independently, and only as part of the parent component. For example, components for buttons are rarely re-rendered independently, so you can get away without the state model.</p>
 <h2 id="serializing-component-state">Serializing Component State</h2>
-<p>When the page is rendered for the first time, a new session is created, and each component is initialized with its
-state by calling the <code>init_state()</code> method.</p>
-<p>The state is then serialized and stored in the session store, and as long as the session is the same (in other words,
-while the page is not loaded), the state is reused.</p>
-<p>The state is serialized using the <code>StateSerializer</code> class and saved in Redis. By default, the <code>PickleStateSerializer</code>
-is used. The serializer uses custom pickler and is optimized to store effectively the most common types of data, used
-in a Django app. More specifically:</p>
+<p>When the page is rendered for the first time, a new session is created, and each component is initialized with its state by calling the <code>init_state()</code> method.</p>
+<p>The state is then serialized and stored in the session store, and as long as the session is the same (in other words, while the page is not reloaded), the state is reused.</p>
+<p>The state is serialized using the <code>StateSerializer</code> class and saved in Redis. By default, the <code>PickleStateSerializer</code> is used. The serializer uses a custom pickler and is optimized to effectively store the most common types of data used in a Django app. More specifically:</p>
 <ul>
-<li>When serializing a Django model, only the model's name and primary key are stored. The serializer takes advantage of
-  the persistent_id/persistent_load pickle mechanism.</li>
+<li>When serializing a Django model, only the model's name and primary key are stored. The serializer takes advantage of the persistent_id/persistent_load pickle mechanism.</li>
 <li>When serializing a Pydantic model, only the model's name and the values of the fields are stored.</li>
 <li>When serializing a Django form, only the form's class name, as well as initial data and data, are stored.</li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Session Storage Size Warning</p>
+<p>Livecomponents use Redis as the session store. Remember that a new session is created for each page load of every client, and stored there for 24 hours by default. This means you should keep the state small.</p>
+</div>
 <h2 id="stateless-components">Stateless components</h2>
-<p>If the component doesn't store any state, you can inherit it from the StatelessLiveComponent class. You may find it
-helpful for rendering the hierarchy of components where the shared state is stored in the root components.</p>
+<p>If the component doesn't store any state, you can inherit from the StatelessLiveComponent class. You may find this helpful for rendering a hierarchy of components where the shared state is stored in the root components.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">livecomponents.component</span> <span class="kn">import</span> <span class="n">StatelessLiveComponent</span>
 
 <span class="k">class</span> <span class="nc">StatelessAlert</span><span class="p">(</span><span class="n">StatelessLiveComponent</span><span class="p">):</span>
@@ -961,19 +1141,18 @@ helpful for rendering the hierarchy of components where the shared state is stor
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="n">root_state</span><span class="o">.</span><span class="n">message</span><span class="p">}</span>
 </code></pre></div>
 <h2 id="returning-results-from-command-handlers">Returning results from command handlers</h2>
-<p>Here's the signature of the Livecomponent function:</p>
+<p>Here's the signature of a Livecomponent function:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">livecomponents</span> <span class="kn">import</span> <span class="n">LiveComponent</span><span class="p">,</span> <span class="n">CallContext</span><span class="p">,</span> <span class="n">command</span>
 <span class="kn">from</span> <span class="nn">livecomponents.manager.execution_results</span> <span class="kn">import</span> <span class="n">IExecutionResult</span>
 
 <span class="k">class</span> <span class="nc">MyComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">):</span>
 
     <span class="nd">@command</span>
-    <span class="k">def</span> <span class="nf">my_command_handler</span><span class="p">(</span><span class="bp">self</span> <span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">IExecutionResult</span><span class="p">]</span> <span class="o">|</span> <span class="n">IExecutionResult</span> <span class="o">|</span> <span class="kc">None</span> <span class="p">:</span>
+    <span class="k">def</span> <span class="nf">my_command_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">IExecutionResult</span><span class="p">]</span> <span class="o">|</span> <span class="n">IExecutionResult</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
         <span class="o">...</span>
 </code></pre></div>
-<p>Notice the type of the returned value for the handler. If set to something other than None, it can shape the
-partial HTTP response.</p>
-<p>More specifically here's what you can do:</p>
+<p>Notice the return type for the handler. If set to something other than None, it can shape the partial HTTP response.</p>
+<p>More specifically, here's what you can do:</p>
 <ul>
 <li>Return ComponentDirty() to mark the component as dirty. This will result in the component being re-rendered and sent to the client. This is the default behavior. If you don't return anything, the component will be marked as dirty.</li>
 <li>Return ComponentDirty(component_id) to mark a different component as dirty.</li>
@@ -986,7 +1165,7 @@ partial HTTP response.</p>
 <h2 id="raising-exceptions-from-command-handlers">Raising exceptions from command handlers</h2>
 <p>In some rare scenarios, you may need to cancel rendering the component and instruct the command handler to return an empty string to the client.</p>
 <p>If this is the case, you can raise a <code>livecomponents.exceptions.CancelRendering()</code> exception.</p>
-<p>The exception can be raised directly from a command handler or from one of the methods that it will call, such as <code>get_extra_context_data()</code>.</p>
+<p>The exception can be raised directly from a command handler or from one of the methods that it calls, such as <code>get_extra_context_data()</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">livecomponents.exceptions</span> <span class="kn">import</span> <span class="n">CancelRendering</span>
 <span class="o">...</span>
 
@@ -1068,7 +1247,7 @@ partial HTTP response.</p>
     <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.56dfad97.min.js"></script>
+      <script src="../assets/javascripts/bundle.88dd0f4e.min.js"></script>
       
     
   </body>
