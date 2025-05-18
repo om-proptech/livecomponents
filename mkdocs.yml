@@ -23,6 +23,7 @@ nav:
   - quickstart.md
   - User Guide:
     - livecomponents.md
+    - nested_components.md
     - configuration.md
     - uploads.md
     - error_handling.md

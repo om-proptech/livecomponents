@@ -1,0 +1,9 @@
+{% load livecomponents %}
+{% component_ancestor component_id "nestedcounter/root" as root_id %}
+
+<button {% component_attrs component_id %}
+    hx-post='{% call_command root_id "increment" %}'
+    hx-vals='{"value": 1}'
+>
+    +1
+</button>

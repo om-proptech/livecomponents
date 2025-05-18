@@ -15,3 +15,7 @@ def index(request: HttpRequest):
 
 def simplecounter(request: HttpRequest):
     return render(request, "simplecounter.html")
+
+
+def nestedcounter(request: HttpRequest):
+    return render(request, "nestedcounter.html")

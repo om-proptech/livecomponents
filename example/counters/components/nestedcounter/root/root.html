@@ -1,0 +1,6 @@
+{% load livecomponents %}
+
+<div {% component_attrs component_id %}>
+    Counter: {{ value }}
+    {% livecomponent "nestedcounter/button" parent_id=component_id %}
+</div>
