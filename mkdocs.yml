@@ -22,7 +22,7 @@ nav:
   - index.md
   - quickstart.md
   - User Guide:
-    - components.md
+    - livecomponents.md
     - configuration.md
     - uploads.md
     - error_handling.md
@@ -40,3 +40,5 @@ nav:
 
 markdown_extensions:
   - pymdownx.superfences
+  - pymdownx.details
+  - admonition

@@ -11,3 +11,7 @@ def index(request: HttpRequest):
             "currency": "€",
         },
     )
+
+
+def simplecounter(request: HttpRequest):
+    return render(request, "simplecounter.html")
