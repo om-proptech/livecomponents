@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://om-proptech.github.io/livecomponents/quickstart/">
+        <link rel="canonical" href="https://om-proptech.github.io/livecomponents/nested_components/">
       
       
-        <link rel="prev" href="..">
+        <link rel="prev" href="../livecomponents/">
       
       
-        <link rel="next" href="../livecomponents/">
+        <link rel="next" href="../configuration/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Quickstart - Django Live Components</title>
+        <title>Nested Livecomponents - Django Live Components</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#quickstart" class="md-skip">
+        <a href="#nested-livecomponents" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Quickstart
+              Nested Livecomponents
             
           </span>
         </div>
@@ -270,30 +270,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Quickstart
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -302,62 +282,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#django-settings" class="md-nav__link">
-    <span class="md-ellipsis">
-      Django settings
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#base-template" class="md-nav__link">
-    <span class="md-ellipsis">
-      Base template
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#urls" class="md-nav__link">
-    <span class="md-ellipsis">
-      URLs
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#create-new-component" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create new component
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -366,17 +290,19 @@
       
   
   
+    
   
   
+  
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -390,7 +316,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             User Guide
@@ -422,10 +348,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../nested_components/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Nested Livecomponents
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -434,6 +380,53 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#root-with-stateless-children" class="md-nav__link">
+    <span class="md-ellipsis">
+      Root with stateless children
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nested-counter-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Nested Counter Example
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hierarchy-implementation-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hierarchy Implementation Details
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -830,36 +823,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#django-settings" class="md-nav__link">
+  <a href="#root-with-stateless-children" class="md-nav__link">
     <span class="md-ellipsis">
-      Django settings
+      Root with stateless children
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#base-template" class="md-nav__link">
+  <a href="#nested-counter-example" class="md-nav__link">
     <span class="md-ellipsis">
-      Base template
+      Nested Counter Example
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#urls" class="md-nav__link">
+  <a href="#hierarchy-implementation-details" class="md-nav__link">
     <span class="md-ellipsis">
-      URLs
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#create-new-component" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create new component
+      Hierarchy Implementation Details
     </span>
   </a>
   
@@ -883,107 +867,112 @@
   
 
 
-<h1 id="quickstart">Quickstart</h1>
-<p>Here's how you integrate live components after you've installed the package:</p>
-<ul>
-<li>Modify Django settings.</li>
-<li>Modify base HTML template.</li>
-<li>Modify URLs to include live components.</li>
-</ul>
-<h2 id="django-settings">Django settings</h2>
-<p>Add to installed apps following packages:</p>
-<div class="highlight"><pre><span></span><code><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="c1"># ...</span>
-    <span class="s2">&quot;django_components&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;django_components.safer_staticfiles&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;django_htmx&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;livecomponents&quot;</span><span class="p">,</span>
-    <span class="c1"># ...</span>
-<span class="p">]</span>
-</code></pre></div>
-<p>Add HTMX middleware:</p>
-<div class="highlight"><pre><span></span><code><span class="n">MIDDLEWARE</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="c1"># ...</span>
-    <span class="s2">&quot;django_htmx.middleware.HtmxMiddleware&quot;</span><span class="p">,</span>
-    <span class="c1"># ...</span>
-<span class="p">]</span>
-</code></pre></div>
-<p>Add component dirs for to static files:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Static files (CSS, JavaScript, Images)</span>
-<span class="n">STATICFILES_DIRS</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="c1"># To load django-components specific to myapp</span>
-    <span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s2">&quot;app_one/components&quot;</span><span class="p">,</span>
-    <span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s2">&quot;app_two/components&quot;</span><span class="p">,</span>
-<span class="p">]</span>
-</code></pre></div>
-<p>You can also configure live components with the <code>LIVECOMPONENTS</code> settings dictionary. See the "Configuration" section for more details.</p>
-<h2 id="base-template">Base template</h2>
-<p>There, we need support for HTMX and Live Components:</p>
-<div class="highlight"><pre><span></span><code>{% load ... component_tags django_htmx livecomponents %}
-<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
-  <span class="cm">&lt;!-- Configure HTMX --&gt;</span>
-  <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;htmx-config&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&#39;{&quot;defaultSwapStyle&quot;:&quot;none&quot;}&#39;</span><span class="p">&gt;</span>
+<h1 id="nested-livecomponents">Nested Livecomponents</h1>
+<p>While livecomponents can be used as standalone components, they can also be nested. This approach allows you to split complex user interfaces into smaller components and develop them independently.</p>
+<p>Although you can create advanced nested livecomponents, there are several caveats to be aware of. We've found that it's much easier to reason about the livecomponents lifecycle using the "root with stateless children" pattern.</p>
+<p>Let's explore this pattern in detail.</p>
+<h2 id="root-with-stateless-children">Root with stateless children</h2>
+<p>The idea behind this pattern is to create a single component (typically called "myapp/root") that maintains the entire state and contains all the actions that can modify this state.</p>
+<p>Child components are stateless and don't have any actions. Their Django templates call the actions defined in their root component.</p>
+<p>While this approach makes the root and child components tightly coupled (you can't use child components independently), it makes the data flow easier to understand. Additionally, all logic is concentrated in a single place.</p>
+<h2 id="nested-counter-example">Nested Counter Example</h2>
+<p>Let's start by creating a view and a template that renders the root component.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># counters/views.py</span>
 
-  <span class="cm">&lt;!-- JavaScript dependencies --&gt;</span>
-  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://unpkg.com/htmx.org@1.9.6&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://unpkg.com/htmx.org@1.9.6/dist/ext/json-enc.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-
-  <span class="cm">&lt;!-- Use this for idiomorph --&gt;</span>
-  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://unpkg.com/idiomorph/dist/idiomorph-ext.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-  <span class="cm">&lt;!-- Or this for Alpine morph --&gt;</span>
-  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://unpkg.com/htmx.org@1.9.6/dist/ext/alpine-morph.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-  {% django_htmx_script %}
-
-  {% component_css_dependencies %}
-  {% livecomponents_session_id as LIVECOMPONENTS_SESSION_ID %}
-
-  <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
-<span class="w">    </span><span class="c1">// Optionally, clear the session on page unload.</span>
-<span class="w">    </span><span class="c1">//</span>
-<span class="w">    </span><span class="c1">// Firefox does not support keepalive fetches, so we need to use a workaround.</span>
-<span class="w">    </span><span class="c1">// See https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon</span>
-<span class="w">    </span><span class="c1">// and https://bugzilla.mozilla.org/show_bug.cgi?id=1342484</span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">fetchUrl</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;{% url &#39;livecomponents:clear-session&#39; %}?session_id={{ LIVECOMPONENTS_SESSION_ID }}&quot;</span><span class="p">;</span>
-<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">csrfmiddlewaretoken</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;{{ csrf_token }}&quot;</span><span class="p">;</span>
-<span class="w">    </span><span class="nb">window</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;beforeunload&quot;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nx">navigator</span><span class="p">.</span><span class="nx">sendBeacon</span><span class="p">(</span><span class="nx">fetchUrl</span><span class="p">,</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">URLSearchParams</span><span class="p">({</span><span class="nx">csrfmiddlewaretoken</span><span class="p">}))</span>
-<span class="w">    </span><span class="p">});</span>
-
-<span class="w">    </span><span class="c1">// Alternatively, use a regular fetch if you don&#39;t care about the issue above.</span>
-<span class="w">    </span><span class="c1">// window.addEventListener(&quot;beforeunload&quot;, function () {</span>
-<span class="w">    </span><span class="c1">//   fetch(fetchUrl, {</span>
-<span class="w">    </span><span class="c1">//     keepalive: true,</span>
-<span class="w">    </span><span class="c1">//     method: &quot;POST&quot;,</span>
-<span class="w">    </span><span class="c1">//     headers: {&quot;X-CSRFToken&quot;: csrfmiddlewaretoken}</span>
-<span class="w">    </span><span class="c1">//   });</span>
-<span class="w">    </span><span class="c1">// });</span>
-<span class="w">  </span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-  ...
-<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">body</span> <span class="na">hx-ext</span><span class="o">=</span><span class="s">&quot;morph, json-enc&quot;</span> <span class="na">hx-headers</span><span class="o">=</span><span class="s">&#39;{&quot;X-CSRFToken&quot;: &quot;{{ csrf_token }}&quot;}&#39;</span><span class="p">&gt;</span>
-<span class="cm">&lt;!-- use hx-ext=&quot;alpine-morph, json-enc&quot; for Alpine.js morpher --&gt;</span>
-...
-{% component_js_dependencies %}
-<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
-<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+<span class="k">def</span> <span class="nf">nestedcounter</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;nestedcounter.html&quot;</span><span class="p">)</span>
 </code></pre></div>
-<h2 id="urls">URLs</h2>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">include</span>
+<div class="highlight"><pre><span></span><code><span class="x"># templates/nestedcounter.html</span>
 
-<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="c1"># ...</span>
-    <span class="n">path</span><span class="p">(</span><span class="s2">&quot;livecomponents/&quot;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s2">&quot;livecomponents.urls&quot;</span><span class="p">)),</span>
-    <span class="c1"># ...</span>
-<span class="p">]</span>
+<span class="cp">{%</span> <span class="k">extends</span> <span class="s2">&quot;base.html&quot;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">load</span> <span class="nv">livecomponents</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}</span>
+<span class="x">  &lt;h1&gt;Nested counter&lt;/h1&gt;</span>
+<span class="x">  </span><span class="cp">{%</span> <span class="k">livecomponent</span> <span class="s2">&quot;nestedcounter/root&quot;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
 </code></pre></div>
-<h2 id="create-new-component">Create new component</h2>
-<p>There is a management command to create new component:</p>
-<div class="highlight"><pre><span></span><code>./manage.py<span class="w"> </span>createlivecomponent<span class="w"> </span>&lt;app_name&gt;<span class="w"> </span>&lt;directory/component_name&gt;
+<p>Since the nested counter components don't exist yet, let's first create a placeholder for the root component. We'll create a root component that will maintain the counter state.</p>
+<div class="highlight"><pre><span></span><code>./manage.py<span class="w"> </span>createlivecomponent<span class="w"> </span>counters<span class="w"> </span>nestedcounter/root<span class="w"> </span>./manage.py
 </code></pre></div>
-<p>The command with create a "components" subdirectory in the app directory and create a new component, consisting
-of one Python, and one HTML file.</p>
-<p>Make sure that your STATICFILES_DIRS setting includes the "components" directory of the app.</p>
-<p>Optionally, you can pass a <code>--stateless</code> flag to create a stateless component.</p>
+<p>Now, let's modify the root component to define the state and action.</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">RootState</span><span class="p">(</span><span class="n">LiveComponentsModel</span><span class="p">):</span>
+    <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+<span class="nd">@component</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;nestedcounter/root&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">RootComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">[</span><span class="n">RootState</span><span class="p">]):</span>
+
+    <span class="o">...</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span> <span class="nf">increment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">RootState</span><span class="p">],</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Increment the counter.&quot;&quot;&quot;</span>
+        <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">value</span> <span class="o">+=</span> <span class="n">value</span>
+</code></pre></div>
+<p>In this simple example, we could create both the current value display and the increment button in the same template like this:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">{%</span> <span class="k">load</span> <span class="nv">livecomponents</span> <span class="cp">%}</span>
+
+<span class="x">&lt;div </span><span class="cp">{%</span> <span class="k">component_attrs</span> <span class="nv">component_id</span> <span class="cp">%}</span><span class="x">&gt;</span>
+<span class="x">    Counter: </span><span class="cp">{{</span> <span class="nv">value</span> <span class="cp">}}</span>
+<span class="x">    &lt;button </span><span class="cp">{%</span> <span class="k">component_attrs</span> <span class="nv">component_id</span> <span class="cp">%}</span>
+<span class="x">        hx-post=&#39;</span><span class="cp">{%</span> <span class="k">call_command</span> <span class="nv">component_id</span> <span class="s2">&quot;increment&quot;</span> <span class="cp">%}</span><span class="x">&#39;</span>
+<span class="x">        hx-vals=&#39;{&quot;value&quot;: 1}&#39;</span>
+<span class="x">    &gt;</span>
+<span class="x">        +1</span>
+<span class="x">    &lt;/button&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</code></pre></div>
+<p>However, for demonstration purposes, let's extract the button into a separate stateless component.</p>
+<p>Let's update the root component's HTML to use the new button component:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">{%</span> <span class="k">load</span> <span class="nv">livecomponents</span> <span class="cp">%}</span>
+
+<span class="x">&lt;div </span><span class="cp">{%</span> <span class="k">component_attrs</span> <span class="nv">component_id</span> <span class="cp">%}</span><span class="x">&gt;</span>
+<span class="x">    Counter: </span><span class="cp">{{</span> <span class="nv">value</span> <span class="cp">}}</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">livecomponent</span> <span class="s2">&quot;nestedcounter/button&quot;</span> <span class="nv">parent_id</span><span class="o">=</span><span class="nv">component_id</span> <span class="cp">%}</span>
+<span class="x">&lt;/div&gt;</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">The <code>parent_id</code> argument</p>
+<p>The <code>parent_id=component_id</code> argument is crucial for building the component hierarchy. It passes the ID of the parent component to the child component, establishing their relationship.</p>
+</div>
+<p>Now, let's create the button component placeholder:</p>
+<div class="highlight"><pre><span></span><code>createlivecomponent<span class="w"> </span>counters<span class="w"> </span>nestedcounter/button<span class="w"> </span>--stateless<span class="w"> </span>--minimal
+</code></pre></div>
+<p>The Python code for the button can remain minimal since it's stateless:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">django_components</span> <span class="kn">import</span> <span class="n">component</span>
+
+<span class="kn">from</span> <span class="nn">livecomponents</span> <span class="kn">import</span> <span class="n">StatelessLiveComponent</span>
+
+
+<span class="nd">@component</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;nestedcounter/button&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">ButtonComponent</span><span class="p">(</span><span class="n">StatelessLiveComponent</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;nestedcounter/button/button.html&quot;</span>
+</code></pre></div>
+<p>The HTML code will look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">{%</span> <span class="k">load</span> <span class="nv">livecomponents</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">component_ancestor</span> <span class="nv">component_id</span> <span class="s2">&quot;nestedcounter/root&quot;</span> <span class="k">as</span> <span class="nv">root_id</span> <span class="cp">%}</span>
+
+<span class="x">&lt;button </span><span class="cp">{%</span> <span class="k">component_attrs</span> <span class="nv">component_id</span> <span class="cp">%}</span>
+<span class="x">    hx-post=&#39;</span><span class="cp">{%</span> <span class="k">call_command</span> <span class="nv">root_id</span> <span class="s2">&quot;increment&quot;</span> <span class="cp">%}</span><span class="x">&#39;</span>
+<span class="x">    hx-vals=&#39;{&quot;value&quot;: 1}&#39;</span>
+<span class="x">&gt;</span>
+<span class="x">    +1</span>
+<span class="x">&lt;/button&gt;</span>
+</code></pre></div>
+<p>The key part is the <code>{% component_ancestor component_id "nestedcounter/root" as root_id %}</code> line. This allows the button component to call the <code>increment</code> command on the root component.</p>
+<p>Note that if the parent component doesn't include the <code>parent_id=component_id</code> argument, the <code>component_ancestor</code> tag will return an empty string, and the command call will fail.</p>
+<h2 id="hierarchy-implementation-details">Hierarchy Implementation Details</h2>
+<p>When rendering a page, the component hierarchy is stored in the livecomponent IDs, which remain stable across page loads.</p>
+<p>For an isolated component, the ID format is simple:</p>
+<div class="highlight"><pre><span></span><code>|&lt;component_type&gt;:&lt;own_id&gt;
+</code></pre></div>
+<p>Here, <code>component_type</code> is the livecomponent name (like "my_button" or "nestedcounter/button"), and <code>own_id</code> is the component's ID. If no component ID is provided, it defaults to 0.</p>
+<p>For hierarchical components, the ID encodes the entire hierarchy as a concatenation of the parent ID, component type, and component ID:</p>
+<div class="highlight"><pre><span></span><code>|&lt;parent_type&gt;:&lt;parent_id&gt;|...|&lt;component_type&gt;:&lt;own_id&gt;
+</code></pre></div>
+<p>This is where the <code>parent_id=component_id</code> argument comes into play - it passes the parent ID to build the full component ID for the child.</p>
+<p>All other features, such as calling <code>parent</code> from the component or using the <code>component_ancestor</code> template tag, are convenience methods for working with the hierarchy. These functions and template tags parse the ID string similarly to how Python's <code>os.path</code> handles file paths.</p>
 
 
 
