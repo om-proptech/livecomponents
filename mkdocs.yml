@@ -35,6 +35,7 @@ nav:
   - Advanced:
     - context.md
     - templates.md
+    - state_serialization.md
     - component_ids.md
   - About:
       - Changelog: https://github.com/om-proptech/livecomponents/blob/main/CHANGELOG.md

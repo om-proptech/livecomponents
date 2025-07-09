@@ -8,7 +8,10 @@ from django.contrib.auth.models import User
 from django.forms import ModelForm
 from pydantic import BaseModel
 
-from livecomponents.manager.serializers import PickleStateSerializer
+from livecomponents.manager.serializers import (
+    PickleStateSerializer,
+    livecomponents_reducer,
+)
 
 
 class MyModel(BaseModel):
@@ -27,6 +30,35 @@ class MyModelForm(ModelForm):
     class Meta:
         model = User
         fields = ["username", "email"]
+
+
+def dynamic_user_form(form_fields: list[str]):
+    """Dynamically create a ModelForm for the User model with specified fields."""
+
+    class DynamicUserForm(ModelForm):
+        class Meta:
+            model = User
+            fields = form_fields
+
+        @livecomponents_reducer
+        def __reduce__(self):
+            data = self.data if self.is_bound else None
+            constructor_kwargs = {
+                "initial": self.initial,
+                "data": data,
+            }
+            if hasattr(self, "instance"):
+                constructor_kwargs["instance"] = self.instance
+            return restore_dynamic_user_form, (form_fields, constructor_kwargs)
+
+    return DynamicUserForm
+
+
+def restore_dynamic_user_form(form_fields: list[str], constructor_kwargs: dict):
+    """Restore the dynamic User form with specified fields."""
+    instance = dynamic_user_form(form_fields)(**constructor_kwargs)
+    instance.full_clean()
+    return instance
 
 
 @pytest.mark.parametrize(
@@ -124,6 +156,14 @@ def test_model_form_serialization_no_instance():
 def test_model_form_serialization(admin_user):
     form = MyModelForm(instance=admin_user)
     deserialized = reserialize(form)
+    assert deserialized.instance == admin_user
+
+
+@pytest.mark.django_db
+def test_dynamic_model_with_custom_reducer_serialization(admin_user):
+    form = dynamic_user_form(form_fields=["username", "email"])(instance=admin_user)
+    deserialized = reserialize(form)
+    assert deserialized.fields.keys() == {"username", "email"}
     assert deserialized.instance == admin_user
 
 
