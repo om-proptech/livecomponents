@@ -2,6 +2,7 @@ import abc
 import io
 import pickle
 import pickletools
+from collections.abc import Callable
 from typing import Any
 
 from django.apps import apps
@@ -50,6 +51,10 @@ class LivecomponentsPickler(pickle.Pickler):
     """
 
     def reducer_override(self, obj):
+        if has_livecomponent_reducer(obj):
+            logger.debug("Custom pickling: using custom reducer for %s", obj.__class__)
+            return NotImplemented
+
         if isinstance(obj, DjangoTemplates):
             return pickle_django_templates(obj)
         if isinstance(obj, BaseForm):
@@ -180,3 +185,23 @@ def pickle_django_model(instance: Model):
 def unpickle_django_model(cls, field_data: dict):
     logger.debug("Custom unpickling: Django model: class=%s", cls.__name__)
     return cls(**field_data)
+
+
+def livecomponents_reducer(func: Callable) -> Callable:
+    """Mark that the reducer as to be used for pickling with LivecomponentsPickler.
+
+    The decorator has to be applied to the `__reduce__` method of a class when we want
+    to enforce its use even for the objects, for which LivecomponentsPickler
+    defines a custom reducer.
+
+    See docs/state_serialization.md for more details.
+    """
+    func._livecomponents_reducer = True  # type: ignore
+    return func
+
+
+def has_livecomponent_reducer(obj: Any) -> bool:
+    """Check if the object has a custom reducer for LivecomponentsPickler."""
+    return hasattr(obj, "__reduce__") and getattr(
+        obj.__reduce__, "_livecomponents_reducer", False
+    )

@@ -166,22 +166,6 @@ class Alert(LiveComponent):
 
 Component states don't need to be stored if components are not expected to be re-rendered independently, and only as part of the parent component. For example, components for buttons are rarely re-rendered independently, so you can get away without the state model.
 
-## Serializing Component State
-
-When the page is rendered for the first time, a new session is created, and each component is initialized with its state by calling the `init_state()` method.
-
-The state is then serialized and stored in the session store, and as long as the session is the same (in other words, while the page is not reloaded), the state is reused.
-
-The state is serialized using the `StateSerializer` class and saved in Redis. By default, the `PickleStateSerializer` is used. The serializer uses a custom pickler and is optimized to effectively store the most common types of data used in a Django app. More specifically:
-
-- When serializing a Django model, only the model's name and primary key are stored. The serializer takes advantage of the persistent_id/persistent_load pickle mechanism.
-- When serializing a Pydantic model, only the model's name and the values of the fields are stored.
-- When serializing a Django form, only the form's class name, as well as initial data and data, are stored.
-
-!!! note "Session Storage Size Warning"
-
-    Livecomponents use Redis as the session store. Remember that a new session is created for each page load of every client, and stored there for 24 hours by default. This means you should keep the state small.
-
 ## Stateless components
 
 If the component doesn't store any state, you can inherit from the StatelessLiveComponent class. You may find this helpful for rendering a hierarchy of components where the shared state is stored in the root components.
