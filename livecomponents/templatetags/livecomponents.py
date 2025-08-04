@@ -143,7 +143,7 @@ def no_morph():
     This way, the textarea DOM element will always be replaced, not morphed, which,
     for example, results in updating the component state from the server side.
     """
-    return f'key="{secrets.token_urlsafe(8)}"'
+    return mark_safe(f'key="{secrets.token_urlsafe(8)}"')
 
 
 @register.tag(name="livecomponent")
