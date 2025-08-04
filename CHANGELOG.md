@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## UNRELEASED
 
-- Updated livecomponent documentation. Added simple counter example.
+- Updated livecomponent documentation.
+- Added simple counter example.
+- Fixed no_morph templatetag to return mark_safe output
 
 ## 1.15.0 (2025-04-08)
 

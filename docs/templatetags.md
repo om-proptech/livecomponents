@@ -8,12 +8,22 @@ All templatetags are loaded with the "livecomponents" tag library:
 
 ## component_attrs
 
-Set "data-livecomponent-id" and "hx-swap-oob" attributes for the root tag of the component. It is expected to be used in every component template.
+Set "data-livecomponent-id", "hx-swap-oob", and "key" attributes for the root tag of the component. It is expected to be used in every component template.
+
+The `swap_style` parameter controls how the component updates its state (defaults to "morph"). See [hx-swap-oob](https://htmx.org/attributes/hx-swap-oob/) for more details.
 
 **Usage example:**
 
 ```html
 <div {% component_attrs component_id %}>
+  <!-- The actual component content -->
+</div>
+```
+
+**Usage with custom swap style:**
+
+```html
+<div {% component_attrs component_id swap_style="outerHTML" %}>
   <!-- The actual component content -->
 </div>
 ```
@@ -86,7 +96,10 @@ around it.
 Return a key that disables morphing for the component.
 
 Random key is generated to prevent morphing of the component.
-See https://alpinejs.dev/plugins/morph#keys for more details.
+See [Apline.js morph keys](https://alpinejs.dev/plugins/morph#keys) for more details.
+
+!!! warning
+    `no_morph` should not be used together with `component_attrs` on the root element, as both set the `key` attribute which will cause conflicts. Instead, use `{% component_attrs swap_style="outerHTML" %}` on the root element to achieve similar behavior.
 
 Usage example:
 
