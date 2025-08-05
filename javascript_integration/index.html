@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://om-proptech.github.io/livecomponents/nested_components/">
+        <link rel="canonical" href="https://om-proptech.github.io/livecomponents/javascript_integration/">
       
       
-        <link rel="prev" href="../livecomponents/">
+        <link rel="prev" href="../configuration/">
       
       
-        <link rel="next" href="../configuration/">
+        <link rel="next" href="../uploads/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Nested Livecomponents - Django Live Components</title>
+        <title>Working with JavaScript in Livecomponents - Django Live Components</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#nested-livecomponents" class="md-skip">
+        <a href="#working-with-javascript-in-livecomponents" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Nested Livecomponents
+              Working with JavaScript in Livecomponents
             
           </span>
         </div>
@@ -360,32 +360,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Nested Livecomponents
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../nested_components/" class="md-nav__link">
         
   
   
@@ -396,53 +374,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#root-with-stateless-children" class="md-nav__link">
-    <span class="md-ellipsis">
-      Root with stateless children
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#nested-counter-example" class="md-nav__link">
-    <span class="md-ellipsis">
-      Nested Counter Example
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hierarchy-implementation-details" class="md-nav__link">
-    <span class="md-ellipsis">
-      Hierarchy Implementation Details
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -475,10 +406,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../javascript_integration/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Working with JavaScript in Livecomponents
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -489,6 +442,98 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#scripts-dont-re-execute-on-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scripts Don't Re-Execute on Updates
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-script-execution-with-nested-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multiple Script Execution with Nested Components
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#managing-javascript-object-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      Managing JavaScript Object References
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preserving-stateful-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preserving Stateful Components
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-the-right-javascript-event" class="md-nav__link">
+    <span class="md-ellipsis">
+      Choosing the Right JavaScript Event
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Important Configuration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Working Example
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -893,27 +938,72 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#root-with-stateless-children" class="md-nav__link">
+  <a href="#scripts-dont-re-execute-on-updates" class="md-nav__link">
     <span class="md-ellipsis">
-      Root with stateless children
+      Scripts Don't Re-Execute on Updates
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#nested-counter-example" class="md-nav__link">
+  <a href="#multiple-script-execution-with-nested-components" class="md-nav__link">
     <span class="md-ellipsis">
-      Nested Counter Example
+      Multiple Script Execution with Nested Components
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#hierarchy-implementation-details" class="md-nav__link">
+  <a href="#managing-javascript-object-references" class="md-nav__link">
     <span class="md-ellipsis">
-      Hierarchy Implementation Details
+      Managing JavaScript Object References
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preserving-stateful-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preserving Stateful Components
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-the-right-javascript-event" class="md-nav__link">
+    <span class="md-ellipsis">
+      Choosing the Right JavaScript Event
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Important Configuration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#working-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Working Example
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
     </span>
   </a>
   
@@ -938,112 +1028,138 @@
   
 
 
-<h1 id="nested-livecomponents">Nested Livecomponents</h1>
-<p>While livecomponents can be used as standalone components, they can also be nested. This approach allows you to split complex user interfaces into smaller components and develop them independently.</p>
-<p>Although you can create advanced nested livecomponents, there are several caveats to be aware of. We've found that it's much easier to reason about the livecomponents lifecycle using the "root with stateless children" pattern.</p>
-<p>Let's explore this pattern in detail.</p>
-<h2 id="root-with-stateless-children">Root with stateless children</h2>
-<p>The idea behind this pattern is to create a single component (typically called "myapp/root") that maintains the entire state and contains all the actions that can modify this state.</p>
-<p>Child components are stateless and don't have any actions. Their Django templates call the actions defined in their root component.</p>
-<p>While this approach makes the root and child components tightly coupled (you can't use child components independently), it makes the data flow easier to understand. Additionally, all logic is concentrated in a single place.</p>
-<h2 id="nested-counter-example">Nested Counter Example</h2>
-<p>Let's start by creating a view and a template that renders the root component.</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># counters/views.py</span>
-
-<span class="k">def</span><span class="w"> </span><span class="nf">nestedcounter</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;nestedcounter.html&quot;</span><span class="p">)</span>
+<h1 id="working-with-javascript-in-livecomponents">Working with JavaScript in Livecomponents</h1>
+<p>When building livecomponents, you often need client-side JavaScript to work with libraries like Chart.js, Google Maps, Monaco editor, or other interactive components. This is challenging because livecomponents use HTMX for updates, which changes how and when JavaScript runs.</p>
+<p>This guide explains the common problems and how to fix them.</p>
+<h2 id="scripts-dont-re-execute-on-updates">Scripts Don't Re-Execute on Updates</h2>
+<p><strong>What happens</strong>: When you include JavaScript directly in your component template, it only runs once on the initial page load. When the component updates via HTMX, the script doesn't run again.</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">div</span> <span class="err">{%</span> <span class="na">component_attrs</span> <span class="na">component_id</span> <span class="err">%}</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;my-chart&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="c1">// This only runs ONCE on initial page load</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Initializing chart&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="ow">new</span><span class="w"> </span><span class="nx">Chart</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;my-chart&quot;</span><span class="p">),</span><span class="w"> </span><span class="nx">config</span><span class="p">);</span>
+<span class="w">  </span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="x"># templates/nestedcounter.html</span>
-
-<span class="cp">{%</span> <span class="k">extends</span> <span class="s2">&quot;base.html&quot;</span> <span class="cp">%}</span>
-<span class="cp">{%</span> <span class="k">load</span> <span class="nv">livecomponents</span> <span class="cp">%}</span>
-
-<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}</span>
-<span class="x">  &lt;h1&gt;Nested counter&lt;/h1&gt;</span>
-<span class="x">  </span><span class="cp">{%</span> <span class="k">livecomponent</span> <span class="s2">&quot;nestedcounter/root&quot;</span> <span class="cp">%}</span>
-<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+<p><strong>Why this happens</strong>: Livecomponents use Alpine.js morphing to update the page efficiently. Alpine morph doesn't run <code>&lt;script&gt;</code> tags again when updating them (<a href="https://alpinejs.dev/plugins/morph">Alpine morph docs</a>).</p>
+<p><strong>Solutions</strong>:</p>
+<p>As a solution, switch to the regular HTMX update mechanism (without morphing). By default, HTMX will execute scripts on the updated element. You can do this in two ways:</p>
+<ul>
+<li><strong>Use <code>swap_style="outerHTML"</code></strong>: Forces HTMX to replace the entire element:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">div</span> <span class="err">{%</span> <span class="na">component_attrs</span> <span class="na">component_id</span> <span class="na">swap_style</span><span class="o">=</span><span class="s">&quot;outerHTML&quot;</span> <span class="err">%}</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="c1">// This will run on every update</span>
+<span class="w">  </span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 </code></pre></div>
-<p>Since the nested counter components don't exist yet, let's first create a placeholder for the root component. We'll create a root component that will maintain the counter state.</p>
-<div class="highlight"><pre><span></span><code>./manage.py<span class="w"> </span>createlivecomponent<span class="w"> </span>counters<span class="w"> </span>nestedcounter/root<span class="w"> </span>./manage.py
+<ul>
+<li><strong>Use <code>{% no_morph %}</code> template tag</strong>: Prevents morphing of the script element:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">div</span> <span class="err">{%</span> <span class="na">component_attrs</span> <span class="na">component_id</span> <span class="err">%}</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">script</span> <span class="err">{%</span> <span class="na">no_morph</span> <span class="err">%}</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="c1">// This will run on every update</span>
+<span class="w">  </span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 </code></pre></div>
-<p>Now, let's modify the root component to define the state and action.</p>
-<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">RootState</span><span class="p">(</span><span class="n">LiveComponentsModel</span><span class="p">):</span>
-    <span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
-
-
-<span class="nd">@component</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;nestedcounter/root&quot;</span><span class="p">)</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">RootComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">[</span><span class="n">RootState</span><span class="p">]):</span>
-
-    <span class="o">...</span>
-
-    <span class="nd">@command</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">increment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">RootState</span><span class="p">],</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Increment the counter.&quot;&quot;&quot;</span>
-        <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">value</span> <span class="o">+=</span> <span class="n">value</span>
+<h2 id="multiple-script-execution-with-nested-components">Multiple Script Execution with Nested Components</h2>
+<p><strong>What happens</strong>: When you have nested livecomponents, scripts can execute multiple times unexpectedly.</p>
+<p><strong>Why this happens</strong>: Livecomponents use <a href="https://htmx.org/attributes/hx-swap-oob/"><code>hx-swap-oob</code></a> to update components in place. With nested components, HTMX processes multiple <code>hx-swap-oob</code> directives:</p>
+<ol>
+<li>Parent component gets swapped</li>
+<li>Child components also get swapped</li>
+<li>Scripts in both parent and child run multiple times</li>
+</ol>
+<p><strong>Solution</strong>: Disable nested out-of-band swaps by adding this to your HTML <code>&lt;head&gt;</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;htmx-config&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&#39;{&quot;allowNestedOobSwaps&quot;:false}&#39;</span> <span class="p">/&gt;</span>
 </code></pre></div>
-<p>In this simple example, we could create both the current value display and the increment button in the same template like this:</p>
-<div class="highlight"><pre><span></span><code><span class="cp">{%</span> <span class="k">load</span> <span class="nv">livecomponents</span> <span class="cp">%}</span>
+<p>This tells HTMX to only process the outermost swap and ignore nested ones. This configuration is recommended in the <a href="../quickstart/">quickstart guide</a>.</p>
+<h2 id="managing-javascript-object-references">Managing JavaScript Object References</h2>
+<p><strong>What happens</strong>: JavaScript libraries create objects (like Chart instances) that you need to reuse when your component updates. You need somewhere to store these objects.</p>
+<p><strong>Recommended approach</strong>: Store objects as custom properties on DOM elements:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">canvas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;my-canvas&quot;</span><span class="p">);</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">chart</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Update existing chart</span>
+<span class="w">  </span><span class="nx">canvas</span><span class="p">.</span><span class="nx">chart</span><span class="p">.</span><span class="nx">update</span><span class="p">();</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Create new chart and store reference</span>
+<span class="w">  </span><span class="nx">canvas</span><span class="p">.</span><span class="nx">chart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Chart</span><span class="p">(</span><span class="nx">canvas</span><span class="p">,</span><span class="w"> </span><span class="nx">config</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Why this works</strong>:</p>
+<ul>
+<li>Objects are automatically garbage collected when DOM elements are removed</li>
+<li>No global namespace pollution</li>
+<li>Clear association between DOM elements and their JavaScript objects</li>
+</ul>
+<h2 id="preserving-stateful-components">Preserving Stateful Components</h2>
+<p>For components that take time to set up (charts, maps, editors), use <a href="https://htmx.org/attributes/hx-preserve/"><code>hx-preserve</code></a> to keep DOM elements unchanged during updates:</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">div</span> <span class="err">{%</span> <span class="na">component_attrs</span> <span class="na">component_id</span> <span class="err">%}</span><span class="p">&gt;</span>
+  <span class="cm">&lt;!-- This content can be updated --&gt;</span>
+  <span class="p">&lt;</span><span class="nt">h3</span><span class="p">&gt;</span>{{ chart_title }}<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
 
-<span class="x">&lt;div </span><span class="cp">{%</span> <span class="k">component_attrs</span> <span class="nv">component_id</span> <span class="cp">%}</span><span class="x">&gt;</span>
-<span class="x">    Counter: </span><span class="cp">{{</span> <span class="nv">value</span> <span class="cp">}}</span>
-<span class="x">    &lt;button </span><span class="cp">{%</span> <span class="k">component_attrs</span> <span class="nv">component_id</span> <span class="cp">%}</span>
-<span class="x">        hx-post=&#39;</span><span class="cp">{%</span> <span class="k">call_command</span> <span class="nv">component_id</span> <span class="s2">&quot;increment&quot;</span> <span class="cp">%}</span><span class="x">&#39;</span>
-<span class="x">        hx-vals=&#39;{&quot;value&quot;: 1}&#39;</span>
-<span class="x">    &gt;</span>
-<span class="x">        +1</span>
-<span class="x">    &lt;/button&gt;</span>
-<span class="x">&lt;/div&gt;</span>
-</code></pre></div>
-<p>However, for demonstration purposes, let's extract the button into a separate stateless component.</p>
-<p>Let's update the root component's HTML to use the new button component:</p>
-<div class="highlight"><pre><span></span><code><span class="cp">{%</span> <span class="k">load</span> <span class="nv">livecomponents</span> <span class="cp">%}</span>
+  <span class="cm">&lt;!-- This element stays unchanged --&gt;</span>
+  <span class="p">&lt;</span><span class="nt">canvas</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;chart-{{ component_id }}&quot;</span> <span class="na">hx-preserve</span><span class="p">&gt;&lt;/</span><span class="nt">canvas</span><span class="p">&gt;</span>
 
-<span class="x">&lt;div </span><span class="cp">{%</span> <span class="k">component_attrs</span> <span class="nv">component_id</span> <span class="cp">%}</span><span class="x">&gt;</span>
-<span class="x">    Counter: </span><span class="cp">{{</span> <span class="nv">value</span> <span class="cp">}}</span>
-<span class="x">    </span><span class="cp">{%</span> <span class="k">livecomponent</span> <span class="s2">&quot;nestedcounter/button&quot;</span> <span class="nv">parent_id</span><span class="o">=</span><span class="nv">component_id</span> <span class="cp">%}</span>
-<span class="x">&lt;/div&gt;</span>
+  <span class="p">&lt;</span><span class="nt">script</span> <span class="err">{%</span> <span class="na">no_morph</span> <span class="err">%}</span><span class="p">&gt;</span>
+<span class="w">    </span><span class="kd">function</span><span class="w"> </span><span class="nx">updateChart</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">canvas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">&quot;chart-{{ component_id }}&quot;</span><span class="p">);</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">canvas</span><span class="p">.</span><span class="nx">chart</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Update existing chart with new data</span>
+<span class="w">        </span><span class="nx">canvas</span><span class="p">.</span><span class="nx">chart</span><span class="p">.</span><span class="nx">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">getNewData</span><span class="p">();</span>
+<span class="w">        </span><span class="nx">canvas</span><span class="p">.</span><span class="nx">chart</span><span class="p">.</span><span class="nx">update</span><span class="p">();</span>
+<span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Initialize chart first time</span>
+<span class="w">        </span><span class="nx">canvas</span><span class="p">.</span><span class="nx">chart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Chart</span><span class="p">(</span><span class="nx">canvas</span><span class="p">,</span><span class="w"> </span><span class="nx">getConfig</span><span class="p">());</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;htmx:load&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">updateChart</span><span class="p">);</span>
+<span class="w">  </span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 </code></pre></div>
-<div class="admonition info">
-<p class="admonition-title">The <code>parent_id</code> argument</p>
-<p>The <code>parent_id=component_id</code> argument is crucial for building the component hierarchy. It passes the ID of the parent component to the child component, establishing their relationship.</p>
-</div>
-<p>Now, let's create the button component placeholder:</p>
-<div class="highlight"><pre><span></span><code>createlivecomponent<span class="w"> </span>counters<span class="w"> </span>nestedcounter/button<span class="w"> </span>--stateless<span class="w"> </span>--minimal
+<h2 id="choosing-the-right-javascript-event">Choosing the Right JavaScript Event</h2>
+<p>Different events work for different needs:</p>
+<ul>
+<li><strong><code>DOMContentLoaded</code></strong> - Only runs on initial page load</li>
+<li><strong><code>htmx:afterSettle</code></strong> - Runs after HTMX finishes updating content</li>
+<li><strong><code>htmx:load</code></strong> - Runs when HTMX loads new content (recommended)</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1">// Best for component initialization</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;htmx:load&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">initializeComponent</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">once</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">});</span>
 </code></pre></div>
-<p>The Python code for the button can remain minimal since it's stateless:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">django_components</span><span class="w"> </span><span class="kn">import</span> <span class="n">component</span>
-
-<span class="kn">from</span><span class="w"> </span><span class="nn">livecomponents</span><span class="w"> </span><span class="kn">import</span> <span class="n">StatelessLiveComponent</span>
-
-
-<span class="nd">@component</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="s2">&quot;nestedcounter/button&quot;</span><span class="p">)</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">ButtonComponent</span><span class="p">(</span><span class="n">StatelessLiveComponent</span><span class="p">):</span>
-    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;nestedcounter/button/button.html&quot;</span>
+<p>If your component initializes itself on each re-render, consider using <code>{once: true}</code> to ensure your handler executes at most once per element.</p>
+<h2 id="important-configuration">Important Configuration</h2>
+<p>Make sure HTMX allows script execution (this is the default):</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;htmx-config&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&#39;{&quot;allowScriptTags&quot;: true}&#39;</span> <span class="p">/&gt;</span>
 </code></pre></div>
-<p>The HTML code will look like this:</p>
-<div class="highlight"><pre><span></span><code><span class="cp">{%</span> <span class="k">load</span> <span class="nv">livecomponents</span> <span class="cp">%}</span>
-<span class="cp">{%</span> <span class="k">component_ancestor</span> <span class="nv">component_id</span> <span class="s2">&quot;nestedcounter/root&quot;</span> <span class="k">as</span> <span class="nv">root_id</span> <span class="cp">%}</span>
-
-<span class="x">&lt;button </span><span class="cp">{%</span> <span class="k">component_attrs</span> <span class="nv">component_id</span> <span class="cp">%}</span>
-<span class="x">    hx-post=&#39;</span><span class="cp">{%</span> <span class="k">call_command</span> <span class="nv">root_id</span> <span class="s2">&quot;increment&quot;</span> <span class="cp">%}</span><span class="x">&#39;</span>
-<span class="x">    hx-vals=&#39;{&quot;value&quot;: 1}&#39;</span>
-<span class="x">&gt;</span>
-<span class="x">    +1</span>
-<span class="x">&lt;/button&gt;</span>
+<p>Stop scripts from running multiple times with nested components (not default, but recommended):</p>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;htmx-config&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&#39;{&quot;allowNestedOobSwaps&quot;: false}&#39;</span> <span class="p">/&gt;</span>
 </code></pre></div>
-<p>The key part is the <code>{% component_ancestor component_id "nestedcounter/root" as root_id %}</code> line. This allows the button component to call the <code>increment</code> command on the root component.</p>
-<p>Note that if the parent component doesn't include the <code>parent_id=component_id</code> argument, the <code>component_ancestor</code> tag will return an empty string, and the command call will fail.</p>
-<h2 id="hierarchy-implementation-details">Hierarchy Implementation Details</h2>
-<p>When rendering a page, the component hierarchy is stored in the livecomponent IDs, which remain stable across page loads.</p>
-<p>For an isolated component, the ID format is simple:</p>
-<div class="highlight"><pre><span></span><code>|&lt;component_type&gt;:&lt;own_id&gt;
-</code></pre></div>
-<p>Here, <code>component_type</code> is the livecomponent name (like "my_button" or "nestedcounter/button"), and <code>own_id</code> is the component's ID. If no component ID is provided, it defaults to 0.</p>
-<p>For hierarchical components, the ID encodes the entire hierarchy as a concatenation of the parent ID, component type, and component ID:</p>
-<div class="highlight"><pre><span></span><code>|&lt;parent_type&gt;:&lt;parent_id&gt;|...|&lt;component_type&gt;:&lt;own_id&gt;
-</code></pre></div>
-<p>This is where the <code>parent_id=component_id</code> argument comes into play - it passes the parent ID to build the full component ID for the child.</p>
-<p>All other features, such as calling <code>parent</code> from the component or using the <code>component_ancestor</code> template tag, are convenience methods for working with the hierarchy. These functions and template tags parse the ID string similarly to how Python's <code>os.path</code> handles file paths.</p>
+<h2 id="working-example">Working Example</h2>
+<p>See the Chart.js component in the <a href="https://github.com/om-proptech/livecomponents/tree/main/example">example project</a> at <code>myapp/components/chart/chart.html</code>. This demonstrates:</p>
+<ul>
+<li>Using <code>hx-preserve</code> for the canvas element</li>
+<li>Storing the Chart.js instance on the DOM element</li>
+<li>Handling both initialization and updates</li>
+<li>Using <code>{% no_morph %}</code> for reliable script execution</li>
+</ul>
+<h2 id="summary">Summary</h2>
+<p><strong>Key Points</strong>:</p>
+<p>• <strong>Scripts may not re-run automatically</strong>. Use <code>swap_style="outerHTML"</code> or <code>{% no_morph %}</code> to ensure execution
+• <strong>Disable nested OOB swaps</strong>. Add <code>{"allowNestedOobSwaps":false}</code> to prevent multiple executions
+• <strong>Store objects on DOM elements</strong>. Avoid global variables, use element properties instead
+• <strong>Use <code>hx-preserve</code> for stateful components</strong>. Keep expensive initializations unchanged
+• <strong>Listen to <code>htmx:load</code> events</strong>. Best for component initialization</p>
+<p><strong>Essential Links</strong>:</p>
+<ul>
+<li><a href="https://htmx.org/docs/#scripting">HTMX Scripting Documentation</a> - Official guide to JavaScript integration</li>
+<li><a href="https://htmx.org/attributes/hx-preserve/">hx-preserve Attribute</a> - Keep elements unchanged during updates</li>
+<li><a href="https://htmx.org/attributes/hx-swap-oob/">hx-swap-oob Attribute</a> - Out-of-band swapping behavior</li>
+<li><a href="https://alpinejs.dev/plugins/morph">Alpine Morph Plugin</a> - How morphing affects script execution</li>
+<li><a href="https://htmx.org/docs/#config">HTMX Configuration</a> - Important configuration options</li>
+<li><a href="https://github.com/om-proptech/livecomponents/tree/main/example">Example Project</a> - Working Chart.js implementation</li>
+</ul>
 
 
 
