@@ -51,17 +51,18 @@ There, we need support for HTMX and Live Components:
 ```html
 {% load ... component_tags django_htmx livecomponents %}
 <head>
-  <!-- Configure HTMX -->
-  <meta name="htmx-config" content='{"defaultSwapStyle":"none"}'>
+  <!-- Configure HTMX. See https://htmx.org/docs/#config -->
+  <meta name="htmx-config" content='{"defaultSwapStyle":"none","allowNestedOobSwaps":false}'>
 
-  <!-- JavaScript dependencies -->
-  <script src="https://unpkg.com/htmx.org@1.9.6"></script>
-  <script src="https://unpkg.com/htmx.org@1.9.6/dist/ext/json-enc.js"></script>
+  <!-- HTMX and plugins -->
+  <script src="https://unpkg.com/htmx.org@2.x.x"></script>
+  <script src="https://unpkg.com/htmx-ext-json-enc@2.x.x/json-enc.js"></script>
+  <script src="https://unpkg.com/htmx-ext-alpine-morph@2.x.x/alpine-morph.js"></script>
+  <!-- Alpine Plugins -->
+  <script defer src="https://unpkg.com/@alpinejs/morph@3.x.x/dist/cdn.min.js"></script>
+  <!-- Alpine Core -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-  <!-- Use this for idiomorph -->
-  <script src="https://unpkg.com/idiomorph/dist/idiomorph-ext.min.js"></script>
-  <!-- Or this for Alpine morph -->
-  <script src="https://unpkg.com/htmx.org@1.9.6/dist/ext/alpine-morph.js"></script>
   {% django_htmx_script %}
 
   {% component_css_dependencies %}
@@ -90,8 +91,7 @@ There, we need support for HTMX and Live Components:
   </script>
   ...
 </head>
-<body hx-ext="morph, json-enc" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
-<!-- use hx-ext="alpine-morph, json-enc" for Alpine.js morpher -->
+<body hx-ext="alpine-morph, json-enc" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
 ...
 {% component_js_dependencies %}
 </body>

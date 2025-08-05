@@ -4,13 +4,20 @@
 <head>
   <title>My sample project</title>
   <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1/css/pico.min.css">
-  <meta name="htmx-config" content='{"defaultSwapStyle":"none"}'>
 
-  <!-- JavaScript dependencies -->
-  <script src="https://unpkg.com/htmx.org@1.9.6"></script>
-  <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
-  <script src="https://unpkg.com/idiomorph/dist/idiomorph-ext.min.js"></script>
-  <script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+  <!-- Configure HTMX. See https://htmx.org/docs/#config -->
+  <meta name="htmx-config" content='{"defaultSwapStyle":"none","allowNestedOobSwaps":false}'>
+
+  <!-- HTMX and plugins -->
+  <script src="https://unpkg.com/htmx.org@2.x.x"></script>
+  <script src="https://unpkg.com/htmx-ext-json-enc@2.x.x/json-enc.js"></script>
+  <script src="https://unpkg.com/htmx-ext-alpine-morph@2.x.x/alpine-morph.js"></script>
+  <!-- Alpine Plugins -->
+  <script defer src="https://unpkg.com/@alpinejs/morph@3.x.x/dist/cdn.min.js"></script>
+  <!-- Alpine Core -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <!-- Hyperscript optional dependency -->
+  <script src="https://unpkg.com/hyperscript.org@0.9.x"></script>
   {% django_htmx_script %}
 
   {% component_css_dependencies %}
@@ -24,7 +31,7 @@
     });
   </script>
 </head>
-<body hx-ext="morph, json-enc"
+<body hx-ext="alpine-morph, json-enc"
       hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
       _="on htmx:responseError[detail.xhr.status == 410] window.location.reload()"
 >
