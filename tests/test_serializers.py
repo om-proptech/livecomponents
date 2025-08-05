@@ -2,10 +2,10 @@ import io
 from pickletools import dis, genops
 
 import pytest
-from coffee.models import CoffeeBean
 from django import forms
 from django.contrib.auth.models import User
 from django.forms import ModelForm
+from myapp.models import CoffeeBean
 from pydantic import BaseModel
 
 from livecomponents.manager.serializers import PickleStateSerializer

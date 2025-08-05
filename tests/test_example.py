@@ -41,7 +41,7 @@ def test_counter(live_server, page: Page):
 @pytest.mark.django_db
 def test_coffee(live_server, page: Page):
     call_command("load_coffee_beans")
-    coffee_url = str(live_server) + reverse("coffee:index")
+    coffee_url = str(live_server) + reverse("coffee")
 
     page.set_default_timeout(5_000)
     page.goto(coffee_url)
@@ -70,7 +70,7 @@ def test_coffee(live_server, page: Page):
 
 @pytest.mark.django_db
 def test_modals(live_server, page: Page):
-    modals_url = str(live_server) + reverse("modals:index")
+    modals_url = str(live_server) + reverse("modals")
 
     page.set_default_timeout(5_000)
     page.goto(modals_url)
@@ -90,7 +90,7 @@ def test_modals(live_server, page: Page):
 
 
 def test_uploads(live_server, page: Page):
-    uploads_url = str(live_server) + reverse("uploads:index")
+    uploads_url = str(live_server) + reverse("uploads")
 
     page.set_default_timeout(5000)
     page.goto(uploads_url)

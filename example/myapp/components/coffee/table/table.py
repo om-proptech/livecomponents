@@ -1,7 +1,6 @@
 from django.db.models import Q
 from django_components import component
 
-from coffee.models import CoffeeBean
 from livecomponents import (
     CallContext,
     ExtraContextRequest,
@@ -10,6 +9,7 @@ from livecomponents import (
     LiveComponentsModel,
     command,
 )
+from myapp.models import CoffeeBean
 
 
 class TableState(LiveComponentsModel):

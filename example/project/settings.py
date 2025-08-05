@@ -29,12 +29,8 @@ INSTALLED_APPS = [
     "django_htmx",
     # Live components (the reason we have this sample project)
     "livecomponents",
-    # Local apps (samples)
-    "counters",
-    "coffee",
-    "modals",
-    "registration",
-    "uploads",
+    # Local app (sample)
+    "myapp",
 ]
 
 MIDDLEWARE = [
@@ -113,12 +109,7 @@ INTERNAL_IPS = [
 
 # Static files (CSS, JavaScript, Images)
 STATICFILES_DIRS = [
-    # To load django-components specific to apps
-    BASE_DIR / "project/../counters/components",
-    BASE_DIR / "project/../coffee/components",
-    BASE_DIR / "project/../modals/components",
-    BASE_DIR / "project/../registration/components",
-    BASE_DIR / "project/../uploads/components",
+    BASE_DIR / "project/../myapp/components",
 ]
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static_root"
