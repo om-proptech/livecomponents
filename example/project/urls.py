@@ -1,5 +1,6 @@
 from django.urls import include, path
 from myapp.views import (
+    chart,
     coffee,
     counters_index,
     modals,
@@ -17,5 +18,6 @@ urlpatterns = [
     path("modals/", modals, name="modals"),
     path("registration/", registration, name="registration"),
     path("uploads/", uploads, name="uploads"),
+    path("chart/", chart, name="chart"),
     path("livecomponents/", include("livecomponents.urls")),
 ]

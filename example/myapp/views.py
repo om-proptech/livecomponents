@@ -52,3 +52,7 @@ def registration(request: HttpRequest):
 
 def uploads(request: HttpRequest):
     return render(request, "uploads.html", {})
+
+
+def chart(request: HttpRequest):
+    return render(request, "chart.html")

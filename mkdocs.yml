@@ -25,6 +25,7 @@ nav:
     - livecomponents.md
     - nested_components.md
     - configuration.md
+    - javascript_integration.md
     - uploads.md
     - error_handling.md
     - example_project.md
