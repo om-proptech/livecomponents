@@ -16,26 +16,40 @@ If a command handler returns `None` (or doesn't return anything), the component 
 
 ::: livecomponents.manager.execution_results.ComponentClean
     options:
+      heading_level: 3
+      show_root_heading: true
       members: false
+
+
 
 ::: livecomponents.manager.execution_results.ComponentDirty
     options:
+      heading_level: 3
+      show_root_heading: true
       members: false
 
 ::: livecomponents.manager.execution_results.ParentDirty
     options:
+      heading_level: 3
+      show_root_heading: true
       members: false
 
 ::: livecomponents.manager.execution_results.RedirectPage
     options:
+      heading_level: 3
+      show_root_heading: true
       members: false
 
 ::: livecomponents.manager.execution_results.RefreshPage
     options:
+      heading_level: 3
+      show_root_heading: true
       members: false
 
 ::: livecomponents.manager.execution_results.ReplaceUrl
     options:
+      heading_level: 3
+      show_root_heading: true
       members: false
 
 ## More Usage Examples
