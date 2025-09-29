@@ -48,6 +48,8 @@
       
     
     
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
@@ -733,6 +735,29 @@
   
   
     <li class="md-nav__item">
+      <a href="../execution_results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Execution Results
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../management_commands/" class="md-nav__link">
         
   
@@ -1233,7 +1258,7 @@ The state keeps the counter value, and the component class defines two commands:
         <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="n">root_state</span><span class="o">.</span><span class="n">message</span><span class="p">}</span>
 </code></pre></div>
 <h2 id="returning-results-from-command-handlers">Returning results from command handlers</h2>
-<p>Here's the signature of a Livecomponent function:</p>
+<p>Command handlers can return execution results to control component rendering and browser behavior. Here's the basic signature:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">livecomponents</span><span class="w"> </span><span class="kn">import</span> <span class="n">LiveComponent</span><span class="p">,</span> <span class="n">CallContext</span><span class="p">,</span> <span class="n">command</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">livecomponents.manager.execution_results</span><span class="w"> </span><span class="kn">import</span> <span class="n">IExecutionResult</span>
 
@@ -1243,17 +1268,8 @@ The state keeps the counter value, and the component class defines two commands:
     <span class="k">def</span><span class="w"> </span><span class="nf">my_command_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">IExecutionResult</span><span class="p">]</span> <span class="o">|</span> <span class="n">IExecutionResult</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
         <span class="o">...</span>
 </code></pre></div>
-<p>Notice the return type for the handler. If set to something other than None, it can shape the partial HTTP response.</p>
-<p>More specifically, here's what you can do:</p>
-<ul>
-<li>Return ComponentDirty() to mark the component as dirty. This will result in the component being re-rendered and sent to the client. This is the default behavior. If you don't return anything, the component will be marked as dirty.</li>
-<li>Return ComponentDirty(component_id) to mark a different component as dirty.</li>
-<li>Return ComponentClean() to mark the current component as clean (not needing re-rendering).</li>
-<li>Return ParentDirty() to mark the parent component as dirty.</li>
-<li>Return RefreshPage(). If the command returns RefreshPage(), a "HX-Refresh: true" header will be sent to the client.</li>
-<li>Return RedirectPage(url). If the command returns Redirect(), a "HX-Redirect: url" header will be sent to the client.</li>
-<li>Return ReplaceUrl(url). If the command returns ReplaceUrl(), a "HX-Replace: url" header will be sent to the client. This will replace the current URL in the browser without reloading the page.</li>
-</ul>
+<p>If a command handler returns <code>None</code> (or doesn't return anything), the component is automatically marked as dirty and will be re-rendered.</p>
+<p>For detailed information about all available execution results and their usage, see the <a href="../execution_results/">Execution Results reference</a>.</p>
 <h2 id="raising-exceptions-from-command-handlers">Raising exceptions from command handlers</h2>
 <p>In some rare scenarios, you may need to cancel rendering the component and instruct the command handler to return an empty string to the client.</p>
 <p>If this is the case, you can raise a <code>livecomponents.exceptions.CancelRendering()</code> exception.</p>

@@ -8,13 +8,13 @@
       
       
       
-        <link rel="canonical" href="https://om-proptech.github.io/livecomponents/management_commands/">
+        <link rel="canonical" href="https://om-proptech.github.io/livecomponents/execution_results/">
       
       
-        <link rel="prev" href="../execution_results/">
+        <link rel="prev" href="../templatetags/">
       
       
-        <link rel="next" href="../context/">
+        <link rel="next" href="../management_commands/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -22,7 +22,7 @@
     
     
       
-        <title>Management commands - Django Live Components</title>
+        <title>Execution Results - Django Live Components</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#management-commands" class="md-skip">
+        <a href="#execution-results" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Management commands
+              Execution Results
             
           </span>
         </div>
@@ -591,29 +591,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../execution_results/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Execution Results
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -623,13 +600,15 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
   
   
   <span class="md-ellipsis">
-    Management commands
+    Execution Results
     
   </span>
   
@@ -642,7 +621,7 @@
   
   
   <span class="md-ellipsis">
-    Management commands
+    Execution Results
     
   </span>
   
@@ -655,6 +634,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -663,120 +644,111 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#management-commands" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
-      Management Commands
+      Overview
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#createlivecomponent" class="md-nav__link">
+  <a href="#available-execution-results" class="md-nav__link">
     <span class="md-ellipsis">
-      createlivecomponent
+      Available Execution Results
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="createlivecomponent">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.ComponentClean" class="md-nav__link">
+    <span class="md-ellipsis">
+      ComponentClean
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.ComponentDirty" class="md-nav__link">
+    <span class="md-ellipsis">
+      ComponentDirty
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.ParentDirty" class="md-nav__link">
+    <span class="md-ellipsis">
+      ParentDirty
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.RedirectPage" class="md-nav__link">
+    <span class="md-ellipsis">
+      RedirectPage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.RefreshPage" class="md-nav__link">
+    <span class="md-ellipsis">
+      RefreshPage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.ReplaceUrl" class="md-nav__link">
+    <span class="md-ellipsis">
+      ReplaceUrl
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      More Usage Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="More Usage Examples">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#description" class="md-nav__link">
+  <a href="#basic-component-control" class="md-nav__link">
     <span class="md-ellipsis">
-      Description
+      Basic Component Control
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
+  <a href="#cross-component-updates" class="md-nav__link">
     <span class="md-ellipsis">
-      Arguments
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Arguments">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#positional-arguments" class="md-nav__link">
-    <span class="md-ellipsis">
-      Positional Arguments
+      Cross-Component Updates
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#optional-arguments" class="md-nav__link">
+  <a href="#multiple-results" class="md-nav__link">
     <span class="md-ellipsis">
-      Optional Arguments
+      Multiple Results
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#usage-examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      Usage Examples
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Usage Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#basic-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      Basic Usage
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-minimal-statless-component" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create Minimal Statless Component
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#settings-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      Settings Options
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Settings Options">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#base-class-name" class="md-nav__link">
-    <span class="md-ellipsis">
-      Base Class Name
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -789,6 +761,29 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../management_commands/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Management commands
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1000,6 +995,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1008,120 +1005,111 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#management-commands" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
-      Management Commands
+      Overview
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#createlivecomponent" class="md-nav__link">
+  <a href="#available-execution-results" class="md-nav__link">
     <span class="md-ellipsis">
-      createlivecomponent
+      Available Execution Results
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="createlivecomponent">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.ComponentClean" class="md-nav__link">
+    <span class="md-ellipsis">
+      ComponentClean
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.ComponentDirty" class="md-nav__link">
+    <span class="md-ellipsis">
+      ComponentDirty
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.ParentDirty" class="md-nav__link">
+    <span class="md-ellipsis">
+      ParentDirty
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.RedirectPage" class="md-nav__link">
+    <span class="md-ellipsis">
+      RedirectPage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.RefreshPage" class="md-nav__link">
+    <span class="md-ellipsis">
+      RefreshPage
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.ReplaceUrl" class="md-nav__link">
+    <span class="md-ellipsis">
+      ReplaceUrl
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-usage-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      More Usage Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="More Usage Examples">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#description" class="md-nav__link">
+  <a href="#basic-component-control" class="md-nav__link">
     <span class="md-ellipsis">
-      Description
+      Basic Component Control
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#arguments" class="md-nav__link">
+  <a href="#cross-component-updates" class="md-nav__link">
     <span class="md-ellipsis">
-      Arguments
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Arguments">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#positional-arguments" class="md-nav__link">
-    <span class="md-ellipsis">
-      Positional Arguments
+      Cross-Component Updates
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#optional-arguments" class="md-nav__link">
+  <a href="#multiple-results" class="md-nav__link">
     <span class="md-ellipsis">
-      Optional Arguments
+      Multiple Results
     </span>
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#usage-examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      Usage Examples
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Usage Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#basic-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      Basic Usage
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#create-minimal-statless-component" class="md-nav__link">
-    <span class="md-ellipsis">
-      Create Minimal Statless Component
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#settings-options" class="md-nav__link">
-    <span class="md-ellipsis">
-      Settings Options
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Settings Options">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#base-class-name" class="md-nav__link">
-    <span class="md-ellipsis">
-      Base Class Name
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
         
@@ -1149,66 +1137,383 @@
   
 
 
-  <h1>Management commands</h1>
-
-<h2 id="management-commands">Management Commands</h2>
-<h2 id="createlivecomponent"><code>createlivecomponent</code></h2>
-<h3 id="description">Description</h3>
-<p>The <code>createlivecomponent</code> command is used to quickly create a new livecomponent. This command generates the necessary Python and HTML files for the component.</p>
-<h3 id="arguments">Arguments</h3>
-<h4 id="positional-arguments">Positional Arguments</h4>
+<h1 id="execution-results">Execution Results</h1>
+<p>Execution results are objects returned from command handlers that control how components respond to user actions. They determine which components need re-rendering, what HTTP headers to set, and how the browser should behave after processing a command.</p>
+<h2 id="overview">Overview</h2>
+<p>Command handlers can return different types of execution results to control the response behavior:</p>
 <ul>
-<li><code>app_name</code> (str): The name of the app. E.g., 'counters'.</li>
-<li><code>component_name</code> (str): Component name in snake case. The name can use directory separator for creating namespaces. Normally, the first namespace is the app name. E.g., 'counters/click_counter'.</li>
+<li><strong>Component rendering control</strong> - Mark components as dirty (needing re-render) or clean</li>
+<li><strong>Navigation control</strong> - Redirect to different pages or refresh the current page</li>
+<li><strong>URL management</strong> - Update the browser URL without full page reload</li>
 </ul>
-<h4 id="optional-arguments">Optional Arguments</h4>
-<ul>
-<li><code>--class-name</code> (str): Optional class name for the component. E.g., 'ClickCounter'. If not given, the component name, converted to PascalCase, is used.</li>
-<li><code>-f</code>, <code>--force</code> (bool): Overwrite existing files. Default is <code>False</code>.</li>
-<li><code>--stateless</code> (bool): Create a stateless component. Default is <code>False</code>.</li>
-<li><code>--minimal</code> (bool): Create a minimal component without any commands. Default is <code>False</code>.</li>
-<li><code>--base-class</code> (str): Base class for the component. If not given, value from settings is used.</li>
-</ul>
-<h3 id="usage-examples">Usage Examples</h3>
-<h4 id="basic-usage">Basic Usage</h4>
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>manage.py<span class="w"> </span>createlivecomponent<span class="w"> </span>counters<span class="w"> </span>counters/click_counter
+<p>If a command handler returns <code>None</code> (or doesn't return anything), the component is automatically marked as dirty and will be re-rendered.</p>
+<h2 id="available-execution-results">Available Execution Results</h2>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<a id="livecomponents.manager.execution_results.ComponentClean"></a>
+    <div class="doc doc-contents first">
+
+
+        <p>Indicate that a component is clean and requires no re-rendering.</p>
+<p>Use this when a command performs side effects (like logging, analytics, or
+background tasks) that don't change the component's visual state.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">AnalyticsComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">track_click</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">AnalyticsState</span><span class="p">],</span> <span class="n">event_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Log user action without re-rendering the component&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analytics</span><span class="o">.</span><span class="n">track</span><span class="p">(</span><span class="n">event_name</span><span class="p">,</span> <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">user_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ComponentClean</span><span class="p">()</span>
 </code></pre></div>
-<p>This command will create the files:</p>
-<ul>
-<li><code>counters/components/counters/click_counter/click_counter.py</code> (Python file with the component class)</li>
-<li><code>counters/components/counters/click_counter/click_counter.html</code> (HTML template for the component)</li>
-</ul>
-<h4 id="create-minimal-statless-component">Create Minimal Statless Component</h4>
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>manage.py<span class="w"> </span>createlivecomponent<span class="w"> </span>counters<span class="w"> </span>counters/click_counter<span class="w"> </span>--stateless<span class="w"> </span>--minimal
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<a id="livecomponents.manager.execution_results.ComponentDirty"></a>
+    <div class="doc doc-contents first">
+
+
+        <p>Mark a component as dirty to trigger re-rendering.</p>
+<p>This is the default behavior when a command handler returns None.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StockComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_stock</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">StockState</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update stock quantity. Component automatically re-renders&quot;&quot;&quot;</span>
+        <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">bean</span><span class="o">.</span><span class="n">stock_quantity</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">bean</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="c1"># Returns ComponentDirty() by default</span>
 </code></pre></div>
-<h3 id="settings-options">Settings Options</h3>
-<h4 id="base-class-name">Base Class Name</h4>
-<p>The base class name for the component can be configured in the Django settings under the <code>LIVECOMPONENTS</code> configuration. Example:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># myproject/utils.py</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Generic</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">livecomponents</span><span class="w"> </span><span class="kn">import</span> <span class="n">LiveComponent</span><span class="p">,</span> <span class="n">StatelessLiveComponent</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">livecomponents.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">State</span>
 
 
-<span class="k">class</span><span class="w"> </span><span class="nc">MyLiveComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">,</span> <span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">State</span><span class="p">]):</span>
-    <span class="k">class</span><span class="w"> </span><span class="nc">Media</span><span class="p">:</span>
-        <span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;myproject/livecomponent.js&quot;</span><span class="p">]</span>
 
 
-<span class="k">class</span><span class="w"> </span><span class="nc">MyStatelessLiveComponent</span><span class="p">(</span><span class="n">StatelessLiveComponent</span><span class="p">):</span>
-    <span class="k">class</span><span class="w"> </span><span class="nc">Media</span><span class="p">:</span>
-        <span class="n">js</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;myproject/livecomponent.js&quot;</span><span class="p">]</span>
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<a id="livecomponents.manager.execution_results.ParentDirty"></a>
+    <div class="doc doc-contents first">
+
+
+        <p>Mark the parent component as dirty to trigger re-rendering.</p>
+<p>Useful when a child component performs an action that affects the parent's data,
+such as deleting an item from a list or updating shared state.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CartComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_to_cart</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">CartState</span><span class="p">],</span> <span class="n">product_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add item to cart and update parent cart counter&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">cart</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">product_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ParentDirty</span><span class="p">()</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="c1"># settings.py</span>
-<span class="n">LIVECOMPONENTS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="c1"># ...</span>
-    <span class="c1"># Settings for the &quot;./manage.py createlivecomponent&quot; command.</span>
-    <span class="s2">&quot;createlivecomponent&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;base_class&quot;</span><span class="p">:</span> <span class="s2">&quot;myproject.utils.MyLiveComponent&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;stateless_base_class&quot;</span><span class="p">:</span> <span class="s2">&quot;myproject.utils.MyStatelessLiveComponent&quot;</span><span class="p">,</span>
-    <span class="p">},</span>
-<span class="p">}</span>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<a id="livecomponents.manager.execution_results.RedirectPage"></a>
+    <div class="doc doc-contents first">
+
+
+        <p>Redirect the browser to a different URL.</p>
+<p>Sets the HX-Redirect header to instruct HTMX to navigate to a new page.
+Commonly used after successful form submissions or authentication.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">LoginComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">login</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">LoginState</span><span class="p">],</span> <span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">password</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Authenticate user and redirect to dashboard&quot;&quot;&quot;</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">authenticate</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="n">password</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">user</span><span class="p">:</span>
+            <span class="n">login</span><span class="p">(</span><span class="n">call_context</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">RedirectPage</span><span class="p">(</span><span class="s1">&#39;/dashboard/&#39;</span><span class="p">)</span>
+        <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">error</span> <span class="o">=</span> <span class="s1">&#39;Invalid credentials&#39;</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<a id="livecomponents.manager.execution_results.RefreshPage"></a>
+    <div class="doc doc-contents first">
+
+
+        <p>Trigger a full page refresh in the browser.</p>
+<p>Sets the HX-Refresh header to instruct HTMX to reload the entire page.
+Use sparingly, as it breaks the SPA-like experience.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">SettingsComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">switch_language</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">SettingsState</span><span class="p">],</span> <span class="n">language</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Switch language and refresh page to apply changes&quot;&quot;&quot;</span>
+        <span class="n">call_context</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s1">&#39;language&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">language</span>
+        <span class="k">return</span> <span class="n">RefreshPage</span><span class="p">()</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<a id="livecomponents.manager.execution_results.ReplaceUrl"></a>
+    <div class="doc doc-contents first">
+
+
+        <p>Replace the current URL in the browser without reloading the page.</p>
+<p>Updates the browser's address bar and history without triggering a full page reload.
+Useful for maintaining clean URLs that reflect the current application state.
+See https://htmx.org/headers/hx-replace-url/.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ProductListComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply_search_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">ProductListState</span><span class="p">],</span> <span class="n">search_term</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply search filter and update URL to reflect current state&quot;&quot;&quot;</span>
+        <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">search</span> <span class="o">=</span> <span class="n">search_term</span>
+        <span class="k">if</span> <span class="n">search_term</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ReplaceUrl</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;/products/?search=</span><span class="si">{</span><span class="n">search_term</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ReplaceUrl</span><span class="p">(</span><span class="s1">&#39;/products/&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="more-usage-examples">More Usage Examples</h2>
+<h3 id="basic-component-control">Basic Component Control</h3>
+<p>When you need explicit control over component rendering:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">livecomponents</span><span class="w"> </span><span class="kn">import</span> <span class="n">LiveComponent</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">CallContext</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">livecomponents.manager.execution_results</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComponentDirty</span><span class="p">,</span> <span class="n">ComponentClean</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">DataComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">):</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">DataState</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update component state and trigger re-render&quot;&quot;&quot;</span>
+        <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="s2">&quot;new value&quot;</span>
+        <span class="c1"># Component will be re-rendered (default behavior)</span>
+        <span class="k">return</span> <span class="n">ComponentDirty</span><span class="p">()</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">log_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">DataState</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Log user action without triggering component re-render&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">analytics</span><span class="o">.</span><span class="n">track</span><span class="p">(</span><span class="s2">&quot;button_clicked&quot;</span><span class="p">,</span> <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">user_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ComponentClean</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="cross-component-updates">Cross-Component Updates</h3>
+<p>When child components need to update their parents or siblings:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ProductRowComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">):</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_sibling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">ProductRowState</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update product data and refresh related sidebar component&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_product_stats</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">ComponentDirty</span><span class="p">(</span><span class="s2">&quot;product-sidebar&quot;</span><span class="p">)</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delete_product</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">ProductRowState</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete product and refresh parent product list&quot;&quot;&quot;</span>
+        <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">product</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">ParentDirty</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="multiple-results">Multiple Results</h3>
+<p>Command handlers can return a list of execution results to perform multiple actions:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">OrderComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">):</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">complete_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">OrderState</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Complete order with multiple UI updates&quot;&quot;&quot;</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">order</span>
+        <span class="n">order</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;completed&quot;</span>
+        <span class="n">order</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">ComponentDirty</span><span class="p">(),</span>  <span class="c1"># Re-render current component</span>
+            <span class="n">ComponentDirty</span><span class="p">(</span><span class="s2">&quot;cart-counter&quot;</span><span class="p">),</span>  <span class="c1"># Update cart count</span>
+            <span class="n">ReplaceUrl</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/orders/</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">/confirmation/&quot;</span><span class="p">)</span>  <span class="c1"># Update URL</span>
+        <span class="p">]</span>
 </code></pre></div>
 
 
