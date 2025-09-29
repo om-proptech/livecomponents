@@ -32,6 +32,7 @@ nav:
   - Reference:
     - decorators.md
     - templatetags.md
+    - execution_results.md
     - management_commands.md
   - Advanced:
     - context.md
@@ -39,6 +40,18 @@ nav:
     - component_ids.md
   - About:
       - Changelog: https://github.com/om-proptech/livecomponents/blob/main/CHANGELOG.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: false
+            show_bases: false
+            show_root_full_path: false
+          paths: [.]
 
 markdown_extensions:
   - pymdownx.superfences

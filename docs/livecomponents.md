@@ -204,7 +204,7 @@ class StatelessAlert(StatelessLiveComponent):
 
 ## Returning results from command handlers
 
-Here's the signature of a Livecomponent function:
+Command handlers can return execution results to control component rendering and browser behavior. Here's the basic signature:
 
 ```python
 from livecomponents import LiveComponent, CallContext, command
@@ -217,17 +217,9 @@ class MyComponent(LiveComponent):
         ...
 ```
 
-Notice the return type for the handler. If set to something other than None, it can shape the partial HTTP response.
+If a command handler returns `None` (or doesn't return anything), the component is automatically marked as dirty and will be re-rendered.
 
-More specifically, here's what you can do:
-
-- Return ComponentDirty() to mark the component as dirty. This will result in the component being re-rendered and sent to the client. This is the default behavior. If you don't return anything, the component will be marked as dirty.
-- Return ComponentDirty(component_id) to mark a different component as dirty.
-- Return ComponentClean() to mark the current component as clean (not needing re-rendering).
-- Return ParentDirty() to mark the parent component as dirty.
-- Return RefreshPage(). If the command returns RefreshPage(), a "HX-Refresh: true" header will be sent to the client.
-- Return RedirectPage(url). If the command returns Redirect(), a "HX-Redirect: url" header will be sent to the client.
-- Return ReplaceUrl(url). If the command returns ReplaceUrl(), a "HX-Replace: url" header will be sent to the client. This will replace the current URL in the browser without reloading the page.
+For detailed information about all available execution results and their usage, see the [Execution Results reference](execution_results.md).
 
 ## Raising exceptions from command handlers
 
