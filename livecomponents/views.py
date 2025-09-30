@@ -11,6 +11,7 @@ from livecomponents.exceptions import CancelRendering
 from livecomponents.logging import logger
 from livecomponents.manager import get_state_manager
 from livecomponents.manager.manager import CallContext
+from livecomponents.sentry_utils import set_transaction_name, start_span
 from livecomponents.settings import get_config
 from livecomponents.types import CallMethodRequestArgs, StateAddress
 
@@ -31,6 +32,8 @@ def call_command(request: HttpRequest):
     state_manager = get_state_manager()
     kwargs = parse_body(request)
 
+    sentry_arg = f"[{args.component_id}].{args.command_name}"
+    set_transaction_name(f"lc.call_command({sentry_arg})")
     if not state_manager.session_exists(args.session_id):
         logger.warning(
             "Session %s does not exist. It may have expired", args.session_id
@@ -58,10 +61,12 @@ def call_command(request: HttpRequest):
     dirty_components = deduplicate_dirty_components(
         call_context.execution_results.dirty_components
     )
-    rendered_components = re_render_components(
-        component_addresses=dirty_components,
-        call_context=call_context,
-    )
+
+    with start_span(f"re_render_components({sentry_arg})"):
+        rendered_components = re_render_components(
+            component_addresses=dirty_components,
+            call_context=call_context,
+        )
     return HttpResponse("\n".join(rendered_components), headers=headers)
 
 
@@ -135,14 +140,16 @@ def re_render_component(call_context: CallContext, state_address: StateAddress) 
             "full_component_id": state_address.component_id,
         },
     )
-    html = call_context.state_manager.restore_component_template(state_address)
-    if not html:
-        error_message = (
-            f"Cannot find HTML for '{state_address}'. "
-            f"Did you use '{{% component ... %}}' instead of "
-            f"'{{% livecomponent ... %}}' in the Django template?"
-        )
-        raise ValueError(error_message)
+    sentry_arg = f"[{state_address.component_id}]"
+    with start_span(f"re_render({sentry_arg})"):
+        html = call_context.state_manager.restore_component_template(state_address)
+        if not html:
+            error_message = (
+                f"Cannot find HTML for '{state_address}'. "
+                f"Did you use '{{% component ... %}}' instead of "
+                f"'{{% livecomponent ... %}}' in the Django template?"
+            )
+            raise ValueError(error_message)
 
-    template = "{% load livecomponents component_tags %}" + html
-    return Template(template).render(context)
+        template = "{% load livecomponents component_tags %}" + html
+        return Template(template).render(context)

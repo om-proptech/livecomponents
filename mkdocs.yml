@@ -26,6 +26,7 @@ nav:
     - nested_components.md
     - configuration.md
     - javascript_integration.md
+    - sentry_integration.md
     - uploads.md
     - error_handling.md
     - example_project.md

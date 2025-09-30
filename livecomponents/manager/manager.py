@@ -10,6 +10,7 @@ from livecomponents.logging import logger
 from livecomponents.manager.execution_results import ExecutionResults
 from livecomponents.manager.serializers import IStateSerializer
 from livecomponents.manager.stores import IStateStore
+from livecomponents.sentry_utils import set_span_data, start_span
 from livecomponents.types import State, StateAddress
 from livecomponents.utils import LiveComponentsModel
 
@@ -200,24 +201,36 @@ class StateManager:
         component_cls = self.get_component_class(state_addr.get_component_name())
         component_instance = component_cls()
 
-        # Delegate fetching the state to the component instance because it may
-        # want to decide not to fetch the state from Redis.
-        state = component_instance.get_state(self, state_addr)
-        if state is None:
-            raise ValueError(f"Component state not found: {state_addr}")
+        sentry_arg = f"{component_instance.get_name()}.{command_name}"
+        with start_span(f"call_component_command({sentry_arg})"):
+            set_span_data(
+                lc_component_id=state_addr.component_id,
+                lc_session_id=state_addr.session_id,
+                lc_component=component_instance.get_name(),
+                lc_command_name=command_name,
+            )
+            # Delegate fetching the state to the component instance because it may
+            # want to decide not to fetch the state from Redis.
+            with start_span(f"get_state({sentry_arg})"):
+                state = component_instance.get_state(self, state_addr)
+                if state is None:
+                    raise ValueError(f"Component state not found: {state_addr}")
 
-        command = component_instance.get_command(command_name)
-        call_context: CallContext = CallContext(
-            request=request,
-            state=state,
-            state_address=state_addr,
-            state_manager=self,
-        )
-        returned_value = command(call_context, **(kwargs or {}))
-        call_context.execution_results.process_returned_value(
-            state_addr, returned_value
-        )
-        self.set_component_state(state_addr, state)
+            command = component_instance.get_command(command_name)
+            call_context: CallContext = CallContext(
+                request=request,
+                state=state,
+                state_address=state_addr,
+                state_manager=self,
+            )
+            with start_span(f"run_command({sentry_arg})"):
+                returned_value = command(call_context, **(kwargs or {}))
+            with start_span(f"process_returned_value({sentry_arg})"):
+                call_context.execution_results.process_returned_value(
+                    state_addr, returned_value
+                )
+            with start_span(f"set_component_state({sentry_arg})"):
+                self.set_component_state(state_addr, state)
         return call_context
 
     def call_with_context(

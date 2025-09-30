@@ -10,6 +10,7 @@ from django_components.component import SimplifiedInterfaceMediaDefiningClass
 from livecomponents.const import DEFAULT_OWN_ID
 from livecomponents.manager import StateManager, get_state_manager
 from livecomponents.manager.manager import InitStateContext, UpdateStateContext
+from livecomponents.sentry_utils import start_span
 from livecomponents.types import State, StateAddress
 from livecomponents.utils import LiveComponentsModel, find_component_id
 
@@ -75,41 +76,44 @@ class LiveComponent(component.Component, Generic[State], metaclass=LiveComponent
         full_component_id: str | None = None,
         **component_kwargs,
     ):
-        # Fetch some data from the outer context
-        session_id = self.outer_context["LIVECOMPONENTS_SESSION_ID"]
-        request = self.outer_context["request"]
+        with start_span(f"get_context_data({self.get_name()})"):
+            # Fetch some data from the outer context
+            session_id = self.outer_context["LIVECOMPONENTS_SESSION_ID"]
+            request = self.outer_context["request"]
 
-        component_id = find_component_id(
-            full_component_id=full_component_id,
-            component_name=self.registered_name,
-            own_id=own_id,
-            parent_id=parent_id,
-        )
-        state_addr = StateAddress(
-            session_id=session_id,
-            component_id=component_id,
-        )
-        state_manager = get_state_manager()
-        state = self.get_or_create_state(
-            state_manager, state_addr, request, component_kwargs
-        )
-        extra_context_request: ExtraContextRequest[State] = ExtraContextRequest(
-            request=request,
-            state=state,
-            state_manager=state_manager,
-            state_addr=state_addr,
-            component_kwargs=component_kwargs,
-        )
-        extra_context = self.get_extra_context_data(extra_context_request)
-        context = {
-            **component_kwargs,
-            **state.model_dump(),
-            **extra_context,
-            # Put "session_id" and "component_id" last to ensure they are
-            # not overwritten
-            **state_addr.model_dump(),
-        }
-        return context
+            component_id = find_component_id(
+                full_component_id=full_component_id,
+                component_name=self.registered_name,
+                own_id=own_id,
+                parent_id=parent_id,
+            )
+            state_addr = StateAddress(
+                session_id=session_id,
+                component_id=component_id,
+            )
+            state_manager = get_state_manager()
+            with start_span(f"get_or_create_state({self.get_name()})"):
+                state = self.get_or_create_state(
+                    state_manager, state_addr, request, component_kwargs
+                )
+            extra_context_request: ExtraContextRequest[State] = ExtraContextRequest(
+                request=request,
+                state=state,
+                state_manager=state_manager,
+                state_addr=state_addr,
+                component_kwargs=component_kwargs,
+            )
+            with start_span(f"get_extra_context_data({self.get_name()})"):
+                extra_context = self.get_extra_context_data(extra_context_request)
+            context = {
+                **component_kwargs,
+                **state.model_dump(),
+                **extra_context,
+                # Put "session_id" and "component_id" last to ensure they are
+                # not overwritten
+                **state_addr.model_dump(),
+            }
+            return context
 
     def get_extra_context_data(
         self, extra_context_request: "ExtraContextRequest[State]"
@@ -170,6 +174,13 @@ class LiveComponent(component.Component, Generic[State], metaclass=LiveComponent
                     context.state.title = kwargs["title"]
         """
         pass
+
+    def render(self, context):
+        with start_span(f"render({self.get_name()})"):
+            return super().render(context)
+
+    def get_name(self):
+        return self.__class__.__name__
 
 
 class StatelessModel(LiveComponentsModel):
