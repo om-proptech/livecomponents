@@ -8,22 +8,28 @@
       
       
       
+        <link rel="canonical" href="https://om-proptech.github.io/livecomponents/sentry_integration/">
       
       
+        <link rel="prev" href="../javascript_integration/">
       
-      <link rel="icon" href="/livecomponents/assets/images/favicon.png">
+      
+        <link rel="next" href="../uploads/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.11">
     
     
       
-        <title>Django Live Components</title>
+        <title>Sentry Integration - Django Live Components</title>
       
     
     
-      <link rel="stylesheet" href="/livecomponents/assets/stylesheets/main.4af4bdda.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
       
         
-        <link rel="stylesheet" href="/livecomponents/assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -42,9 +48,9 @@
       
     
     
-      <link rel="stylesheet" href="/livecomponents/assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL("/livecomponents/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -69,6 +75,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#sentry-integration" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -81,7 +92,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/livecomponents/." title="Django Live Components" class="md-header__button md-logo" aria-label="Django Live Components" data-md-component="logo">
+    <a href=".." title="Django Live Components" class="md-header__button md-logo" aria-label="Django Live Components" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -101,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Sentry Integration
             
           </span>
         </div>
@@ -217,7 +228,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/livecomponents/." title="Django Live Components" class="md-nav__button md-logo" aria-label="Django Live Components" data-md-component="logo">
+    <a href=".." title="Django Live Components" class="md-nav__button md-logo" aria-label="Django Live Components" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -247,7 +258,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/livecomponents/." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -269,7 +280,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/livecomponents/quickstart/" class="md-nav__link">
+      <a href="../quickstart/" class="md-nav__link">
         
   
   
@@ -288,18 +299,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
@@ -315,7 +328,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             User Guide
@@ -329,7 +342,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/livecomponents/livecomponents/" class="md-nav__link">
+      <a href="../livecomponents/" class="md-nav__link">
         
   
   
@@ -352,7 +365,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/livecomponents/nested_components/" class="md-nav__link">
+      <a href="../nested_components/" class="md-nav__link">
         
   
   
@@ -375,7 +388,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/livecomponents/configuration/" class="md-nav__link">
+      <a href="../configuration/" class="md-nav__link">
         
   
   
@@ -398,7 +411,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/livecomponents/javascript_integration/" class="md-nav__link">
+      <a href="../javascript_integration/" class="md-nav__link">
         
   
   
@@ -418,10 +431,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/livecomponents/sentry_integration/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Sentry Integration
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -432,6 +467,53 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-gets-tracked" class="md-nav__link">
+    <span class="md-ellipsis">
+      What Gets Tracked
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transaction-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      Transaction Names
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -444,7 +526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/livecomponents/uploads/" class="md-nav__link">
+      <a href="../uploads/" class="md-nav__link">
         
   
   
@@ -467,7 +549,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/livecomponents/error_handling/" class="md-nav__link">
+      <a href="../error_handling/" class="md-nav__link">
         
   
   
@@ -490,7 +572,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/livecomponents/example_project/" class="md-nav__link">
+      <a href="../example_project/" class="md-nav__link">
         
   
   
@@ -558,7 +640,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/livecomponents/decorators/" class="md-nav__link">
+      <a href="../decorators/" class="md-nav__link">
         
   
   
@@ -581,7 +663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/livecomponents/templatetags/" class="md-nav__link">
+      <a href="../templatetags/" class="md-nav__link">
         
   
   
@@ -604,7 +686,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/livecomponents/execution_results/" class="md-nav__link">
+      <a href="../execution_results/" class="md-nav__link">
         
   
   
@@ -627,7 +709,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/livecomponents/management_commands/" class="md-nav__link">
+      <a href="../management_commands/" class="md-nav__link">
         
   
   
@@ -695,7 +777,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/livecomponents/context/" class="md-nav__link">
+      <a href="../context/" class="md-nav__link">
         
   
   
@@ -718,7 +800,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/livecomponents/templates/" class="md-nav__link">
+      <a href="../templates/" class="md-nav__link">
         
   
   
@@ -741,7 +823,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/livecomponents/component_ids/" class="md-nav__link">
+      <a href="../component_ids/" class="md-nav__link">
         
   
   
@@ -849,6 +931,43 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-gets-tracked" class="md-nav__link">
+    <span class="md-ellipsis">
+      What Gets Tracked
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#transaction-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      Transaction Names
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -860,8 +979,49 @@
             <div class="md-content" data-md-component="content">
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="sentry-integration">Sentry Integration</h1>
+<p>Livecomponents include optional support for <a href="https://sentry.io/">Sentry</a> performance monitoring and error tracking. When Sentry is available in your project, the library automatically instruments component rendering, state management, and command execution.</p>
+<h2 id="installation">Installation</h2>
+<p>The Sentry integration is completely optional and requires no additional configuration. Simply install Sentry in your Django project:</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>sentry-sdk
+</code></pre></div>
+<p>Then configure Sentry in your Django settings as usual:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">sentry_sdk</span>
+
+<span class="n">sentry_sdk</span><span class="o">.</span><span class="n">init</span><span class="p">(</span>
+    <span class="n">dsn</span><span class="o">=</span><span class="s2">&quot;your-sentry-dsn&quot;</span><span class="p">,</span>
+    <span class="n">traces_sample_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>  <span class="c1"># Adjust for production</span>
+    <span class="n">profiles_sample_rate</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>  <span class="c1"># Adjust for production</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>If <code>sentry-sdk</code> is not installed, all Sentry-related code is automatically disabled with zero overhead.</p>
+<h2 id="what-gets-tracked">What Gets Tracked</h2>
+<p>When Sentry is available, Live Components automatically creates performance spans for the component lifecycle and command execution.</p>
+<h2 id="transaction-names">Transaction Names</h2>
+<p>HTTP requests to Live Components endpoints are automatically tagged with meaningful transaction names:</p>
+<div class="highlight"><pre><span></span><code>lc.call_command([component_id].command_name)
+</code></pre></div>
+<p>This makes it easy to identify and track specific component interactions in your Sentry dashboard.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -897,10 +1057,10 @@
     
     
       
-      <script id="__config" type="application/json">{"base": "/livecomponents/", "features": [], "search": "/livecomponents/assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="/livecomponents/assets/javascripts/bundle.c8b220af.min.js"></script>
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
       
     
   </body>
