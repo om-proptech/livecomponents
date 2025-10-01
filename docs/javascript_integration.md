@@ -110,7 +110,7 @@ For components that take time to set up (charts, maps, editors), use [`hx-preser
         canvas.chart = new Chart(canvas, getConfig());
       }
     }
-    document.addEventListener("htmx:load", updateChart);
+    canvas.addEventListener("htmx:load", updateChart);
   </script>
 </div>
 ```
@@ -125,8 +125,10 @@ Different events work for different needs:
 
 ```javascript
 // Best for component initialization
-document.addEventListener("htmx:load", initializeComponent, { once: true });
+component.addEventListener("htmx:load", initializeComponent, { once: true });
 ```
+
+Note that you may want to choose `document.addEventListener("htmx:load", updateChart)` but be aware that because of the event bubbling, it will run on re-render of every component in the page. If you need even more control, check the `event.target` to see if it is the component you are interested in.
 
 If your component initializes itself on each re-render, consider using `{once: true}` to ensure your handler executes at most once per element.
 
