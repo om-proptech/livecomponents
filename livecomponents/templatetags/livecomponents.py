@@ -21,6 +21,7 @@ from django_components.templatetags.component_tags import (
 )
 
 from livecomponents.const import DEFAULT_OWN_ID, HIER_SEP, TYPE_SEP
+from livecomponents.sentry_utils import start_span
 from livecomponents.sessions import get_session_id
 from livecomponents.templatetags.utils import (
     capture_used_tokens,
@@ -239,16 +240,19 @@ class LiveComponentNode(ComponentNode):
             context["full_component_id"] = None
 
         state_addr = self.get_state_addr(context)
+        sentry_arg = f"[{state_addr.component_id}]"
         if self.component_template is not None:
-            self.save_component_template(state_addr, self.component_template)
+            with start_span(f"save_component_template({sentry_arg})"):
+                self.save_component_template(state_addr, self.component_template)
 
         rendered_save_context_vars = render_save_context_vars(
             self.save_context_vars, context
         )
         if rendered_save_context_vars:
-            context = self.save_or_restore_context(
-                state_addr, context, rendered_save_context_vars
-            )
+            with start_span(f"save_or_restore_context({sentry_arg})"):
+                context = self.save_or_restore_context(
+                    state_addr, context, rendered_save_context_vars
+                )
         return super().render(context)
 
     def save_component_template(
@@ -268,12 +272,15 @@ class LiveComponentNode(ComponentNode):
         from livecomponents.manager import get_state_manager
 
         state_manager = get_state_manager()
+
+        sentry_arg = f"[{state_addr.component_id}]"
         if state_manager.component_initialized(state_addr):
             effective_context = {
                 "request": context["request"],
                 "LIVECOMPONENTS_SESSION_ID": context["LIVECOMPONENTS_SESSION_ID"],
             }
-            restored_context = state_manager.get_component_context(state_addr)
+            with start_span(f"get_component_context({sentry_arg})"):
+                restored_context = state_manager.get_component_context(state_addr)
             new_context = context.new(effective_context)
             new_context.update(restored_context)
             return new_context
@@ -283,7 +290,8 @@ class LiveComponentNode(ComponentNode):
                 for var in rendered_save_context_vars
                 if var in context
             }
-            state_manager.set_component_context(state_addr, effective_context)
+            with start_span(f"set_component_context({sentry_arg})"):
+                state_manager.set_component_context(state_addr, effective_context)
             return context
 
     def get_state_addr(self, context: Context):

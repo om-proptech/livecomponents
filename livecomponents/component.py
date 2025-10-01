@@ -48,6 +48,11 @@ class LiveComponent(component.Component, Generic[State], metaclass=LiveComponent
         """Get the state of this component."""
         return state_manager.get_component_state(state_addr)
 
+    def set_state(
+        self, state_manager: StateManager, state_addr: StateAddress, state
+    ) -> None:
+        return state_manager.set_component_state(state_addr, state)
+
     def get_or_create_state(
         self,
         state_manager: StateManager,
@@ -202,6 +207,11 @@ class StatelessLiveComponent(LiveComponent[StatelessModel]):
         self, state_manager: StateManager, state_addr: StateAddress
     ) -> StatelessModel | None:
         return StatelessModel()
+
+    def set_state(
+        self, state_manager: StateManager, state_addr: StateAddress, state
+    ) -> None:
+        return None
 
     def get_or_create_state(
         self,

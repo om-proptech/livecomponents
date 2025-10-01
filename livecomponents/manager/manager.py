@@ -229,8 +229,11 @@ class StateManager:
                 call_context.execution_results.process_returned_value(
                     state_addr, returned_value
                 )
-            with start_span(f"set_component_state({sentry_arg})"):
-                self.set_component_state(state_addr, state)
+
+            # Delegate saving the state to the component instance
+            # because it may want to decide not to save it.
+            with start_span(f"set_state({sentry_arg})"):
+                component_instance.set_state(self, state_addr, state)
         return call_context
 
     def call_with_context(
