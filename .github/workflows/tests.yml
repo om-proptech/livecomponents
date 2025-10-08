@@ -1,6 +1,11 @@
 name: tests
 
-on: [push]
+on:
+  pull_request:
+  push:
+  schedule:
+    - cron: '0 5 * * 1'  # Every Monday at 5am
+  workflow_dispatch:
 
 jobs:
   build-test:
