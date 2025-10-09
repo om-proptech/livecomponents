@@ -1,0 +1,23 @@
+name: pre-commit
+
+on:
+  pull_request:
+  push:
+  schedule:
+    - cron: '0 5 * * 1'  # Every Monday at 5am
+  workflow_dispatch:
+
+# Drop permissions to minimum, for security
+permissions:
+  contents: read
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+      - uses: pre-commit/action@v3.0.1
