@@ -1,0 +1,63 @@
+{% load livecomponents %}
+
+<div {% component_attrs component_id %}>
+  <article>
+    <header>
+      <h2>URL Navigation Demo: Push vs Replace</h2>
+      <p>
+        This demo shows the difference between <code>PushUrl</code> and <code>ReplaceUrl</code>.
+        Try navigating through pages using both methods and observe how the browser's Back button behaves.
+      </p>
+    </header>
+
+    <section>
+      <h3>Current State</h3>
+      <p>
+        <strong>Current Page:</strong> <mark>{{ current_page }}</mark><br>
+        <strong>Navigation Count:</strong> {{ navigation_count }}
+      </p>
+    </section>
+
+    <section>
+      <h3>Navigate with Push URL (Adds to History)</h3>
+      <p>
+        <small>
+          <strong>PushUrl</strong> adds a new entry to browser history.
+          Click through pages, then use your browser's Back button - you'll go through each page you visited.
+        </small>
+      </p>
+      <div role="group">
+        <button hx-post="{% call_command component_id 'navigate_push' %}" hx-vals='{"page": "page1"}'>
+          Go to Page 1 (Push)
+        </button>
+        <button hx-post="{% call_command component_id 'navigate_push' %}" hx-vals='{"page": "page2"}'>
+          Go to Page 2 (Push)
+        </button>
+        <button hx-post="{% call_command component_id 'navigate_push' %}" hx-vals='{"page": "page3"}'>
+          Go to Page 3 (Push)
+        </button>
+      </div>
+    </section>
+
+    <section>
+      <h3>Navigate with Replace URL (Replaces History)</h3>
+      <p>
+        <small>
+          <strong>ReplaceUrl</strong> replaces the current history entry.
+          Click through pages, then use your browser's Back button - you'll skip over the replaced pages.
+        </small>
+      </p>
+      <div role="group">
+        <button hx-post="{% call_command component_id 'navigate_replace' %}" hx-vals='{"page": "page1"}' class="secondary">
+          Go to Page 1 (Replace)
+        </button>
+        <button hx-post="{% call_command component_id 'navigate_replace' %}" hx-vals='{"page": "page2"}' class="secondary">
+          Go to Page 2 (Replace)
+        </button>
+        <button hx-post="{% call_command component_id 'navigate_replace' %}" hx-vals='{"page": "page3"}' class="secondary">
+          Go to Page 3 (Replace)
+        </button>
+      </div>
+    </section>
+  </article>
+</div>
