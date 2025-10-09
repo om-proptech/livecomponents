@@ -19,21 +19,21 @@ def test_counter(live_server, page: Page):
     # Click on the first "+" button.
     page.get_by_role("button", name="+").first.click()
     expect(message_content).to_have_text(
-        "Counter 'First counter' incremented to 1. Its new value is now 1001."
+        "Counter 'First counter' incremented by 1. Its new value is now 1001."
     )
     expect(page.get_by_role("textbox").first).to_have_value("€ 1,001")
 
     # Click on the first "-" button.
     page.get_by_role("button", name="-").first.click()
     expect(message_content).to_have_text(
-        "Counter 'First counter' incremented to -1. Its new value is now 1000."
+        "Counter 'First counter' incremented by -1. Its new value is now 1000."
     )
     expect(page.get_by_role("textbox").first).to_have_value("€ 1,000")
 
     # Click on the second "+" button.
     page.get_by_role("button", name="+").nth(1).click()
     expect(message_content).to_have_text(
-        "Counter 'Second counter' incremented to 1. Its new value is now 1001."
+        "Counter 'Second counter' incremented by 1. Its new value is now 1001."
     )
     expect(page.get_by_role("textbox").nth(1)).to_have_value("€ 1,001")
 
