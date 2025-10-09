@@ -8,6 +8,7 @@ from myapp.views import (
     registration,
     simplecounter,
     uploads,
+    urlnavigation,
 )
 
 urlpatterns = [
@@ -19,5 +20,6 @@ urlpatterns = [
     path("registration/", registration, name="registration"),
     path("uploads/", uploads, name="uploads"),
     path("chart/", chart, name="chart"),
+    path("urlnavigation/", urlnavigation, name="urlnavigation"),
     path("livecomponents/", include("livecomponents.urls")),
 ]

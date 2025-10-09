@@ -52,6 +52,12 @@ If a command handler returns `None` (or doesn't return anything), the component 
       show_root_heading: true
       members: false
 
+::: livecomponents.manager.execution_results.PushUrl
+    options:
+      heading_level: 3
+      show_root_heading: true
+      members: false
+
 ## More Usage Examples
 
 ### Basic Component Control
@@ -113,8 +119,38 @@ class OrderComponent(LiveComponent):
         order.save()
 
         return [
-            ComponentDirty(),  # Re-render current component
-            ComponentDirty("cart-counter"),  # Update cart count
-            ReplaceUrl(f"/orders/{order.id}/confirmation/")  # Update URL
+            ComponentDirty(),
+            ComponentDirty("cart-counter"),
+            ReplaceUrl(f"/orders/{order.id}/confirmation/")
         ]
 ```
+
+### URL Management: PushUrl vs ReplaceUrl
+
+Understanding when to use `PushUrl` versus `ReplaceUrl`:
+
+```python
+class NavigationComponent(LiveComponent):
+
+    @command
+    def navigate_with_history(self, call_context: CallContext[NavState], page: str):
+        """Navigate to a new page, adding to browser history.
+
+        Users can use the browser's back button to return to previous pages.
+        Use this for navigation between distinct pages or steps.
+        """
+        call_context.state.current_page = page
+        return [ComponentDirty(), PushUrl(f'/app/{page}/')]
+
+    @command
+    def update_filters(self, call_context: CallContext[NavState], filter_value: str):
+        """Update URL to reflect current filters without adding to history.
+
+        Prevents cluttering browser history with every filter change.
+        Use this for transient state like search queries or filters.
+        """
+        call_context.state.filter = filter_value
+        return [ComponentDirty(), ReplaceUrl(f'/app/?filter={filter_value}')]
+```
+
+Note that most of the time you need to re-render the component when you are updating the URL, so `ComponentDirty()` is included in the list of execution results.

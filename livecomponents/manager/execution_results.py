@@ -189,6 +189,36 @@ class ReplaceUrl(IExecutionResult):
         results.response_headers["HX-Replace-Url"] = self.url
 
 
+class PushUrl(IExecutionResult):
+    """Push a new URL to the browser history without reloading the page.
+
+    Updates the browser's address bar and adds a new entry to the browser history,
+    allowing users to navigate back to previous states using the browser's back button.
+    See https://htmx.org/headers/hx-push-url/.
+
+    **Example:**
+
+    ```python
+    class WizardComponent(LiveComponent):
+        ...
+
+        @command
+        def next_step(self, call_context: CallContext[WizardState]):
+            \"\"\"Move to next step and update URL with history entry\"\"\"
+            call_context.state.current_step += 1
+            return PushUrl(f'/wizard/step-{call_context.state.current_step}/')
+    ```
+    """  # noqa: E501
+
+    def __init__(self, url: str):
+        """Initialize with the URL to push to the browser history."""
+        self.url = url
+
+    def process(self, state_address: StateAddress, results: "ExecutionResults") -> None:
+        """Set the HX-Push-Url header to push a new URL to browser history."""
+        results.response_headers["HX-Push-Url"] = self.url
+
+
 class ExecutionResults(BaseModel):
     """Container for execution results."""
 

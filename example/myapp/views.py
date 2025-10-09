@@ -56,3 +56,7 @@ def uploads(request: HttpRequest):
 
 def chart(request: HttpRequest):
     return render(request, "chart.html")
+
+
+def urlnavigation(request: HttpRequest):
+    return render(request, "urlnavigation.html")
