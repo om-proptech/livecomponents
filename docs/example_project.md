@@ -8,6 +8,7 @@ Run it locally and play with it to get a better understanding of how the library
 poetry install
 cd example
 poetry run python manage.py migrate
+poetry run python manage.py load_coffee_beans
 poetry run python manage.py runserver
 ```
 
