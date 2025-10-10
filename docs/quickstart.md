@@ -5,7 +5,7 @@ Here's how you integrate live components:
 - Install `livecomponents`.
 - Modify Django settings.
 - Modify base HTML template.
-- Modify URLs to include live components.
+- Modify project `urls.py` to include live components.
 
 ## Installation
 
@@ -128,7 +128,7 @@ There, we need support for HTMX and Live Components:
 <html>
 ```
 
-## URLs
+## Project `urls.py`
 
 ```python
 from django.urls import path, include
