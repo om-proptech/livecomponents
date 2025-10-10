@@ -1,10 +1,17 @@
 # Quickstart
 
-Here's how you integrate live components after you've installed the package:
+Here's how you integrate live components:
 
+- Install `livecomponents`.
 - Modify Django settings.
 - Modify base HTML template.
 - Modify URLs to include live components.
+
+## Installation
+
+```bash
+pip3 install git+https://github.com/om-proptech/livecomponents@...SHA1.HERE...
+```
 
 ## Django settings
 
