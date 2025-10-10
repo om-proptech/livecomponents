@@ -86,9 +86,9 @@ class Command(BaseCommand):
         component_path = app_path / "components" / component_name
         component_path.mkdir(parents=True, exist_ok=True)
 
-        # Create __init__.py files for all the parent directories of the component
+        # Create __init__.py files for all the directories of the component
         # file down to "components" directory.
-        parent_path = component_path.parent
+        parent_path = component_path
         while parent_path != app_path / "components":
             init_py = parent_path / "__init__.py"
             if not init_py.exists():
