@@ -88,12 +88,12 @@ class Command(BaseCommand):
 
         # Create __init__.py files for all the directories of the component
         # file down to "components" directory.
-        parent_path = component_path
-        while parent_path != app_path / "components":
-            init_py = parent_path / "__init__.py"
+        package_path = component_path
+        while package_path != app_path / "components":
+            init_py = package_path / "__init__.py"
             if not init_py.exists():
                 init_py.touch()
-            parent_path = parent_path.parent
+            package_path = package_path.parent
 
         component_py = component_path / f"{proper_name}.py"
         component_html = component_path / f"{proper_name}.html"
