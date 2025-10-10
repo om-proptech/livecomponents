@@ -1,3 +1,4 @@
+from django.urls import reverse
 from django_components import component
 
 from livecomponents import (
@@ -24,10 +25,10 @@ class UrlnavigationComponent(LiveComponent[UrlnavigationState]):
     def navigate_push(self, call_context, page: str):
         call_context.state.current_page = page
         call_context.state.navigation_count += 1
-        return [ComponentDirty(), PushUrl(f"/urlnavigation/?page={page}")]
+        return [ComponentDirty(), PushUrl(f"{reverse('urlnavigation')}?page={page}")]
 
     @command
     def navigate_replace(self, call_context, page: str):
         call_context.state.current_page = page
         call_context.state.navigation_count += 1
-        return [ComponentDirty(), ReplaceUrl(f"/urlnavigation/?page={page}")]
+        return [ComponentDirty(), ReplaceUrl(f"{reverse('urlnavigation')}?page={page}")]
