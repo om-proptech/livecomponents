@@ -31,6 +31,29 @@ MIDDLEWARE = [
 ]
 ```
 
+Add template loader `django_components.template_loader.Loader`
+so that component templates are found, e.g.:
+
+```python
+TEMPLATES = [
+    {
+        # ...
+        "OPTIONS": {
+            # ...
+            "loaders": [
+                (
+                    "django.template.loaders.cached.Loader",
+                    [
+                        # ...
+                        "django_components.template_loader.Loader",
+                    ],
+                ),
+            ],
+        },
+    },
+]
+```
+
 Add component dirs for to static files:
 
 ```python
