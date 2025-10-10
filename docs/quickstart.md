@@ -154,3 +154,12 @@ of one Python, and one HTML file.
 Make sure that your STATICFILES_DIRS setting includes the "components" directory of the app.
 
 Optionally, you can pass a `--stateless` flag to create a stateless component.
+
+## Disposable Redis server
+
+live components depends on a local Redis server, at least by default.
+For a quick throw-away local Redis server, this command could be of use:
+
+```bash
+docker run --rm -d -p 127.0.0.1:6379:6379 redis:latest
+```
