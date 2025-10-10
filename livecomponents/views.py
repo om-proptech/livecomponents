@@ -5,6 +5,7 @@ from django.core.exceptions import BadRequest
 from django.http import HttpRequest, HttpResponse
 from django.template import RequestContext, Template
 from django.views.decorators.clickjacking import xframe_options_exempt
+from django.views.decorators.http import require_POST
 from django_components.component_registry import NotRegistered
 
 from livecomponents.exceptions import CancelRendering
@@ -25,9 +26,8 @@ def maybe_xframe_exempt(view_func):
 
 
 @maybe_xframe_exempt
+@require_POST
 def call_command(request: HttpRequest):
-    if request.method != "POST":
-        return HttpResponse("Only POST allowed", status=405)
     args = CallMethodRequestArgs(**request.GET.dict())
     state_manager = get_state_manager()
     kwargs = parse_body(request)
@@ -71,9 +71,8 @@ def call_command(request: HttpRequest):
 
 
 @maybe_xframe_exempt
+@require_POST
 def clear_session(request: HttpRequest):
-    if request.method != "POST":
-        return HttpResponse("Only POST allowed", status=405)
     session_id = request.GET.get("session_id")
     if not session_id:
         return HttpResponse("session_id is required", status=400)
