@@ -40,7 +40,7 @@ def nestedcounter(request: HttpRequest):
 Since the nested counter components don't exist yet, let's first create a placeholder for the root component. We'll create a root component that will maintain the counter state.
 
 ```shell
-./manage.py createlivecomponent counters nestedcounter/root ./manage.py
+./manage.py createlivecomponent counters nestedcounter/root
 ```
 
 Now, let's modify the root component to define the state and action.
