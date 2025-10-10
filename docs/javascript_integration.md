@@ -157,15 +157,15 @@ See the Chart.js component in the [example project](https://github.com/om-propte
 
 ## Summary
 
-**Key Points**:
+### Key Points
 
-• **Scripts may not re-run automatically**. Use `swap_style="outerHTML"` or `{% no_morph %}` to ensure execution
-• **Disable nested OOB swaps**. Add `{"allowNestedOobSwaps":false}` to prevent multiple executions
-• **Store objects on DOM elements**. Avoid global variables, use element properties instead
-• **Use `hx-preserve` for stateful components**. Keep expensive initializations unchanged
-• **Listen to `htmx:load` events**. Best for component initialization
+- **Scripts may not re-run automatically**. Use `swap_style="outerHTML"` or `{% no_morph %}` to ensure execution.
+- **Disable nested OOB swaps**. Add `{"allowNestedOobSwaps":false}` to prevent multiple executions.
+- **Store objects on DOM elements**. Avoid global variables, use element properties instead.
+- **Use `hx-preserve` for stateful components**. Keep expensive initializations unchanged.
+- **Listen to `htmx:load` events**. Best for component initialization.
 
-**Essential Links**:
+### Essential Links
 
 - [HTMX Scripting Documentation](https://htmx.org/docs/#scripting) - Official guide to JavaScript integration
 - [hx-preserve Attribute](https://htmx.org/attributes/hx-preserve/) - Keep elements unchanged during updates
