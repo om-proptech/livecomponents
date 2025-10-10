@@ -37,8 +37,8 @@ Add component dirs for to static files:
 # Static files (CSS, JavaScript, Images)
 STATICFILES_DIRS = [
     # To load django-components specific to myapp
-    BASE_DIR / "app_one/components",
-    BASE_DIR / "app_two/components",
+    BASE_DIR / "app_one" / "components",
+    BASE_DIR / "app_two" / "components",
 ]
 ```
 
