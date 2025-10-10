@@ -55,13 +55,13 @@ There, we need support for HTMX and Live Components:
   <meta name="htmx-config" content='{"defaultSwapStyle":"none","allowNestedOobSwaps":false}'>
 
   <!-- HTMX and plugins -->
-  <script src="https://unpkg.com/htmx.org@2.x.x"></script>
-  <script src="https://unpkg.com/htmx-ext-json-enc@2.x.x/json-enc.js"></script>
-  <script src="https://unpkg.com/htmx-ext-alpine-morph@2.x.x/alpine-morph.js"></script>
+  <script src="https://unpkg.com/htmx.org@2.0.7/dist/htmx.min.js" integrity="sha256-YCMa5rqds4JesVomESLV9VkhxNU7Zr9jfcGLTuJ8efk=" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/htmx-ext-json-enc@2.0.2/json-enc.js" integrity="sha256-n+FPqu23kscMGH4hmy2Ocv7ZKJE3UgXa2d/v4Y2azOo=" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/htmx-ext-alpine-morph@2.0.1/alpine-morph.js" integrity="sha256-diqH7MmPdlWLfWOEw3QAq2HlqxYmGWy30JP864nBO2c=" crossorigin="anonymous"></script>
   <!-- Alpine Plugins -->
-  <script defer src="https://unpkg.com/@alpinejs/morph@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://unpkg.com/@alpinejs/morph@3.15.0/dist/cdn.min.js" integrity="sha256-yc4QYrkTmE2o9PYBjxsweN9Z28PQ3PSozmsuzd4So5w=" crossorigin="anonymous"></script>
   <!-- Alpine Core -->
-  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.15.0/dist/cdn.min.js" integrity="sha256-4EHxtjnR5rL8JzbY12OKQJr81ESm7JBEb49ORPo29AY=" crossorigin="anonymous"></script>
 
   {% django_htmx_script %}
 
