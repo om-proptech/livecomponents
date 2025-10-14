@@ -14,7 +14,7 @@ Add to installed apps following packages:
 INSTALLED_APPS = [
     # ...
     "django_components",
-    "django_components.safer_staticfiles",
+    "django_components.safer_staticfiles",  # replaces django.contrib.staticfiles
     "django_htmx",
     "livecomponents",
     # ...
