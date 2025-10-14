@@ -7,7 +7,6 @@ Run it locally and play with it to get a better understanding of how the library
 ```bash
 poetry install
 cd example
-cp env.example .env
 poetry run python manage.py migrate
 poetry run python manage.py runserver
 ```
