@@ -2,7 +2,7 @@
 
 Django Live Component is a library for creating dynamic web applications that handle user interactions with the DOM on the server side. It leverages Django, HTMX, and Alpine.js to provide a seamless experience for both developers and users.
 
-To get started, follow the [quickstart guide](quickstart.md)
+To get started, follow the [quickstart guide](quickstart.md).
 
 !!! warning "Leaky Abstractions"
 
