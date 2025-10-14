@@ -36,7 +36,7 @@ class ClickCounter(LiveComponent[ClickCounterState]):
         call_context.find_one(f"{HIER_SEP}message{TYPE_SEP}0").set_message(
             message=(
                 f"Counter {call_context.state.title!r} incremented "
-                f"to {value}. "
+                f"by {value}. "
                 f"Its new value is now {call_context.state.value}."
             )
         )
