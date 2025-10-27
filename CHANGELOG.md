@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## UNRELEASED
+
+- Added TriggerEvents execution result to trigger custom browser events.
+
 ## 1.18.0 (2025-10-09)
 
 - Added PushUrl execution result and URL navigation demo

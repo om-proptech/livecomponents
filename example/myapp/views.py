@@ -60,3 +60,7 @@ def chart(request: HttpRequest):
 
 def urlnavigation(request: HttpRequest):
     return render(request, "urlnavigation.html")
+
+
+def notification(request: HttpRequest):
+    return render(request, "notification.html")

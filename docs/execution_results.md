@@ -58,6 +58,24 @@ If a command handler returns `None` (or doesn't return anything), the component 
       show_root_heading: true
       members: false
 
+::: livecomponents.manager.execution_results.TriggerEvents
+    options:
+      heading_level: 3
+      show_root_heading: true
+      members: false
+
+::: livecomponents.manager.execution_results.Event
+    options:
+      heading_level: 4
+      show_root_heading: true
+      members: false
+
+::: livecomponents.manager.execution_results.Trigger
+    options:
+      heading_level: 4
+      show_root_heading: true
+      members: false
+
 ## More Usage Examples
 
 ### Basic Component Control
@@ -154,3 +172,68 @@ class NavigationComponent(LiveComponent):
 ```
 
 Note that most of the time you need to re-render the component when you are updating the URL, so `ComponentDirty()` is included in the list of execution results.
+
+### Custom Browser Events: TriggerEvents
+
+Trigger custom JavaScript events that can be handled by standard event listeners. Useful for notifications, analytics, or coordinating between components and third-party JavaScript libraries:
+
+```python
+class NotificationComponent(LiveComponent):
+
+    @command
+    def save_data(self, call_context: CallContext[NotificationState]):
+        """Save data and show a notification to the user."""
+        call_context.state.save()
+
+        # Trigger a custom event with data
+        return TriggerEvents.single(
+            name="showNotification",
+            detail={
+                "message": "Data saved successfully!",
+                "level": "success"
+            }
+        )
+
+    @command
+    def complex_operation(self, call_context: CallContext[NotificationState]):
+        """Perform operation and trigger multiple events."""
+        result = call_context.state.perform_operation()
+
+        # Trigger multiple events at once
+        return TriggerEvents([
+            Event(name="operationComplete", detail={"result": result}),
+            Event(name="refreshChart", target="#sales-chart"),
+            Event(name="trackAnalytics", detail={"action": "operation"}),
+        ])
+```
+
+**Listening to events in JavaScript:**
+
+```javascript
+// Listen for the custom event
+document.body.addEventListener("showNotification", function(evt) {
+    const { message, level } = evt.detail;
+    // Show notification using your preferred library
+    showToast(message, level);
+});
+
+document.body.addEventListener("refreshChart", function(evt) {
+    // Refresh the chart component
+    refreshChartData();
+});
+```
+
+**Controlling event timing:**
+
+You can control when events fire relative to the HTMX request lifecycle:
+
+```python
+# Fire immediately when response is received (default)
+TriggerEvents.single("immediate", trigger=Trigger.AFTER_REQUEST)
+
+# Fire after HTMX settles the DOM
+TriggerEvents.single("afterSettle", trigger=Trigger.AFTER_SETTLE)
+
+# Fire after HTMX swaps content into the DOM
+TriggerEvents.single("afterSwap", trigger=Trigger.AFTER_SWAP)
+```

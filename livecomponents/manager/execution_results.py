@@ -1,4 +1,7 @@
 import abc
+import json
+from enum import Enum
+from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -217,6 +220,148 @@ class PushUrl(IExecutionResult):
     def process(self, state_address: StateAddress, results: "ExecutionResults") -> None:
         """Set the HX-Push-Url header to push a new URL to browser history."""
         results.response_headers["HX-Push-Url"] = self.url
+
+
+class Trigger(Enum):
+    """Specifies when events should be triggered in the HTMX lifecycle.
+
+    See https://htmx.org/headers/hx-trigger/
+    """
+
+    AFTER_REQUEST = "HX-Trigger"
+    AFTER_SETTLE = "HX-Trigger-After-Settle"
+    AFTER_SWAP = "HX-Trigger-After-Swap"
+
+
+class Event(BaseModel):
+    """Represents a browser event to be triggered via HX-Trigger headers.
+
+    Attributes:
+        name: The name of the event to trigger in the browser.
+        target: Optional CSS selector for the element to trigger the event on.
+                If None, the event is triggered on the element that
+                initiated the request.
+        detail: Dictionary of additional data to pass with the event. This data
+                will be available in the event's detail property in JavaScript
+                event listeners.
+    """
+
+    name: str
+    target: str | None = None
+    detail: dict[str, Any] = Field(default_factory=dict)
+
+    def serialize_value(self) -> dict[str, Any]:
+        ret = self.detail.copy()
+        if self.target is not None:
+            ret["target"] = self.target
+        return ret
+
+
+class TriggerEvents(IExecutionResult):
+    """Trigger custom browser events via HTMX response headers.
+
+    Allows you to trigger JavaScript events in the browser that can be listened to
+    with standard event listeners. Useful for coordinating between components,
+    showing notifications, or triggering client-side actions after server processing.
+
+    See https://htmx.org/headers/hx-trigger/ for more details.
+
+    **Example:**
+
+    ```python
+    class NotificationComponent(LiveComponent):
+        ...
+
+        @command
+        def save_data(self, call_context: CallContext[NotificationState]):
+            \"\"\"Save data and show success notification\"\"\"
+            call_context.state.data.save()
+            return TriggerEvents([
+                Event(
+                    name="showNotification",
+                    detail={"message": "Data saved successfully!", "level": "success"}
+                )
+            ])
+
+        @command
+        def refresh_dashboard(self, call_context: CallContext[NotificationState]):
+            \"\"\"Trigger multiple events after data update\"\"\"
+            call_context.state.update_data()
+            return TriggerEvents([
+                Event(name="refreshChart", detail={"chartId": "sales-chart"}),
+                Event(name="updateCounter", target="#cart-counter"),
+            ])
+    ```
+
+    **Using the convenience method for single events:**
+
+    ```python
+    @command
+    def quick_action(self, call_context: CallContext[State]):
+        return TriggerEvents.single(
+            name="actionComplete",
+            detail={"timestamp": time.time()}
+        )
+    ```
+    """
+
+    def __init__(self, events: list[Event], trigger: Trigger = Trigger.AFTER_REQUEST):
+        """Initialize with the list of events to trigger.
+
+        Args:
+            events: List of Event objects to trigger. Event names must be unique.
+            trigger: When to trigger the events (default: immediately after response).
+
+        Raises:
+            ValueError: If duplicate event names are found.
+        """
+        # Validate no duplicate event names
+        event_names = [event.name for event in events]
+        if len(event_names) != len(set(event_names)):
+            duplicates = [name for name in event_names if event_names.count(name) > 1]
+            raise ValueError(
+                f"Duplicate event names found: {', '.join(set(duplicates))}. "
+                "Each event name must be unique."
+            )
+
+        self.events = events
+        self.trigger = trigger
+
+    @classmethod
+    def single(
+        cls,
+        name: str,
+        detail: dict[str, Any] | None = None,
+        target: str | None = None,
+        trigger: Trigger = Trigger.AFTER_REQUEST,
+    ) -> "TriggerEvents":
+        """Create a TriggerEvents instance with a single event.
+
+        Convenience method for the common case of triggering just one event.
+
+        Args:
+            name: The name of the event to trigger.
+            detail: Optional dictionary of data to pass with the event.
+            target: Optional CSS selector for the target element.
+            trigger: When to trigger the event (default: immediately after response).
+
+        Returns:
+            A TriggerEvents instance with a single event.
+        """
+        return cls(
+            [Event(name=name, detail=detail or {}, target=target)],
+            trigger=trigger,
+        )
+
+    def process(self, state_address: StateAddress, results: "ExecutionResults") -> None:
+        """Set the HX-Trigger header to trigger the events."""
+        results.response_headers[self.trigger.value] = json.dumps(
+            self.serialize_events()
+        )
+
+    def serialize_events(self) -> dict[str, Any]:
+        """Serialize the events to a dictionary."""
+        return {event.name: event.serialize_value() for event in self.events}
 
 
 class ExecutionResults(BaseModel):

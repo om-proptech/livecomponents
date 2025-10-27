@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load livecomponents %}
+
+{% block body %}
+  {% livecomponent "notification" %}
+
+  <!-- Toast notification container -->
+  <div id="toast-container"></div>
+
+  <style>
+    #toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 350px;
+    }
+
+    .toast {
+      padding: 15px 20px;
+      color: white;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      animation: slideIn 0.3s ease-out;
+    }
+
+    .toast-success {
+      background: #2ecc71;
+    }
+
+    .toast-info {
+      background: #3498db;
+    }
+
+    .toast-warning {
+      background: #f39c12;
+    }
+
+    .toast-error {
+      background: #e74c3c;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideOut {
+      from {
+        transform: translateX(0);
+        opacity: 1;
+      }
+      to {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+    }
+  </style>
+
+  <script>
+    // Listen for notification events triggered by the component
+    document.body.addEventListener("showNotification", function(evt) {
+      const { message, level } = evt.detail;
+      showNotification(message, level);
+    });
+
+    // Listen for analytics events (just log to console for demo)
+    document.body.addEventListener("logAnalytics", function(evt) {
+      console.log("Analytics event:", evt.detail);
+    });
+
+    // Simple notification display function
+    function showNotification(message, level = "info") {
+      const container = document.getElementById("toast-container");
+      const toast = document.createElement("div");
+
+      // Apply toast classes
+      toast.className = `toast toast-${level}`;
+      toast.textContent = message;
+      container.appendChild(toast);
+
+      // Remove after 3 seconds
+      setTimeout(() => {
+        toast.style.animation = "slideOut 0.3s ease-in";
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+  </script>
+{% endblock %}

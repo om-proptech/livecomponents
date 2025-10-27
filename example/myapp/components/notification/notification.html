@@ -1,0 +1,68 @@
+{% load livecomponents %}
+
+<div {% component_attrs component_id %}>
+  <article>
+    <header>
+      <h2>Custom Browser Events (TriggerEvents)</h2>
+      <p>
+        This demo shows how to trigger custom JavaScript events from your Django components.
+        Click the buttons below and watch the notifications appear in the top-right corner.
+      </p>
+    </header>
+
+    <section>
+      <h3>Current State</h3>
+      <p>
+        <strong>Total Clicks:</strong> <mark>{{ click_count }}</mark><br>
+        <strong>Last Action:</strong> {{ last_message|default:"None yet" }}
+      </p>
+    </section>
+
+    <section>
+      <h3>Try It Out</h3>
+      <div role="group">
+        <button hx-post="{% call_command component_id 'trigger_success' %}">
+          Trigger Success Event
+        </button>
+
+        <button hx-post="{% call_command component_id 'trigger_info' %}">
+          Trigger Info Event
+        </button>
+      </div>
+
+      <div role="group">
+        <button hx-post="{% call_command component_id 'trigger_multiple' %}">
+          Trigger Multiple Events
+        </button>
+
+        <button hx-post="{% call_command component_id 'trigger_after_settle' %}">
+          Trigger After Settle
+        </button>
+      </div>
+    </section>
+
+    <section>
+      <h3>How It Works</h3>
+      <details>
+        <summary>View the implementation</summary>
+        <p>The component returns a list with <code>ComponentDirty()</code> and <code>TriggerEvents</code>:</p>
+        <pre><code>@command
+def trigger_success(self, call_context):
+    call_context.state.click_count += 1
+    return [
+        ComponentDirty(),  # Re-render to show updated state
+        TriggerEvents.single(
+            name="showNotification",
+            detail={"message": "Success!", "level": "success"}
+        )
+    ]</code></pre>
+
+        <p>JavaScript listens for these events:</p>
+        <pre><code>document.body.addEventListener("showNotification", function(evt) {
+    const {message, level} = evt.detail;
+    showNotification(message, level);
+});</code></pre>
+      </details>
+    </section>
+  </article>
+</div>

@@ -5,6 +5,7 @@ from myapp.views import (
     counters_index,
     modals,
     nestedcounter,
+    notification,
     registration,
     simplecounter,
     uploads,
@@ -21,5 +22,6 @@ urlpatterns = [
     path("uploads/", uploads, name="uploads"),
     path("chart/", chart, name="chart"),
     path("urlnavigation/", urlnavigation, name="urlnavigation"),
+    path("notification/", notification, name="notification"),
     path("livecomponents/", include("livecomponents.urls")),
 ]
