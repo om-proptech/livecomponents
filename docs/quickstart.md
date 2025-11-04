@@ -1,10 +1,17 @@
 # Quickstart
 
-Here's how you integrate live components after you've installed the package:
+Here's how you integrate live components:
 
+- Install `livecomponents`.
 - Modify Django settings.
 - Modify base HTML template.
-- Modify URLs to include live components.
+- Modify project `urls.py` to include live components.
+
+## Installation
+
+```bash
+pip3 install git+https://github.com/om-proptech/livecomponents@...SHA1.HERE...
+```
 
 ## Django settings
 
@@ -31,14 +38,37 @@ MIDDLEWARE = [
 ]
 ```
 
+Add template loader `django_components.template_loader.Loader`
+so that component templates are found, e.g.:
+
+```python
+TEMPLATES = [
+    {
+        # ...
+        "OPTIONS": {
+            # ...
+            "loaders": [
+                (
+                    "django.template.loaders.cached.Loader",
+                    [
+                        # ...
+                        "django_components.template_loader.Loader",
+                    ],
+                ),
+            ],
+        },
+    },
+]
+```
+
 Add component dirs for to static files:
 
 ```python
 # Static files (CSS, JavaScript, Images)
 STATICFILES_DIRS = [
     # To load django-components specific to myapp
-    BASE_DIR / "app_one/components",
-    BASE_DIR / "app_two/components",
+    BASE_DIR / "app_one" / "components",
+    BASE_DIR / "app_two" / "components",
 ]
 ```
 
@@ -98,7 +128,7 @@ There, we need support for HTMX and Live Components:
 <html>
 ```
 
-## URLs
+## Project `urls.py`
 
 ```python
 from django.urls import path, include
@@ -121,6 +151,15 @@ There is a management command to create new component:
 The command with create a "components" subdirectory in the app directory and create a new component, consisting
 of one Python, and one HTML file.
 
-Make sure that your STATICFILES_DIRS setting includes the "components" directory of the app.
+Make sure that your `STATICFILES_DIRS` setting includes the "components" directory of the app.
 
 Optionally, you can pass a `--stateless` flag to create a stateless component.
+
+## Disposable Redis server
+
+live components depends on a local Redis server, at least by default.
+For a quick throw-away local Redis server, this command could be of use:
+
+```bash
+docker run --rm -d -p 127.0.0.1:6379:6379 redis:latest
+```
