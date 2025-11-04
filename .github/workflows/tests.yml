@@ -42,4 +42,4 @@ jobs:
           REDIS_URL: redis://redis:6379/0
         run: |
           set -ex
-          $HOME/.local/bin/poetry run pytest
+          $HOME/.local/bin/poetry run pytest --cov=.
