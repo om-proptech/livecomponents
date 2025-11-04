@@ -252,12 +252,13 @@ There are several ways to call component methods from other components:
 
 ```python
 from livecomponents import LiveComponent, command, CallContext
+from livecomponents.const import HIER_SEP, TYPE_SEP
 
 class MyComponent(LiveComponent):
 
     @command
     def do_something(self, call_context: CallContext):
-        call_context.find_one("|message:0").set_message("Hello, world!")
+        call_context.find_one(f"{HIER_SEP}message{TYPE_SEP}0").set_message("Hello, world!")
 ```
 
 **Using the "parent" reference.**
