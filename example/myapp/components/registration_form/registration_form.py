@@ -36,20 +36,6 @@ class RegistrationForm(forms.Form):
 
 
 class RegistrationFormState(LiveComponentsModel):
-    """State for the registration form component.
-
-    Notice that we keep form_data, and not the entire Form instance in the state.
-    We do it because the state is smaller than form, it's less likely to break on
-    serialization, and this is the only state we need to keep.
-
-    The form handling procedure goes like this:
-
-    - First, we handle the form submission in the register() command. If the form
-      happen to be invalid, we store the form data in the state.
-    - Then, we re-create the form from the state in the get_extra_context_data().
-      The form from get_extra_context_data() is used to render the form in the template.
-    """
-
     user_registered: bool = False
     form: RegistrationForm
 
