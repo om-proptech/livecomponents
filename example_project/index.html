@@ -897,8 +897,9 @@
 <p>Run it locally and play with it to get a better understanding of how the library works.</p>
 <div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>install
 <span class="nb">cd</span><span class="w"> </span>example
-cp<span class="w"> </span>env.example<span class="w"> </span>.env
 poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>manage.py<span class="w"> </span>migrate
+poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>manage.py<span class="w"> </span>load_coffee_beans
+docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-d<span class="w"> </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:6379:6379<span class="w"> </span>redis:latest
 poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>manage.py<span class="w"> </span>runserver
 </code></pre></div>
 <p>See <a href="https://github.com/om-proptech/livecomponents/tree/main/example">example</a>.</p>

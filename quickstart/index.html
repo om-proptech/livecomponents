@@ -330,6 +330,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#django-settings" class="md-nav__link">
     <span class="md-ellipsis">
       Django settings
@@ -348,9 +357,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#urls" class="md-nav__link">
+  <a href="#project-urlspy" class="md-nav__link">
     <span class="md-ellipsis">
-      URLs
+      Project urls.py
     </span>
   </a>
   
@@ -360,6 +369,15 @@
   <a href="#create-new-component" class="md-nav__link">
     <span class="md-ellipsis">
       Create new component
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disposable-redis-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disposable Redis server
     </span>
   </a>
   
@@ -948,6 +966,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installation
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#django-settings" class="md-nav__link">
     <span class="md-ellipsis">
       Django settings
@@ -966,9 +993,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#urls" class="md-nav__link">
+  <a href="#project-urlspy" class="md-nav__link">
     <span class="md-ellipsis">
-      URLs
+      Project urls.py
     </span>
   </a>
   
@@ -978,6 +1005,15 @@
   <a href="#create-new-component" class="md-nav__link">
     <span class="md-ellipsis">
       Create new component
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disposable-redis-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      Disposable Redis server
     </span>
   </a>
   
@@ -1003,18 +1039,22 @@
 
 
 <h1 id="quickstart">Quickstart</h1>
-<p>Here's how you integrate live components after you've installed the package:</p>
+<p>Here's how you integrate live components:</p>
 <ul>
+<li>Install <code>livecomponents</code>.</li>
 <li>Modify Django settings.</li>
 <li>Modify base HTML template.</li>
-<li>Modify URLs to include live components.</li>
+<li>Modify project <code>urls.py</code> to include live components.</li>
 </ul>
+<h2 id="installation">Installation</h2>
+<div class="highlight"><pre><span></span><code>pip3<span class="w"> </span>install<span class="w"> </span>git+https://github.com/om-proptech/livecomponents@...SHA1.HERE...
+</code></pre></div>
 <h2 id="django-settings">Django settings</h2>
 <p>Add to installed apps following packages:</p>
 <div class="highlight"><pre><span></span><code><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
     <span class="c1"># ...</span>
     <span class="s2">&quot;django_components&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;django_components.safer_staticfiles&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;django_components.safer_staticfiles&quot;</span><span class="p">,</span>  <span class="c1"># replaces django.contrib.staticfiles</span>
     <span class="s2">&quot;django_htmx&quot;</span><span class="p">,</span>
     <span class="s2">&quot;livecomponents&quot;</span><span class="p">,</span>
     <span class="c1"># ...</span>
@@ -1027,12 +1067,32 @@
     <span class="c1"># ...</span>
 <span class="p">]</span>
 </code></pre></div>
+<p>Add template loader <code>django_components.template_loader.Loader</code>
+so that component templates are found, e.g.:</p>
+<div class="highlight"><pre><span></span><code><span class="n">TEMPLATES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">{</span>
+        <span class="c1"># ...</span>
+        <span class="s2">&quot;OPTIONS&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="c1"># ...</span>
+            <span class="s2">&quot;loaders&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">(</span>
+                    <span class="s2">&quot;django.template.loaders.cached.Loader&quot;</span><span class="p">,</span>
+                    <span class="p">[</span>
+                        <span class="c1"># ...</span>
+                        <span class="s2">&quot;django_components.template_loader.Loader&quot;</span><span class="p">,</span>
+                    <span class="p">],</span>
+                <span class="p">),</span>
+            <span class="p">],</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">]</span>
+</code></pre></div>
 <p>Add component dirs for to static files:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Static files (CSS, JavaScript, Images)</span>
 <span class="n">STATICFILES_DIRS</span> <span class="o">=</span> <span class="p">[</span>
     <span class="c1"># To load django-components specific to myapp</span>
-    <span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s2">&quot;app_one/components&quot;</span><span class="p">,</span>
-    <span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s2">&quot;app_two/components&quot;</span><span class="p">,</span>
+    <span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s2">&quot;app_one&quot;</span> <span class="o">/</span> <span class="s2">&quot;components&quot;</span><span class="p">,</span>
+    <span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s2">&quot;app_two&quot;</span> <span class="o">/</span> <span class="s2">&quot;components&quot;</span><span class="p">,</span>
 <span class="p">]</span>
 </code></pre></div>
 <p>You can also configure live components with the <code>LIVECOMPONENTS</code> settings dictionary. See the "Configuration" section for more details.</p>
@@ -1044,13 +1104,13 @@
   <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;htmx-config&quot;</span> <span class="na">content</span><span class="o">=</span><span class="s">&#39;{&quot;defaultSwapStyle&quot;:&quot;none&quot;,&quot;allowNestedOobSwaps&quot;:false}&#39;</span><span class="p">&gt;</span>
 
   <span class="cm">&lt;!-- HTMX and plugins --&gt;</span>
-  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://unpkg.com/htmx.org@2.x.x&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://unpkg.com/htmx-ext-json-enc@2.x.x/json-enc.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
-  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://unpkg.com/htmx-ext-alpine-morph@2.x.x/alpine-morph.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://unpkg.com/htmx.org@2.0.7/dist/htmx.min.js&quot;</span> <span class="na">integrity</span><span class="o">=</span><span class="s">&quot;sha256-YCMa5rqds4JesVomESLV9VkhxNU7Zr9jfcGLTuJ8efk=&quot;</span> <span class="na">crossorigin</span><span class="o">=</span><span class="s">&quot;anonymous&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://unpkg.com/htmx-ext-json-enc@2.0.2/json-enc.js&quot;</span> <span class="na">integrity</span><span class="o">=</span><span class="s">&quot;sha256-n+FPqu23kscMGH4hmy2Ocv7ZKJE3UgXa2d/v4Y2azOo=&quot;</span> <span class="na">crossorigin</span><span class="o">=</span><span class="s">&quot;anonymous&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://unpkg.com/htmx-ext-alpine-morph@2.0.1/alpine-morph.js&quot;</span> <span class="na">integrity</span><span class="o">=</span><span class="s">&quot;sha256-diqH7MmPdlWLfWOEw3QAq2HlqxYmGWy30JP864nBO2c=&quot;</span> <span class="na">crossorigin</span><span class="o">=</span><span class="s">&quot;anonymous&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
   <span class="cm">&lt;!-- Alpine Plugins --&gt;</span>
-  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">defer</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://unpkg.com/@alpinejs/morph@3.x.x/dist/cdn.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">defer</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://unpkg.com/@alpinejs/morph@3.15.0/dist/cdn.min.js&quot;</span> <span class="na">integrity</span><span class="o">=</span><span class="s">&quot;sha256-yc4QYrkTmE2o9PYBjxsweN9Z28PQ3PSozmsuzd4So5w=&quot;</span> <span class="na">crossorigin</span><span class="o">=</span><span class="s">&quot;anonymous&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
   <span class="cm">&lt;!-- Alpine Core --&gt;</span>
-  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">defer</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+  <span class="p">&lt;</span><span class="nt">script</span> <span class="na">defer</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://unpkg.com/alpinejs@3.15.0/dist/cdn.min.js&quot;</span> <span class="na">integrity</span><span class="o">=</span><span class="s">&quot;sha256-4EHxtjnR5rL8JzbY12OKQJr81ESm7JBEb49ORPo29AY=&quot;</span> <span class="na">crossorigin</span><span class="o">=</span><span class="s">&quot;anonymous&quot;</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 
   {% django_htmx_script %}
 
@@ -1086,7 +1146,7 @@
 <span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
 </code></pre></div>
-<h2 id="urls">URLs</h2>
+<h2 id="project-urlspy">Project <code>urls.py</code></h2>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">django.urls</span><span class="w"> </span><span class="kn">import</span> <span class="n">path</span><span class="p">,</span> <span class="n">include</span>
 
 <span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
@@ -1101,8 +1161,13 @@
 </code></pre></div>
 <p>The command with create a "components" subdirectory in the app directory and create a new component, consisting
 of one Python, and one HTML file.</p>
-<p>Make sure that your STATICFILES_DIRS setting includes the "components" directory of the app.</p>
+<p>Make sure that your <code>STATICFILES_DIRS</code> setting includes the "components" directory of the app.</p>
 <p>Optionally, you can pass a <code>--stateless</code> flag to create a stateless component.</p>
+<h2 id="disposable-redis-server">Disposable Redis server</h2>
+<p>live components depends on a local Redis server, at least by default.
+For a quick throw-away local Redis server, this command could be of use:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-d<span class="w"> </span>-p<span class="w"> </span><span class="m">127</span>.0.0.1:6379:6379<span class="w"> </span>redis:latest
+</code></pre></div>
 
 
 

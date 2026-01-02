@@ -1313,12 +1313,13 @@ The state keeps the counter value, and the component class defines two commands:
 <p>There are several ways to call component methods from other components:</p>
 <p><strong>Using the component ID.</strong> For example, if you have a component with ID "|message.0" and a method "set_message", you can call it like this:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">livecomponents</span><span class="w"> </span><span class="kn">import</span> <span class="n">LiveComponent</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">CallContext</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">livecomponents.const</span><span class="w"> </span><span class="kn">import</span> <span class="n">HIER_SEP</span><span class="p">,</span> <span class="n">TYPE_SEP</span>
 
 <span class="k">class</span><span class="w"> </span><span class="nc">MyComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">):</span>
 
     <span class="nd">@command</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">do_something</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">):</span>
-        <span class="n">call_context</span><span class="o">.</span><span class="n">find_one</span><span class="p">(</span><span class="s2">&quot;|message:0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_message</span><span class="p">(</span><span class="s2">&quot;Hello, world!&quot;</span><span class="p">)</span>
+        <span class="n">call_context</span><span class="o">.</span><span class="n">find_one</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">HIER_SEP</span><span class="si">}</span><span class="s2">message</span><span class="si">{</span><span class="n">TYPE_SEP</span><span class="si">}</span><span class="s2">0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">set_message</span><span class="p">(</span><span class="s2">&quot;Hello, world!&quot;</span><span class="p">)</span>
 </code></pre></div>
 <p><strong>Using the "parent" reference.</strong></p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">livecomponents</span><span class="w"> </span><span class="kn">import</span> <span class="n">LiveComponent</span><span class="p">,</span> <span class="n">command</span><span class="p">,</span> <span class="n">CallContext</span>

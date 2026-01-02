@@ -739,6 +739,48 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.PushUrl" class="md-nav__link">
+    <span class="md-ellipsis">
+      PushUrl
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.TriggerEvents" class="md-nav__link">
+    <span class="md-ellipsis">
+      TriggerEvents
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TriggerEvents">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.Event" class="md-nav__link">
+    <span class="md-ellipsis">
+      Event
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.Trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trigger
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -776,6 +818,24 @@
   <a href="#multiple-results" class="md-nav__link">
     <span class="md-ellipsis">
       Multiple Results
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#url-management-pushurl-vs-replaceurl" class="md-nav__link">
+    <span class="md-ellipsis">
+      URL Management: PushUrl vs ReplaceUrl
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-browser-events-triggerevents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Browser Events: TriggerEvents
     </span>
   </a>
   
@@ -1106,6 +1166,48 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.PushUrl" class="md-nav__link">
+    <span class="md-ellipsis">
+      PushUrl
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.TriggerEvents" class="md-nav__link">
+    <span class="md-ellipsis">
+      TriggerEvents
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TriggerEvents">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.Event" class="md-nav__link">
+    <span class="md-ellipsis">
+      Event
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#livecomponents.manager.execution_results.Trigger" class="md-nav__link">
+    <span class="md-ellipsis">
+      Trigger
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1143,6 +1245,24 @@
   <a href="#multiple-results" class="md-nav__link">
     <span class="md-ellipsis">
       Multiple Results
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#url-management-pushurl-vs-replaceurl" class="md-nav__link">
+    <span class="md-ellipsis">
+      URL Management: PushUrl vs ReplaceUrl
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-browser-events-triggerevents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Browser Events: TriggerEvents
     </span>
   </a>
   
@@ -1199,6 +1319,7 @@
     <div class="doc doc-contents first">
 
 
+
         <p>Indicate that a component is clean and requires no re-rendering.</p>
 <p>Use this when a command performs side effects (like logging, analytics, or
 background tasks) that don't change the component's visual state.</p>
@@ -1223,7 +1344,7 @@ background tasks) that don't change the component's visual state.</p>
 
 
 
-  <div class="doc doc-children">
+<div class="doc doc-children">
 
 
 
@@ -1256,6 +1377,7 @@ background tasks) that don't change the component's visual state.</p>
     <div class="doc doc-contents first">
 
 
+
         <p>Mark a component as dirty to trigger re-rendering.</p>
 <p>This is the default behavior when a command handler returns None.</p>
 <p><strong>Example:</strong></p>
@@ -1280,7 +1402,7 @@ background tasks) that don't change the component's visual state.</p>
 
 
 
-  <div class="doc doc-children">
+<div class="doc doc-children">
 
 
 
@@ -1313,6 +1435,7 @@ background tasks) that don't change the component's visual state.</p>
     <div class="doc doc-contents first">
 
 
+
         <p>Mark the parent component as dirty to trigger re-rendering.</p>
 <p>Useful when a child component performs an action that affects the parent's data,
 such as deleting an item from a list or updating shared state.</p>
@@ -1337,7 +1460,7 @@ such as deleting an item from a list or updating shared state.</p>
 
 
 
-  <div class="doc doc-children">
+<div class="doc doc-children">
 
 
 
@@ -1370,6 +1493,7 @@ such as deleting an item from a list or updating shared state.</p>
     <div class="doc doc-contents first">
 
 
+
         <p>Redirect the browser to a different URL.</p>
 <p>Sets the HX-Redirect header to instruct HTMX to navigate to a new page.
 Commonly used after successful form submissions or authentication.</p>
@@ -1397,7 +1521,7 @@ Commonly used after successful form submissions or authentication.</p>
 
 
 
-  <div class="doc doc-children">
+<div class="doc doc-children">
 
 
 
@@ -1430,6 +1554,7 @@ Commonly used after successful form submissions or authentication.</p>
     <div class="doc doc-contents first">
 
 
+
         <p>Trigger a full page refresh in the browser.</p>
 <p>Sets the HX-Refresh header to instruct HTMX to reload the entire page.
 Use sparingly, as it breaks the SPA-like experience.</p>
@@ -1454,7 +1579,7 @@ Use sparingly, as it breaks the SPA-like experience.</p>
 
 
 
-  <div class="doc doc-children">
+<div class="doc doc-children">
 
 
 
@@ -1487,6 +1612,7 @@ Use sparingly, as it breaks the SPA-like experience.</p>
     <div class="doc doc-contents first">
 
 
+
         <p>Replace the current URL in the browser without reloading the page.</p>
 <p>Updates the browser's address bar and history without triggering a full page reload.
 Useful for maintaining clean URLs that reflect the current application state.
@@ -1515,7 +1641,292 @@ See https://htmx.org/headers/hx-replace-url/.</p>
 
 
 
-  <div class="doc doc-children">
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="livecomponents.manager.execution_results.PushUrl" class="doc doc-heading">
+            <code>PushUrl</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>Push a new URL to the browser history without reloading the page.</p>
+<p>Updates the browser's address bar and adds a new entry to the browser history,
+allowing users to navigate back to previous states using the browser's back button.
+See https://htmx.org/headers/hx-push-url/.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">WizardComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">next_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">WizardState</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Move to next step and update URL with history entry&quot;&quot;&quot;</span>
+        <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">current_step</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">PushUrl</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;/wizard/step-</span><span class="si">{</span><span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">current_step</span><span class="si">}</span><span class="s1">/&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="livecomponents.manager.execution_results.TriggerEvents" class="doc doc-heading">
+            <code>TriggerEvents</code>
+
+
+</h3>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>Trigger custom browser events via HTMX response headers.</p>
+<p>Allows you to trigger JavaScript events in the browser that can be listened to
+with standard event listeners. Useful for coordinating between components,
+showing notifications, or triggering client-side actions after server processing.</p>
+<p>See https://htmx.org/headers/hx-trigger/ for more details.</p>
+<p><strong>Example:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NotificationComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">):</span>
+    <span class="o">...</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">NotificationState</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save data and show success notification&quot;&quot;&quot;</span>
+        <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">TriggerEvents</span><span class="p">([</span>
+            <span class="n">Event</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="s2">&quot;showNotification&quot;</span><span class="p">,</span>
+                <span class="n">detail</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Data saved successfully!&quot;</span><span class="p">,</span> <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span><span class="p">}</span>
+            <span class="p">)</span>
+        <span class="p">])</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">refresh_dashboard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">NotificationState</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Trigger multiple events after data update&quot;&quot;&quot;</span>
+        <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">update_data</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">TriggerEvents</span><span class="p">([</span>
+            <span class="n">Event</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;refreshChart&quot;</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;chartId&quot;</span><span class="p">:</span> <span class="s2">&quot;sales-chart&quot;</span><span class="p">}),</span>
+            <span class="n">Event</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;updateCounter&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">&quot;#cart-counter&quot;</span><span class="p">),</span>
+        <span class="p">])</span>
+</code></pre></div>
+<p><strong>Using the convenience method for single events:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nd">@command</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">quick_action</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">State</span><span class="p">]):</span>
+    <span class="k">return</span> <span class="n">TriggerEvents</span><span class="o">.</span><span class="n">single</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;actionComplete&quot;</span><span class="p">,</span>
+        <span class="n">detail</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()}</span>
+    <span class="p">)</span>
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="livecomponents.manager.execution_results.Event" class="doc doc-heading">
+            <code>Event</code>
+
+
+</h4>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>Represents a browser event to be triggered via HX-Trigger headers.</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="livecomponents.manager.execution_results.Event.name">name</span></code></td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The name of the event to trigger in the browser.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="livecomponents.manager.execution_results.Event.target">target</span></code></td>
+            <td>
+                  <code><span title="str">str</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional CSS selector for the element to trigger the event on.
+    If None, the event is triggered on the element that
+    initiated the request.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="livecomponents.manager.execution_results.Event.detail">detail</span></code></td>
+            <td>
+                  <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Dictionary of additional data to pass with the event. This data
+    will be available in the event's detail property in JavaScript
+    event listeners.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h4 id="livecomponents.manager.execution_results.Trigger" class="doc doc-heading">
+            <code>Trigger</code>
+
+
+</h4>
+
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>Specifies when events should be triggered in the HTMX lifecycle.</p>
+<p>See https://htmx.org/headers/hx-trigger/</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
 
 
 
@@ -1581,10 +1992,89 @@ See https://htmx.org/headers/hx-replace-url/.</p>
         <span class="n">order</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
 
         <span class="k">return</span> <span class="p">[</span>
-            <span class="n">ComponentDirty</span><span class="p">(),</span>  <span class="c1"># Re-render current component</span>
-            <span class="n">ComponentDirty</span><span class="p">(</span><span class="s2">&quot;cart-counter&quot;</span><span class="p">),</span>  <span class="c1"># Update cart count</span>
-            <span class="n">ReplaceUrl</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/orders/</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">/confirmation/&quot;</span><span class="p">)</span>  <span class="c1"># Update URL</span>
+            <span class="n">ComponentDirty</span><span class="p">(),</span>
+            <span class="n">ComponentDirty</span><span class="p">(</span><span class="s2">&quot;cart-counter&quot;</span><span class="p">),</span>
+            <span class="n">ReplaceUrl</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/orders/</span><span class="si">{</span><span class="n">order</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">/confirmation/&quot;</span><span class="p">)</span>
         <span class="p">]</span>
+</code></pre></div>
+<h3 id="url-management-pushurl-vs-replaceurl">URL Management: PushUrl vs ReplaceUrl</h3>
+<p>Understanding when to use <code>PushUrl</code> versus <code>ReplaceUrl</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NavigationComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">):</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">navigate_with_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">NavState</span><span class="p">],</span> <span class="n">page</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Navigate to a new page, adding to browser history.</span>
+
+<span class="sd">        Users can use the browser&#39;s back button to return to previous pages.</span>
+<span class="sd">        Use this for navigation between distinct pages or steps.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">current_page</span> <span class="o">=</span> <span class="n">page</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ComponentDirty</span><span class="p">(),</span> <span class="n">PushUrl</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;/app/</span><span class="si">{</span><span class="n">page</span><span class="si">}</span><span class="s1">/&#39;</span><span class="p">)]</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_filters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">NavState</span><span class="p">],</span> <span class="n">filter_value</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update URL to reflect current filters without adding to history.</span>
+
+<span class="sd">        Prevents cluttering browser history with every filter change.</span>
+<span class="sd">        Use this for transient state like search queries or filters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">filter</span> <span class="o">=</span> <span class="n">filter_value</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ComponentDirty</span><span class="p">(),</span> <span class="n">ReplaceUrl</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;/app/?filter=</span><span class="si">{</span><span class="n">filter_value</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)]</span>
+</code></pre></div>
+<p>Note that most of the time you need to re-render the component when you are updating the URL, so <code>ComponentDirty()</code> is included in the list of execution results.</p>
+<h3 id="custom-browser-events-triggerevents">Custom Browser Events: TriggerEvents</h3>
+<p>Trigger custom JavaScript events that can be handled by standard event listeners. Useful for notifications, analytics, or coordinating between components and third-party JavaScript libraries:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NotificationComponent</span><span class="p">(</span><span class="n">LiveComponent</span><span class="p">):</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">NotificationState</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save data and show a notification to the user.&quot;&quot;&quot;</span>
+        <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="c1"># Trigger a custom event with data</span>
+        <span class="k">return</span> <span class="n">TriggerEvents</span><span class="o">.</span><span class="n">single</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;showNotification&quot;</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Data saved successfully!&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;success&quot;</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+
+    <span class="nd">@command</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">complex_operation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">call_context</span><span class="p">:</span> <span class="n">CallContext</span><span class="p">[</span><span class="n">NotificationState</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Perform operation and trigger multiple events.&quot;&quot;&quot;</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">call_context</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">perform_operation</span><span class="p">()</span>
+
+        <span class="c1"># Trigger multiple events at once</span>
+        <span class="k">return</span> <span class="n">TriggerEvents</span><span class="p">([</span>
+            <span class="n">Event</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;operationComplete&quot;</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;result&quot;</span><span class="p">:</span> <span class="n">result</span><span class="p">}),</span>
+            <span class="n">Event</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;refreshChart&quot;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">&quot;#sales-chart&quot;</span><span class="p">),</span>
+            <span class="n">Event</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;trackAnalytics&quot;</span><span class="p">,</span> <span class="n">detail</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;action&quot;</span><span class="p">:</span> <span class="s2">&quot;operation&quot;</span><span class="p">}),</span>
+        <span class="p">])</span>
+</code></pre></div>
+<p><strong>Listening to events in JavaScript:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Listen for the custom event</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;showNotification&quot;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">message</span><span class="p">,</span><span class="w"> </span><span class="nx">level</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">evt</span><span class="p">.</span><span class="nx">detail</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// Show notification using your preferred library</span>
+<span class="w">    </span><span class="nx">showToast</span><span class="p">(</span><span class="nx">message</span><span class="p">,</span><span class="w"> </span><span class="nx">level</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;refreshChart&quot;</span><span class="p">,</span><span class="w"> </span><span class="kd">function</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Refresh the chart component</span>
+<span class="w">    </span><span class="nx">refreshChartData</span><span class="p">();</span>
+<span class="p">});</span>
+</code></pre></div>
+<p><strong>Controlling event timing:</strong></p>
+<p>You can control when events fire relative to the HTMX request lifecycle:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Fire immediately when response is received (default)</span>
+<span class="n">TriggerEvents</span><span class="o">.</span><span class="n">single</span><span class="p">(</span><span class="s2">&quot;immediate&quot;</span><span class="p">,</span> <span class="n">trigger</span><span class="o">=</span><span class="n">Trigger</span><span class="o">.</span><span class="n">AFTER_REQUEST</span><span class="p">)</span>
+
+<span class="c1"># Fire after HTMX settles the DOM</span>
+<span class="n">TriggerEvents</span><span class="o">.</span><span class="n">single</span><span class="p">(</span><span class="s2">&quot;afterSettle&quot;</span><span class="p">,</span> <span class="n">trigger</span><span class="o">=</span><span class="n">Trigger</span><span class="o">.</span><span class="n">AFTER_SETTLE</span><span class="p">)</span>
+
+<span class="c1"># Fire after HTMX swaps content into the DOM</span>
+<span class="n">TriggerEvents</span><span class="o">.</span><span class="n">single</span><span class="p">(</span><span class="s2">&quot;afterSwap&quot;</span><span class="p">,</span> <span class="n">trigger</span><span class="o">=</span><span class="n">Trigger</span><span class="o">.</span><span class="n">AFTER_SWAP</span><span class="p">)</span>
 </code></pre></div>
 
 

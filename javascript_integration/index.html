@@ -530,6 +530,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Points
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#essential-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      Essential Links
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1055,6 +1079,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-points" class="md-nav__link">
+    <span class="md-ellipsis">
+      Key Points
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#essential-links" class="md-nav__link">
+    <span class="md-ellipsis">
+      Essential Links
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1162,7 +1210,7 @@
 <span class="w">        </span><span class="nx">canvas</span><span class="p">.</span><span class="nx">chart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Chart</span><span class="p">(</span><span class="nx">canvas</span><span class="p">,</span><span class="w"> </span><span class="nx">getConfig</span><span class="p">());</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
-<span class="w">    </span><span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;htmx:load&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">updateChart</span><span class="p">);</span>
+<span class="w">    </span><span class="nx">canvas</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;htmx:load&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">updateChart</span><span class="p">);</span>
 <span class="w">  </span><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
 </code></pre></div>
@@ -1174,8 +1222,9 @@
 <li><strong><code>htmx:load</code></strong> - Runs when HTMX loads new content (recommended)</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="c1">// Best for component initialization</span>
-<span class="nb">document</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;htmx:load&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">initializeComponent</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">once</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">});</span>
+<span class="nx">component</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s2">&quot;htmx:load&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">initializeComponent</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">once</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> </span><span class="p">});</span>
 </code></pre></div>
+<p>Note that you may want to choose <code>document.addEventListener("htmx:load", updateChart)</code> but be aware that because of the event bubbling, it will run on re-render of every component in the page. If you need even more control, check the <code>event.target</code> to see if it is the component you are interested in.</p>
 <p>If your component initializes itself on each re-render, consider using <code>{once: true}</code> to ensure your handler executes at most once per element.</p>
 <h2 id="important-configuration">Important Configuration</h2>
 <p>Make sure HTMX allows script execution (this is the default):</p>
@@ -1193,13 +1242,15 @@
 <li>Using <code>{% no_morph %}</code> for reliable script execution</li>
 </ul>
 <h2 id="summary">Summary</h2>
-<p><strong>Key Points</strong>:</p>
-<p>• <strong>Scripts may not re-run automatically</strong>. Use <code>swap_style="outerHTML"</code> or <code>{% no_morph %}</code> to ensure execution
-• <strong>Disable nested OOB swaps</strong>. Add <code>{"allowNestedOobSwaps":false}</code> to prevent multiple executions
-• <strong>Store objects on DOM elements</strong>. Avoid global variables, use element properties instead
-• <strong>Use <code>hx-preserve</code> for stateful components</strong>. Keep expensive initializations unchanged
-• <strong>Listen to <code>htmx:load</code> events</strong>. Best for component initialization</p>
-<p><strong>Essential Links</strong>:</p>
+<h3 id="key-points">Key Points</h3>
+<ul>
+<li><strong>Scripts may not re-run automatically</strong>. Use <code>swap_style="outerHTML"</code> or <code>{% no_morph %}</code> to ensure execution.</li>
+<li><strong>Disable nested OOB swaps</strong>. Add <code>{"allowNestedOobSwaps":false}</code> to prevent multiple executions.</li>
+<li><strong>Store objects on DOM elements</strong>. Avoid global variables, use element properties instead.</li>
+<li><strong>Use <code>hx-preserve</code> for stateful components</strong>. Keep expensive initializations unchanged.</li>
+<li><strong>Listen to <code>htmx:load</code> events</strong>. Best for component initialization.</li>
+</ul>
+<h3 id="essential-links">Essential Links</h3>
 <ul>
 <li><a href="https://htmx.org/docs/#scripting">HTMX Scripting Documentation</a> - Official guide to JavaScript integration</li>
 <li><a href="https://htmx.org/attributes/hx-preserve/">hx-preserve Attribute</a> - Keep elements unchanged during updates</li>
