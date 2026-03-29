@@ -26,3 +26,20 @@ To address this, add the "save_context" variable:
    {% fill "body" %}Sending a message to {{ user.email }}!{% endfill %}
  {% endlivecomponent_block %}
 ```
+
+## Alternative: capturing context in `init_state()`
+
+The `save_context` approach works at the template level. You can also capture page variables in Python by reading `context.outer_context` inside `init_state()`:
+
+```python
+class SampleState(BaseModel):
+    var: str = "unset"
+
+class Sample(LiveComponent):
+
+    def init_state(self, context: InitStateContext) -> SampleState:
+        var = context.outer_context.get("var", "unset")
+        return SampleState(**context.component_kwargs, var=var)
+```
+
+`outer_context` is only available during the first render. Store anything you need in the component's state so it persists across re-renders.

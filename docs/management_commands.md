@@ -36,7 +36,7 @@ This command will create the files:
 - `counters/components/counters/click_counter/click_counter.py` (Python file with the component class)
 - `counters/components/counters/click_counter/click_counter.html` (HTML template for the component)
 
-#### Create Minimal Statless Component
+#### Create Minimal Stateless Component
 
 ```sh
 python manage.py createlivecomponent counters counters/click_counter --stateless --minimal
