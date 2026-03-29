@@ -1,6 +1,6 @@
 # Component IDs
 
-- Every component must have a root element that includes its ID. The ID is `id={{ component_id }}`.
+- Every component must have a root element that includes its ID. The `{% component_attrs component_id %}` template tag sets `data-livecomponent-id` along with other HTMX attributes on this element.
 - Component IDs represent the component hierarchy and are formatted as "|parent:id|child:id". For example, we can have a component |form:0|button:submit where "button" is the component type, "submit" is its name, and "form:0" is its parent.
 
 In many contexts, you get access to the StateAddress object, which consists of the session ID and the component ID.

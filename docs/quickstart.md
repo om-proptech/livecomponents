@@ -61,7 +61,7 @@ TEMPLATES = [
 ]
 ```
 
-Add component dirs for to static files:
+Add component dirs to static files:
 
 ```python
 # Static files (CSS, JavaScript, Images)
@@ -79,7 +79,7 @@ You can also configure live components with the `LIVECOMPONENTS` settings dictio
 There, we need support for HTMX and Live Components:
 
 ```html
-{% load ... component_tags django_htmx livecomponents %}
+{% load component_tags django_htmx livecomponents %}
 <head>
   <!-- Configure HTMX. See https://htmx.org/docs/#config -->
   <meta name="htmx-config" content='{"defaultSwapStyle":"none","allowNestedOobSwaps":false}'>
@@ -125,7 +125,7 @@ There, we need support for HTMX and Live Components:
 ...
 {% component_js_dependencies %}
 </body>
-<html>
+</html>
 ```
 
 ## Project `urls.py`

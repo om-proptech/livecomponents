@@ -68,7 +68,7 @@ In this simple example, we could create both the current value display and the i
 
 <div {% component_attrs component_id %}>
     Counter: {{ value }}
-    <button {% component_attrs component_id %}
+    <button
         hx-post='{% call_command component_id "increment" %}'
         hx-vals='{"value": 1}'
     >

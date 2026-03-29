@@ -60,6 +60,10 @@ The livecomponent Python classes are defined in the `simplecounter.py` file. The
 - The component class is a subclass of the `LiveComponent` class.
 - The state class is a subclass of the `BaseModel` class from the `pydantic` library.
 
+!!! note "LiveComponentsModel vs BaseModel"
+
+    You can use either `pydantic.BaseModel` or `livecomponents.LiveComponentsModel` for your state class. `LiveComponentsModel` is a `BaseModel` subclass that sets `arbitrary_types_allowed=True`. Use it when your state holds Django forms, model instances, or other types that Pydantic cannot validate on its own. If your state contains only primitive types and Pydantic models, plain `BaseModel` works fine.
+
 ## Component Python Class
 
 Here's the Python class for the simplecounter component.
@@ -129,6 +133,28 @@ The `{% call_command component_id 'increment' %}` template tag expands to a URL 
 
 On the server side, the command is called by the livecomponent handler, which finds the component class, fetches the state from the store, and calls the command handler. Then the command handler redraws the component and returns the result to the client.
 
+## Request Lifecycle
+
+A full interaction cycle has two phases: initial page load and command execution.
+
+Every rendered component has its own state stored in Redis. The state's address has two coordinates: a **session ID** and a **component ID**. The `{% livecomponents_session_id %}` tag in the base template generates a fresh session ID on each page load. The component ID is built deterministically from the component's type, its own ID, and its parent chain. Each segment is `type:own_id` — for example, `|table:0|row:3` means a `row` component with own ID `3` inside a `table` component with own ID `0`. The own ID defaults to `0`; when you place multiple components of the same type at the same level, pass a distinct `own_id` to each (e.g., `{% livecomponent "clickcounter" own_id="1" %}`). Together, the session ID and the full component ID form a `StateAddress` — the key the library uses to store and retrieve that component's state.
+
+**Page load:**
+
+1. The browser requests a page. Django renders the template, which contains `{% livecomponent %}` tags.
+2. For each component, the library calls `init_state()` to create the initial state, serializes it with Pickle, and stores it in Redis under the component's `StateAddress`.
+3. The component template renders with the state fields as context variables. The root element gets HTMX attributes (`hx-swap-oob`, `data-livecomponent-id`, `key`) via `{% component_attrs %}`.
+
+**Command execution:**
+
+1. The user clicks a button (or triggers another HTMX event). HTMX sends a POST to `/livecomponents/call_command/` with the session ID, component ID, and command name.
+2. The `call_command` view loads the component's state from Redis and deserializes it.
+3. The `@command` method runs, receiving a `CallContext` with the current state. The method modifies the state as needed and returns execution results (or `None` for default behavior).
+4. The library saves the updated state to Redis, re-renders the component template, and returns the HTML.
+5. HTMX swaps the new HTML into the DOM.
+
+If the session has expired (e.g., the Redis key's 24-hour TTL elapsed), the view returns HTTP 410 Gone.
+
 ## Component State
 
 The state is defined in a separate class. The state must include parameters passed to the component as keyword arguments, so that the component gets all the necessary information to re-render itself on partial render.
@@ -164,15 +190,31 @@ class Alert(LiveComponent):
         return AlertState(**context.component_kwargs)
 ```
 
-Component states don't need to be stored if components are not expected to be re-rendered independently, and only as part of the parent component. For example, components for buttons are rarely re-rendered independently, so you can get away without the state model.
+Components that only re-render as part of their parent can skip state entirely. Inherit from `StatelessLiveComponent` instead (see [Stateless components](#stateless-components) below). A button that calls a command on its parent is a typical example.
+
+::: livecomponents.manager.manager.InitStateContext
+    options:
+      heading_level: 3
+      show_root_heading: true
+      members: false
+
+::: livecomponents.manager.manager.UpdateStateContext
+    options:
+      heading_level: 3
+      show_root_heading: true
+      members: false
+
+::: livecomponents.component.ExtraContextRequest
+    options:
+      heading_level: 3
+      show_root_heading: true
+      members: false
 
 ## Serializing Component State
 
-When the page is rendered for the first time, a new session is created, and each component is initialized with its state by calling the `init_state()` method.
+As described in [Request Lifecycle](#request-lifecycle), the state is serialized and stored in Redis on the first render, then reused for the lifetime of the session (until the page is reloaded or the TTL expires).
 
-The state is then serialized and stored in the session store, and as long as the session is the same (in other words, while the page is not reloaded), the state is reused.
-
-The state is serialized using the `StateSerializer` class and saved in Redis. By default, the `PickleStateSerializer` is used. The serializer uses a custom pickler and is optimized to effectively store the most common types of data used in a Django app. More specifically:
+By default, the `PickleStateSerializer` is used. The serializer uses a custom pickler and is optimized to effectively store the most common types of data used in a Django app. More specifically:
 
 - When serializing a Django model, only the model's name and primary key are stored. The serializer takes advantage of the persistent_id/persistent_load pickle mechanism.
 - When serializing a Pydantic model, only the model's name and the values of the fields are stored.
@@ -248,7 +290,7 @@ We encountered this situation at least once, where a race condition caused the p
 
 There are several ways to call component methods from other components:
 
-**Using the component ID.** For example, if you have a component with ID "|message.0" and a method "set_message", you can call it like this:
+**Using the component ID.** For example, if you have a component with ID "|message:0" and a method "set_message", you can call it like this:
 
 ```python
 from livecomponents import LiveComponent, command, CallContext
@@ -272,3 +314,16 @@ class MyComponent(LiveComponent):
     def do_something(self, call_context: CallContext):
         call_context.parent.set_message("Hello, world!")
 ```
+
+::: livecomponents.manager.manager.CallContext
+    options:
+      heading_level: 2
+      show_root_heading: true
+
+::: livecomponents.manager.manager.StateManager
+    options:
+      heading_level: 2
+      show_root_heading: true
+      members:
+        - get_component_state
+        - set_component_state

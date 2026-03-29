@@ -26,17 +26,17 @@ We introduce new flat tags "livecomponent" and block tags "livecomponent_block".
 It would be wasteful to store the entire HTML template for every component, considering that most components are rendered by the same template. To optimize space, we hash the template content and use it as the cache key:
 
 ```redis
-127.0.0.1:6379> get template_cache:LkAl5ah3
+127.0.0.1:6379> get lc:template_cache:LkAl5ah3
 "{% livecomponent \"search\" parent_id=component_id search=search %}"
 ```
 
-Then, we have a separate Redis HASH "templates:<session_id>" to map from component IDs to template hashes:
+Then, we have a separate Redis HASH "lc:templates:<session_id>" to map from component IDs to template hashes:
 
 ```redis
-127.0.0.1:6379> hgetall templates:a99377ffe6a946e496542ac2c8a8cb96
- 1) "/table.0"
+127.0.0.1:6379> hgetall lc:templates:a99377ffe6a946e496542ac2c8a8cb96
+ 1) "|table:0"
  2) "rPOwF_re"
- 3) "/table.0/search.0"
+ 3) "|table:0|search:0"
  4) "LkAl5ah3"
  ...
 ```

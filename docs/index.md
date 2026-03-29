@@ -1,6 +1,12 @@
 # Home
 
-Django Live Component is a library for creating dynamic web applications that handle user interactions with server side rendering (SSR). It leverages Django, HTMX, and Alpine.js to provide a seamless experience for both developers and users.
+Django Live Components adds interactive, stateful UI to Django without a JavaScript frontend. Each component keeps its state on the server (in Redis), renders with standard Django templates, and updates the page through HTMX partial re-renders.
+
+## Why use it?
+
+Plain HTMX requires you to wire up each endpoint, manage state in the session or database, and write the swap logic yourself. Live components handle that plumbing: you define a state class, write command methods that modify it, and the library takes care of serialization, storage, re-rendering, and DOM patching.
+
+If your project already uses Django and you want interactive widgets, like counters, inline editors, live search, or modals, without building a React/Vue frontend or managing HTMX boilerplate by hand, this library is a good fit. For apps that need a full client-side SPA with offline support or complex client-side state, a JS framework is a better choice.
 
 To get started, follow the [quickstart guide](quickstart.md).
 

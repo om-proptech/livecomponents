@@ -227,6 +227,21 @@ class StatelessLiveComponent(LiveComponent[StatelessModel]):
 
 
 class ExtraContextRequest(LiveComponentsModel, Generic[State]):
+    """Passed to `get_extra_context_data()` on every render.
+
+    Use it to compute template context that depends on state or on other
+    components' state.
+
+    Attributes:
+        request: The current Django request.
+        state: The component's current state.
+        state_manager: The StateManager instance. Useful for reading another
+            component's state — call `state_manager.get_component_state(addr)`.
+        state_addr: The component's StateAddress (session ID + component ID).
+        component_kwargs: Keyword arguments from the template tag. Empty on
+            command-triggered re-renders.
+    """
+
     request: HttpRequest
     state: State
     state_manager: StateManager
