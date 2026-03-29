@@ -44,6 +44,16 @@ class IStateStore(abc.ABC):
         ...
 
     @abc.abstractmethod
+    def ensure_session(self, session_id: str) -> None:
+        """Ensure the session exists in the store.
+
+        This is idempotent: calling it multiple times has no additional effect.
+        Used to register sessions for pages that contain only stateless
+        components, which otherwise never write to the state store.
+        """
+        ...
+
+    @abc.abstractmethod
     def clear_session(self, session_id: str) -> None:
         ...
 
@@ -87,6 +97,10 @@ class MemoryStateStore(IStateStore):
 
     def restore_component_template(self, state_addr: StateAddress) -> bytes | None:
         return self._components.get(state_addr)
+
+    def ensure_session(self, session_id: str) -> None:
+        sentinel = StateAddress(session_id=session_id, component_id="__session__")
+        self._store.setdefault(sentinel, b"")
 
     def clear_session(self, session_id: str) -> None:
         for state_addr in list(self._store.keys()):
@@ -213,6 +227,13 @@ class RedisStateStore(IStateStore):
             self.template_cache_prefix, hashed_value.decode("ascii")
         )
         return self.client.get(cache_key)
+
+    def ensure_session(self, session_id: str) -> None:
+        key_name = self._get_key_name(self.key_prefix, session_id)
+        with self.client.pipeline() as pipe:
+            pipe.hsetnx(key_name, "__session__", b"1")
+            pipe.expire(key_name, self.ttl)
+            pipe.execute()
 
     def clear_session(self, session_id: str) -> None:
         with self.client.pipeline() as pipe:

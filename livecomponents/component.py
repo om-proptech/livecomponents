@@ -220,6 +220,10 @@ class StatelessLiveComponent(LiveComponent[StatelessModel]):
         request: HttpRequest,
         component_kwargs: dict[str, Any],
     ) -> StatelessModel:
+        # Stateless components never write state to the store, so the session
+        # would not be discoverable by session_exists(). Register a lightweight
+        # sentinel to prevent call_command from returning 410.
+        state_manager.ensure_session(state_addr.session_id)
         return StatelessModel()
 
     def init_state(self, context: InitStateContext) -> StatelessModel:

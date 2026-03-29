@@ -36,10 +36,11 @@
       _="on htmx:responseError[detail.xhr.status == 410] window.location.reload()"
 >
 <main class="container">
-  <nav>
-    <ul>
+  <nav style="overflow-x: auto;">
+    <ul style="flex-wrap: wrap;">
       <li><a href="{% url 'counters_index' %}">Counters</a></li>
       <li><a href="{% url 'simplecounter' %}">Simple counter</a></li>
+      <li><a href="{% url 'statelesscounter' %}">Stateless counter</a></li>
       <li><a href="{% url 'coffee' %}">Coffee beans</a></li>
       <li><a href="{% url 'modals' %}">Modals</a></li>
       <li><a href="{% url 'registration' %}">Registration</a></li>

@@ -183,6 +183,14 @@ class StateManager:
     def session_exists(self, session_id: str) -> bool:
         return self.store.session_exists(session_id)
 
+    def ensure_session(self, session_id: str) -> None:
+        """Ensure the session is registered in the store.
+
+        Called during initial render so that even pages with only stateless
+        components have a discoverable session.
+        """
+        self.store.ensure_session(session_id)
+
     def component_initialized(self, state_addr: StateAddress) -> bool:
         return self.store.component_initialized(state_addr)
 

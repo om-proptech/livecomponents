@@ -10,7 +10,7 @@ Let's explore this pattern in detail.
 
 The idea behind this pattern is to create a single component (typically called "myapp/root") that maintains the entire state and contains all the actions that can modify this state.
 
-Child components are stateless and don't have any actions. Their Django templates call the actions defined in their root component.
+Child components are stateless and typically delegate actions to the root component via its command handlers.
 
 While this approach makes the root and child components tightly coupled (you can't use child components independently), it makes the data flow easier to understand. Additionally, all logic is concentrated in a single place.
 

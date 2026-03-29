@@ -1,0 +1,7 @@
+{% load livecomponents %}
+
+<div {% component_attrs component_id %} style="display: flex; gap: 10px;">
+    <button style="width: 100px" hx-post="{% call_command component_id 'decrement' %}">-1</button>
+    <button style="width: 100px" hx-post="{% call_command component_id 'increment' %}">+1</button>
+    <div style="font-size: 2rem;">Count: {{ count }}</div>
+</div>

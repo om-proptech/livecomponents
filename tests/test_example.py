@@ -89,6 +89,22 @@ def test_modals(live_server, page: Page):
     expect(page.get_by_test_id("modal").first).to_be_hidden()
 
 
+def test_stateless_counter(live_server, page: Page):
+    statelesscounter_url = str(live_server) + reverse("statelesscounter")
+
+    page.set_default_timeout(5_000)
+    page.goto(statelesscounter_url)
+
+    count = page.locator("div", has_text="Count:").last
+    expect(count).to_contain_text("Count: 0")
+
+    page.get_by_role("button", name="+1").click()
+    expect(count).to_contain_text("Count: 1")
+
+    page.get_by_role("button", name="-1").click()
+    expect(count).to_contain_text("Count: 0")
+
+
 def test_uploads(live_server, page: Page):
     uploads_url = str(live_server) + reverse("uploads")
 

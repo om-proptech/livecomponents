@@ -64,3 +64,7 @@ def urlnavigation(request: HttpRequest):
 
 def notification(request: HttpRequest):
     return render(request, "notification.html")
+
+
+def statelesscounter(request: HttpRequest):
+    return render(request, "statelesscounter.html")
