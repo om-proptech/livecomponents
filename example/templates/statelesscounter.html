@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% load livecomponents %}
+
+{% block body %}
+  <h1>Stateless counter</h1>
+  <p>The counter value lives in a global variable — outside of livecomponents — demonstrating that state can be managed externally (e.g. in a database or file).</p>
+  {% livecomponent "statelesscounter" %}
+{% endblock %}

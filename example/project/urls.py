@@ -9,6 +9,7 @@ from myapp.views import (
     registration,
     simplecounter,
     uploads,
+    statelesscounter,
     urlnavigation,
 )
 
@@ -23,5 +24,6 @@ urlpatterns = [
     path("chart/", chart, name="chart"),
     path("urlnavigation/", urlnavigation, name="urlnavigation"),
     path("notification/", notification, name="notification"),
+    path("statelesscounter/", statelesscounter, name="statelesscounter"),
     path("livecomponents/", include("livecomponents.urls")),
 ]

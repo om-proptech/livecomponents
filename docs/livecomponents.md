@@ -226,7 +226,9 @@ By default, the `PickleStateSerializer` is used. The serializer uses a custom pi
 
 ## Stateless components
 
-If the component doesn't store any state, you can inherit from the StatelessLiveComponent class. You may find this helpful for rendering a hierarchy of components where the shared state is stored in the root components.
+If the component doesn't store any state in livecomponents, you can inherit from the `StatelessLiveComponent` class. This is useful in two scenarios:
+
+**1. Child components that read a parent's state:**
 
 ```python
 from livecomponents.component import StatelessLiveComponent
@@ -243,6 +245,32 @@ class StatelessAlert(StatelessLiveComponent):
         root_state = state_manager.get_component_state(root_addr)
         return {"message": root_state.message}
 ```
+
+**2. Components that manage state externally** (e.g. in a database, a file, or any other storage):
+
+```python
+from livecomponents import CallContext, StatelessLiveComponent, command
+from livecomponents.component import ExtraContextRequest, StatelessModel
+from livecomponents.manager.execution_results import ComponentDirty
+
+from myapp.models import Counter
+
+class ExternalCounter(StatelessLiveComponent):
+
+    template_name = "external_counter.html"
+
+    def get_extra_context_data(
+        self, extra_context_request: ExtraContextRequest[StatelessModel]
+    ) -> dict:
+        return {"count": Counter.objects.get_value()}
+
+    @command
+    def increment(self, call_context: CallContext):
+        Counter.objects.increment()
+        return ComponentDirty()
+```
+
+Stateless components can have their own commands — they don't need a parent component to function. They work standalone on a page just like regular stateful components.
 
 ## Returning results from command handlers
 
