@@ -8,8 +8,8 @@ from myapp.views import (
     notification,
     registration,
     simplecounter,
-    uploads,
     statelesscounter,
+    uploads,
     urlnavigation,
 )
 
