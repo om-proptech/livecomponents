@@ -37,4 +37,3 @@ class StatelessCounterComponent(StatelessLiveComponent):
         global _counter_value
         _counter_value -= 1
         return ComponentDirty()
-
