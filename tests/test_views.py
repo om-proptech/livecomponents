@@ -18,8 +18,8 @@ def test_missing_session_returns_410_gone(client, state_manager):
     assert resp.status_code == 410
 
 
-def test_ensure_session_prevents_410_for_stateless_components(client, state_manager):
-    """After ensure_session(), call_command should not return 410."""
+def test_ensure_session_makes_session_discoverable(state_manager):
+    """ensure_session() registers the session so that session_exists() returns True."""
     session_id = "stateless-only-session"
     state_manager.ensure_session(session_id)
     assert state_manager.session_exists(session_id)
