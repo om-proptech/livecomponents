@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## UNRELEASED
+
+- Fixed `StatelessLiveComponent` commands returning 410 on pages that only contain stateless components (#33).
+- Fixed incorrect `@classmethod` decorator on the `login_required` helper.
+- Use Django's `require_POST` decorator for the `call_command` view (#21).
+- Started checking Subresource Integrity (SRI) for vendored frontend assets (#29).
+- `createlivecomponent` management command now also creates missing leaf `__init__.py` files (#28).
+- Documentation: added component lifecycle and API reference, fixed several errors, and improved the quickstart guide (#18, #25).
+- Documentation: noted `manage.py load_coffee_beans` and the local Redis server requirement in the example project guide (#17).
+- Examples: use `django.urls.reverse` in `UrlnavigationComponent` (#19); dropped out-of-sync comment in `RegistrationFormState` (#24).
+- CI: enforce pre-commit-clean code (#16), report test coverage (#20), and cover oldest and most recent supported Python versions (#26).
+
 ## 1.19.0 (2025-10-27)
 
 - Added TriggerEvents execution result to trigger custom browser events.
