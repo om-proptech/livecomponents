@@ -1,5 +1,5 @@
 from django.db.models import Q
-from django_components import component
+from django_components import register
 
 from livecomponents import (
     CallContext,
@@ -16,7 +16,7 @@ class TableState(LiveComponentsModel):
     search: str = ""
 
 
-@component.register("coffee/table")
+@register("coffee/table")
 class TableComponent(LiveComponent[TableState]):
     template_name = "coffee/table/table.html"
 

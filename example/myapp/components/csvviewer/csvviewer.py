@@ -1,7 +1,7 @@
 import csv
 
 from django.core.files.uploadedfile import UploadedFile
-from django_components import component
+from django_components import register
 from pydantic import BaseModel
 
 from livecomponents import CallContext, InitStateContext, LiveComponent, command
@@ -23,7 +23,7 @@ class CsvViewerState(BaseModel):
         self.error = error_message
 
 
-@component.register("csvviewer")
+@register("csvviewer")
 class CsvViewer(LiveComponent[CsvViewerState]):
     template_name = "csvviewer/csvviewer.html"
 

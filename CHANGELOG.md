@@ -5,6 +5,46 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### ⚠️ Behavior change: `{% fill %}` blocks and context processor variables
+
+Since django-components v0.140, slot fills are rendered **lazily**. As a result, a
+for-loop variable that shadows a context processor variable — such as `user` from
+`django.contrib.auth`, `perms`, or `messages` — is **overshadowed by the context
+processor** inside `{% fill %}` blocks:
+
+```django
+{% for user in users %}
+  {% livecomponent_block "modal" own_id=user.username %}
+    {% fill "modal_title" %}
+      {{ user.username }}  {# ⚠️ renders request.user (e.g. AnonymousUser), NOT the loop variable! #}
+    {% endfill %}
+  {% endlivecomponent_block %}
+{% endfor %}
+```
+
+**Audit your templates for `{% fill %}` blocks inside loops (or `{% with %}` blocks)
+whose variable names collide with context processor variables, and rename the
+variables.** This affects `{% component %}` fills the same way — it is upstream
+django-components behavior, not specific to livecomponents. The modals demo was
+updated accordingly (loop variable renamed from `user` to `account`).
+
+### Other breaking changes
+
+- Upgraded `django-components` from `^0.28.3` to `^0.151.1`. The `{% livecomponent %}` / `{% livecomponent_block %}` tag syntax and the `LiveComponent` class API are largely unchanged, with the exceptions listed below.
+- **Django 5.2 is now the minimum supported version** (required by django-components 0.151).
+- **The component name must be a quoted string literal**: `{% livecomponent comp_name_var %}` (name passed as a template variable) is no longer supported and raises `TemplateSyntaxError` at template compile time. This matches the upstream `{% component %}` tag behavior.
+- Components must now be registered with `from django_components import register` and `@register("name")` (the old `from django_components import component` / `@component.register("name")` module was removed upstream).
+- **Component template variables that collide with context processor variables now raise `ValueError`** (upstream behavior since django-components 0.140). A `LiveComponent` whose state fields, tag kwargs, or `get_extra_context_data()` keys include names like `user`, `perms`, or `messages` crashes when rendered on a page with the corresponding context processors. Rename such fields.
+- Removed `django_components.safer_staticfiles` from the example project and docs (the app was removed upstream). Use `django.contrib.staticfiles` **plus** the `django_components.finders.ComponentsFileSystemFinder` static files finder. Do NOT list component directories in `STATICFILES_DIRS` — plain staticfiles would expose the components' Python source files.
+
+### Changed
+
+- Command re-renders (HTMX fragments) are post-processed with django-components' dependencies machinery. The strategy is configurable via the new `LIVECOMPONENTS["rerender_deps_strategy"]` setting (default: `"simple"`). Note that with the recommended htmx setup (out-of-band swaps only), htmx discards scripts outside the swapped elements, so JS/CSS of components used in fragments should already be present on the initial page.
+- The `only` isolation flag (and `context_behavior: "isolated"`) is now supported by the livecomponent tags: session lookups inside isolated component templates fall back to the component's own template context.
+- Rendering a `LiveComponent` directly with `Component.render()` (without the livecomponent tags) now raises a descriptive `RuntimeError` instead of a `KeyError`.
+
 ## 1.20.0 (2026-04-30)
 
 - Fixed `StatelessLiveComponent` commands returning 410 on pages that only contain stateless components (#33).

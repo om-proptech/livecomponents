@@ -1,4 +1,4 @@
-from django_components import component
+from django_components import register
 from pydantic import BaseModel
 
 from livecomponents import InitStateContext, LiveComponent
@@ -9,7 +9,7 @@ class SampleState(BaseModel):
     var: str = "unset"
 
 
-@component.register("sample")
+@register("sample")
 class SampleComponent(LiveComponent[SampleState]):
     template_name = "sample/sample.html"
 

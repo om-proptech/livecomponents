@@ -24,8 +24,8 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "django.contrib.staticfiles",
     "django_components",
-    "django_components.safer_staticfiles",
     "django_htmx",
     # Live components (the reason we have this sample project)
     "livecomponents",
@@ -108,8 +108,15 @@ INTERNAL_IPS = [
 ]
 
 # Static files (CSS, JavaScript, Images)
-STATICFILES_DIRS = [
-    BASE_DIR / "project/../myapp/components",
+#
+# NOTE: Do NOT add component directories to STATICFILES_DIRS: that would
+# expose the components' Python source files through collectstatic/runserver.
+# The django-components finder below serves only safe files (JS, CSS, images,
+# fonts — see COMPONENTS.static_files_allowed) from the component directories.
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "django_components.finders.ComponentsFileSystemFinder",
 ]
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static_root"

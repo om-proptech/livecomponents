@@ -72,7 +72,7 @@ As you can see, there are two classes: the state class and the component class.
 The state keeps the counter value, and the component class defines two commands: `increment` and `decrement`.
 
 ```python
-from django_components import component
+from django_components import register
 
 from livecomponents import (
     LiveComponent,
@@ -85,7 +85,7 @@ class SimplecounterState(LiveComponentsModel):
     count: int = 0
 
 
-@component.register("simplecounter")
+@register("simplecounter")
 class SimplecounterComponent(LiveComponent[SimplecounterState]):
     template_name = "simplecounter/simplecounter.html"
 

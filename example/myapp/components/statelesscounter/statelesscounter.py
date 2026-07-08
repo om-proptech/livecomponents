@@ -1,4 +1,4 @@
-from django_components import component
+from django_components import register
 
 from livecomponents import CallContext, StatelessLiveComponent, command
 from livecomponents.component import ExtraContextRequest, StatelessModel
@@ -10,7 +10,7 @@ from livecomponents.manager.execution_results import ComponentDirty
 _counter_value = 0
 
 
-@component.register("statelesscounter")
+@register("statelesscounter")
 class StatelessCounterComponent(StatelessLiveComponent):
     """A counter that stores its value outside of livecomponents.
 

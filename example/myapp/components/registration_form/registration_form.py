@@ -1,5 +1,5 @@
 from django import forms
-from django_components import component
+from django_components import register
 
 from livecomponents import (
     CallContext,
@@ -40,7 +40,7 @@ class RegistrationFormState(LiveComponentsModel):
     form: RegistrationForm
 
 
-@component.register("registration_form")
+@register("registration_form")
 class RegistrationFormComponent(LiveComponent[RegistrationFormState]):
     template_name = "registration_form/registration_form.html"
 

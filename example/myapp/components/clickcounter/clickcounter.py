@@ -1,6 +1,6 @@
 from typing import Any
 
-from django_components import component
+from django_components import register
 from pydantic import BaseModel
 
 from livecomponents import (
@@ -18,7 +18,7 @@ class ClickCounterState(BaseModel):
     title: str = ""
 
 
-@component.register("clickcounter")
+@register("clickcounter")
 class ClickCounter(LiveComponent[ClickCounterState]):
     template_name = "clickcounter/clickcounter.html"
 

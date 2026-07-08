@@ -4,15 +4,19 @@ from typing import Any, Generic
 
 from django.core.exceptions import BadRequest
 from django.http import HttpRequest
-from django_components import component
-from django_components.component import SimplifiedInterfaceMediaDefiningClass
+from django.template import Context, Template
+from django_components import Component
 
 from livecomponents.const import DEFAULT_OWN_ID
 from livecomponents.manager import StateManager, get_state_manager
 from livecomponents.manager.manager import InitStateContext, UpdateStateContext
 from livecomponents.sentry_utils import start_span
 from livecomponents.types import State, StateAddress
-from livecomponents.utils import LiveComponentsModel, find_component_id
+from livecomponents.utils import (
+    LiveComponentsModel,
+    find_component_id,
+    find_session_id,
+)
 
 DEFAULT_PARENT_ID = ""
 
@@ -25,11 +29,20 @@ def command(func):
     return func
 
 
-class LiveComponentMeta(abc.ABCMeta, SimplifiedInterfaceMediaDefiningClass):
+# NOTE: type(Component) is used instead of importing the metaclass by name
+# (django_components.component.ComponentMeta): the metaclass is not part of
+# the public API and has already been renamed once (it was
+# SimplifiedInterfaceMediaDefiningClass before django-components 0.100).
+class LiveComponentMeta(abc.ABCMeta, type(Component)):  # type: ignore[misc]
     pass
 
 
-class LiveComponent(component.Component, Generic[State], metaclass=LiveComponentMeta):
+# NOTE: Generic must come before Component in the MRO. Component defines
+# __init_subclass__() without calling super().__init_subclass__(), which would
+# otherwise prevent Generic from initializing its type parameters
+# (`__parameters__`). Generic's __init_subclass__ is cooperative and calls
+# Component's afterwards.
+class LiveComponent(Generic[State], Component, metaclass=LiveComponentMeta):
     def get_command(self, command_name: str) -> Callable:
         """Get a command method by name.
 
@@ -70,9 +83,28 @@ class LiveComponent(component.Component, Generic[State], metaclass=LiveComponent
             state_addr,
             self.init_state,
             self.update_state,
-            self.outer_context,
+            self.require_outer_context(),
             component_kwargs,
         )
+
+    def require_outer_context(self) -> Context:
+        """Return the outer context, or raise a descriptive error if missing.
+
+        The outer context is always set when the component is rendered with
+        the `{% livecomponent %}` / `{% livecomponent_block %}` tags (both on
+        page renders and on command re-renders). It is missing when the
+        component is rendered directly with `Component.render()`, which live
+        components don't support: the state manager needs the session ID and
+        the request from the surrounding page.
+        """
+        if self.outer_context is None:
+            raise RuntimeError(
+                f"{self.get_name()} has no outer context. Live components "
+                f'must be rendered with the "{{% livecomponent %}}" or '
+                f'"{{% livecomponent_block %}}" template tags, not with '
+                f"Component.render()."
+            )
+        return self.outer_context
 
     def get_context_data(
         self,
@@ -82,9 +114,19 @@ class LiveComponent(component.Component, Generic[State], metaclass=LiveComponent
         **component_kwargs,
     ):
         with start_span(f"get_context_data({self.get_name()})"):
-            # Fetch some data from the outer context
-            session_id = self.outer_context["LIVECOMPONENTS_SESSION_ID"]
-            request = self.outer_context["request"]
+            # Fetch some data from the outer context. find_session_id() falls
+            # back to the "session_id" template variable, which keeps nested
+            # live components working when the parent is rendered with an
+            # isolated context (the `only` flag or
+            # `context_behavior: "isolated"`).
+            outer_context = self.require_outer_context()
+            session_id = find_session_id(outer_context)
+            # Prefer self.request (resolved by django-components from the
+            # RequestContext object itself): unlike the "request" template
+            # variable, it survives context isolation.
+            request = (
+                self.request if self.request is not None else outer_context["request"]
+            )
 
             component_id = find_component_id(
                 full_component_id=full_component_id,
@@ -180,9 +222,12 @@ class LiveComponent(component.Component, Generic[State], metaclass=LiveComponent
         """
         pass
 
-    def render(self, context):
+    def on_render(self, context: Context, template: Template | None):
+        """Render the component template, wrapped in a Sentry span."""
+        if template is None:
+            return None
         with start_span(f"render({self.get_name()})"):
-            return super().render(context)
+            return template.render(context)
 
     def get_name(self):
         return self.__class__.__name__

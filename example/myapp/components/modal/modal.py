@@ -1,4 +1,4 @@
-from django_components import component
+from django_components import register
 from pydantic import BaseModel
 
 from livecomponents import CallContext, InitStateContext, LiveComponent, command
@@ -8,7 +8,7 @@ class ModalState(BaseModel):
     open: bool = False
 
 
-@component.register("modal")
+@register("modal")
 class Modal(LiveComponent[ModalState]):
     template_name = "modal/modal.html"
 

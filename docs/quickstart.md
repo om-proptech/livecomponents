@@ -21,7 +21,7 @@ Add to installed apps following packages:
 INSTALLED_APPS = [
     # ...
     "django_components",
-    "django_components.safer_staticfiles",  # replaces django.contrib.staticfiles
+    "django.contrib.staticfiles",
     "django_htmx",
     "livecomponents",
     # ...
@@ -61,16 +61,25 @@ TEMPLATES = [
 ]
 ```
 
-Add component dirs to static files:
+Add the django-components static files finder, so that JS and CSS files that
+live next to your components can be served as static files:
 
 ```python
-# Static files (CSS, JavaScript, Images)
-STATICFILES_DIRS = [
-    # To load django-components specific to myapp
-    BASE_DIR / "app_one" / "components",
-    BASE_DIR / "app_two" / "components",
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    # Serves JS, CSS, images, and fonts from the "components" directories,
+    # while keeping Python source and HTML templates out of static files.
+    "django_components.finders.ComponentsFileSystemFinder",
 ]
 ```
+
+!!! warning
+
+    Do **not** add component directories to `STATICFILES_DIRS`. Since the
+    plain `django.contrib.staticfiles` app serves *all* files from those
+    directories, this would expose your components' Python source code
+    through `collectstatic` and `runserver`.
 
 You can also configure live components with the `LIVECOMPONENTS` settings dictionary. See the "Configuration" section for more details.
 
@@ -151,7 +160,9 @@ There is a management command to create new component:
 The command with create a "components" subdirectory in the app directory and create a new component, consisting
 of one Python, and one HTML file.
 
-Make sure that your `STATICFILES_DIRS` setting includes the "components" directory of the app.
+If the component ships its own JS or CSS files, make sure the
+`django_components.finders.ComponentsFileSystemFinder` finder is included in
+your `STATICFILES_FINDERS` setting (see the "Django settings" section above).
 
 Optionally, you can pass a `--stateless` flag to create a stateless component.
 

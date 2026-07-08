@@ -1,7 +1,31 @@
 from django.core.exceptions import BadRequest
+from django.template import Context
 from pydantic import BaseModel, ConfigDict
 
 from livecomponents.const import HIER_SEP, TYPE_SEP
+
+
+def find_session_id(context: Context) -> str:
+    """Return the livecomponents session ID from a template context.
+
+    On regular pages, the session ID is stored in the
+    "LIVECOMPONENTS_SESSION_ID" context variable, set by the
+    `{% livecomponents_session_id as LIVECOMPONENTS_SESSION_ID %}` tag.
+
+    Inside a component template rendered with an isolated context (the `only`
+    flag or `context_behavior: "isolated"`), the outer context variables are
+    not available. In that case, fall back to the "session_id" variable that
+    LiveComponent.get_context_data() puts into every component's template
+    context.
+    """
+    session_id = context.get("LIVECOMPONENTS_SESSION_ID") or context.get("session_id")
+    if not session_id:
+        raise KeyError(
+            "LIVECOMPONENTS_SESSION_ID is not found in the template context. "
+            "Did you forget to call "
+            '"{% livecomponents_session_id as LIVECOMPONENTS_SESSION_ID %}"?'
+        )
+    return session_id
 
 
 def find_component_id(
