@@ -39,6 +39,10 @@ updated accordingly (loop variable renamed from `user` to `account`).
 - **Component template variables that collide with context processor variables now raise `ValueError`** (upstream behavior since django-components 0.140). A `LiveComponent` whose state fields, tag kwargs, or `get_extra_context_data()` keys include names like `user`, `perms`, or `messages` crashes when rendered on a page with the corresponding context processors. Rename such fields.
 - Removed `django_components.safer_staticfiles` from the example project and docs (the app was removed upstream). Use `django.contrib.staticfiles` **plus** the `django_components.finders.ComponentsFileSystemFinder` static files finder. Do NOT list component directories in `STATICFILES_DIRS` — plain staticfiles would expose the components' Python source files.
 
+### Added
+
+- Task board example (`/taskboard/` in the example project): a kanban-style demo that shows how the features interact — a three-level component hierarchy, stateless columns reading the board state, cards syncing their state copy via `update_state()`, commands bubbling up with `find_ancestor()`, silent state updates (`ComponentClean`), aborted re-renders (`CancelRendering`), browser events (`TriggerEvents`), full page refreshes (`RefreshPage`), dirty-components deduplication, context isolation (`only`), `no_morph`, and slot fills with `save_context` and nested `livecomponent_block` tags. Covered by unit tests (`tests/test_taskboard.py`) and an end-to-end browser test.
+
 ### Changed
 
 - Command re-renders (HTMX fragments) are post-processed with django-components' dependencies machinery. The strategy is configurable via the new `LIVECOMPONENTS["rerender_deps_strategy"]` setting (default: `"simple"`). Note that with the recommended htmx setup (out-of-band swaps only), htmx discards scripts outside the swapped elements, so JS/CSS of components used in fragments should already be present on the initial page.

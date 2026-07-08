@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load livecomponents component_tags %}
+
+{% block body %}
+  <h3>Task board</h3>
+  <p>
+    A kanban-style board demonstrating how livecomponents features interact:
+    a three-level component hierarchy (board → columns → cards), stateless
+    columns reading the board state, cards syncing their state via
+    <code>update_state()</code>, commands bubbling up with
+    <code>find_ancestor()</code>, silent state updates
+    (<code>ComponentClean</code>), browser events (<code>TriggerEvents</code>),
+    full page refreshes (<code>RefreshPage</code>), context isolation
+    (<code>only</code>), and slot fills with <code>save_context</code>.
+  </p>
+
+  {% livecomponent_block "taskboard/board" own_id="main" save_context="board_owner" %}
+    {% fill "board_footer" %}
+      <small>Maintained by <span data-testid="taskboard-owner">{{ board_owner }}</span>.</small>
+      {# A livecomponent_block nested inside another block's fill: #}
+      {# the board re-renders standalone with this fill intact. #}
+      {% livecomponent_block "message" own_id="board" %}{% endlivecomponent_block %}
+    {% endfill %}
+  {% endlivecomponent_block %}
+
+  <div id="taskboard-toast" data-testid="taskboard-toast" style="margin-top: 10px;"></div>
+  <script>
+    document.body.addEventListener("taskboard:toast", function (evt) {
+      document.getElementById("taskboard-toast").textContent = evt.detail.message;
+    });
+  </script>
+{% endblock %}

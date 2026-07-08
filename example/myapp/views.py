@@ -68,3 +68,7 @@ def notification(request: HttpRequest):
 
 def statelesscounter(request: HttpRequest):
     return render(request, "statelesscounter.html")
+
+
+def taskboard(request: HttpRequest):
+    return render(request, "taskboard.html", {"board_owner": "Coffee Team"})
