@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm
-from django_components import component
+from django_components import register
 
 from livecomponents import CallContext, InitStateContext, LiveComponent, command
 from livecomponents.manager.execution_results import ParentDirty
@@ -26,7 +26,7 @@ class BeanForm(ModelForm):
         fields = ["name", "origin", "roast_level", "flavor_notes", "stock_quantity"]
 
 
-@component.register("coffee/row")
+@register("coffee/row")
 class RowComponent(LiveComponent[RowState]):
     template_name = "coffee/row/row.html"
 

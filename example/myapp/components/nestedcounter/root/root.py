@@ -1,6 +1,6 @@
 from typing import Any
 
-from django_components import component
+from django_components import register
 
 from livecomponents import (
     CallContext,
@@ -16,7 +16,7 @@ class RootState(LiveComponentsModel):
     value: int = 0
 
 
-@component.register("nestedcounter/root")
+@register("nestedcounter/root")
 class RootComponent(LiveComponent[RootState]):
     template_name = "nestedcounter/root/root.html"
 

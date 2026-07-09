@@ -7,7 +7,7 @@ COMPONENT_HTML_TEMPLATE = """{{% load livecomponents %}}
 
 
 COMPONENT_PYTHON_TEMPLATE = """from typing import Any
-from django_components import component
+from django_components import register
 
 from livecomponents import (
     CallContext,
@@ -25,7 +25,7 @@ class {class_name}State(LiveComponentsModel):
     pass
 
 
-@component.register("{component_name}")
+@register("{component_name}")
 class {class_name}Component({base_class_name}[{class_name}State]):
     template_name = "{component_name}/{proper_name}.html"
 
@@ -46,7 +46,7 @@ class {class_name}Component({base_class_name}[{class_name}State]):
 """
 
 COMPONENT_PYTHON_TEMPLATE_MINIMAL = """from typing import Any
-from django_components import component
+from django_components import register
 
 from livecomponents import (
     CallContext,
@@ -63,7 +63,7 @@ class {class_name}State(LiveComponentsModel):
     pass
 
 
-@component.register("{component_name}")
+@register("{component_name}")
 class {class_name}Component({base_class_name}[{class_name}State]):
     template_name = "{component_name}/{proper_name}.html"
 
@@ -72,7 +72,7 @@ class {class_name}Component({base_class_name}[{class_name}State]):
 """
 
 STATELESS_COMPONENT_PYTHON_TEMPLATE = """from typing import Any
-from django_components import component
+from django_components import register
 
 from livecomponents import (
     ExtraContextRequest,
@@ -83,7 +83,7 @@ from livecomponents import (
 {base_class_import}
 
 
-@component.register("{component_name}")
+@register("{component_name}")
 class {class_name}Component({base_class_name}):
     template_name = "{component_name}/{proper_name}.html"
 
@@ -102,11 +102,11 @@ class {class_name}Component({base_class_name}):
 
 
 STATELESS_COMPONENT_PYTHON_TEMPLATE_MINIMAL = """from typing import Any
-from django_components import component
+from django_components import register
 {base_class_import}
 
 
-@component.register("{component_name}")
+@register("{component_name}")
 class {class_name}Component({base_class_name}):
     template_name = "{component_name}/{proper_name}.html"
 """

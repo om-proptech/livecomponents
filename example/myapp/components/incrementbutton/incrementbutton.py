@@ -1,4 +1,4 @@
-from django_components import component
+from django_components import register
 from pydantic import BaseModel
 
 from livecomponents import CallContext, InitStateContext, LiveComponent, command
@@ -9,7 +9,7 @@ class IncrementButtonState(BaseModel):
     label: str = "+"
 
 
-@component.register("incrementbutton")
+@register("incrementbutton")
 class IncrementButton(LiveComponent[IncrementButtonState]):
     template_name = "incrementbutton/incrementbutton.html"
 

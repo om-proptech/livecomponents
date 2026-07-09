@@ -1,0 +1,29 @@
+{% load livecomponents %}
+
+<article {% component_attrs component_id %} data-testid="taskboard-card"
+         data-task-title="{{ title }}"
+         style="margin: 0; padding: 8px;{% if highlighted %} border: 2px solid orange;{% endif %}">
+  <div style="display: flex; gap: 8px; align-items: center;">
+    <input type="checkbox"
+           data-testid="taskboard-card-toggle"
+           hx-post="{% call_command component_id "toggle_done" %}"
+           {% if done %}checked{% endif %}>
+    <span data-testid="taskboard-card-title"
+          {% if highlighted %}data-highlighted="true"{% endif %}
+          style="flex: 1;{% if done %} text-decoration: line-through; color: #888;{% endif %}">
+      {{ title }}
+    </span>
+    <a href="#" data-testid="taskboard-card-remove" style="color: darkred;"
+       hx-post="{% call_command component_id "remove" %}">✕</a>
+  </div>
+  <div style="display: flex; gap: 6px; margin-top: 4px;">
+    {% for target in columns %}
+      {% if target != column %}
+        <a href="#" data-testid="taskboard-card-move-{{ target }}"
+           style="font-size: 0.7rem;"
+           hx-post="{% call_command component_id "move_to" %}"
+           hx-vals='{"to_column": "{{ target }}"}'>→ {{ target }}</a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</article>

@@ -1,0 +1,13 @@
+{% load livecomponents %}
+
+<div {% component_attrs component_id %} data-testid="taskboard-column-{{ column }}"
+     style="flex: 1; border: 1px solid #ccc; border-radius: 6px; padding: 10px;">
+  <strong>{{ title }}</strong> <small>({{ tasks|length }})</small>
+  <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 8px;">
+    {% for task in tasks %}
+      {% livecomponent "taskboard/card" own_id=task.id parent_id=component_id task_id=task.id title=task.title done=task.done column=task.column %}
+    {% empty %}
+      <small data-testid="taskboard-column-empty">Empty</small>
+    {% endfor %}
+  </div>
+</div>

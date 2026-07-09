@@ -21,7 +21,7 @@ def populate_form_with_data(form: TBaseForm, data: dict) -> TBaseForm:
         class MyFormState(LiveComponentsModel):
             form: MyForm = Field(default_factory=MyForm)
 
-        @component.register("...")
+        @register("...")
         class MyFormComponent(LiveComponent[MyFormState]):
 
             @command

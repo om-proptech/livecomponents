@@ -1,0 +1,41 @@
+{% load livecomponents component_tags %}
+
+<div {% component_attrs component_id %} data-testid="taskboard">
+
+  <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
+    <form hx-post="{% call_command component_id "add_task" %}"
+          data-testid="taskboard-add-form"
+          style="display: flex; gap: 10px; margin: 0;">
+      {# no_morph: replace (not morph) the input on re-render, so it is cleared after adding a task. #}
+      <input {% no_morph %} type="text" name="title" placeholder="New task…"
+             autocomplete="off" data-testid="taskboard-add-input" style="margin: 0;">
+      <button type="submit" data-testid="taskboard-add-button" style="margin: 0;">Add</button>
+    </form>
+
+    <input type="text" name="highlight" value="{{ highlight }}"
+           placeholder="Highlight tasks…"
+           autocomplete="off"
+           data-testid="taskboard-highlight-input"
+           hx-trigger="keyup changed delay:200ms"
+           hx-post="{% call_command component_id "set_highlight" %}"
+           style="margin: 0;">
+
+    <button data-testid="taskboard-reset-button"
+            hx-post="{% call_command component_id "reset_board" %}"
+            class="secondary" style="margin: 0; width: auto;">Reset board</button>
+  </div>
+
+  <div style="display: flex; gap: 10px; align-items: flex-start;">
+    {# Columns are stateless and read the task list from this board's state. #}
+    {# They are rendered with the `only` isolation flag: everything they need #}
+    {# is passed explicitly as kwargs (or comes from their own template data). #}
+    {% livecomponent "taskboard/column" own_id="todo" parent_id=component_id column="todo" title="To do" only %}
+    {% livecomponent "taskboard/column" own_id="doing" parent_id=component_id column="doing" title="In progress" only %}
+    {% livecomponent "taskboard/column" own_id="done" parent_id=component_id column="done" title="Done" only %}
+  </div>
+
+  <footer style="margin-top: 10px;">
+    {% slot "board_footer" %}{% endslot %}
+  </footer>
+
+</div>

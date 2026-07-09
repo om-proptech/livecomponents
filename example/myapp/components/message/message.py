@@ -1,5 +1,5 @@
 from django.core.exceptions import PermissionDenied
-from django_components import component
+from django_components import register
 from pydantic import BaseModel
 
 from livecomponents import CallContext, InitStateContext, LiveComponent, command
@@ -10,7 +10,7 @@ class MessageState(BaseModel):
     initialized_from: str | None = None
 
 
-@component.register("message")
+@register("message")
 class MessageComponent(LiveComponent[MessageState]):
     template_name = "message/message.html"
 

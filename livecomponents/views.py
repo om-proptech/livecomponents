@@ -6,7 +6,7 @@ from django.http import HttpRequest, HttpResponse
 from django.template import RequestContext, Template
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.http import require_POST
-from django_components.component_registry import NotRegistered
+from django_components import NotRegistered
 
 from livecomponents.exceptions import CancelRendering
 from livecomponents.logging import logger
@@ -137,6 +137,11 @@ def re_render_component(call_context: CallContext, state_address: StateAddress) 
             "request": call_context.request,
             "LIVECOMPONENTS_SESSION_ID": state_address.session_id,
             "full_component_id": state_address.component_id,
+            # We render an HTMX fragment (not a full page), so django-components
+            # must not treat the output as a whole document. The strategy is
+            # configurable via LIVECOMPONENTS["rerender_deps_strategy"].
+            # See https://django-components.github.io/django-components/latest/concepts/advanced/rendering_js_css/
+            "DJC_DEPS_STRATEGY": get_config().rerender_deps_strategy,
         },
     )
     sentry_arg = f"[{state_address.component_id}]"

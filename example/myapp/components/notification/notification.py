@@ -1,4 +1,4 @@
-from django_components import component
+from django_components import register
 
 from livecomponents import (
     CallContext,
@@ -22,7 +22,7 @@ class NotificationState(LiveComponentsModel):
     last_message: str = ""
 
 
-@component.register("notification")
+@register("notification")
 class NotificationComponent(LiveComponent[NotificationState]):
     """Demo component showing how to trigger custom browser events."""
 

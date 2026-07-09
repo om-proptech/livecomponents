@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Any, Generic
 
 from django.http import HttpRequest
 from django.template import Context
-from django_components.component_registry import registry
+from django_components import registry
 from pydantic import Field
 
 from livecomponents.logging import logger

@@ -115,3 +115,62 @@ def test_uploads(live_server, page: Page):
     page.set_input_files("input[name=csv_file]", coffee_csv)
     page.get_by_role("button", name="Upload").click()
     expect(page.get_by_test_id("filename")).to_have_text("coffee.csv")
+
+
+def test_taskboard(live_server, page: Page):
+    """End-to-end tour of the task board demo.
+
+    Exercises the interaction of hierarchy commands (find_ancestor),
+    update_state, ComponentClean, TriggerEvents, save_context in fills,
+    the nested message block, no_morph, and RefreshPage.
+    """
+    page.set_default_timeout(5_000)
+    page.goto(str(live_server) + reverse("taskboard"))
+
+    todo = page.get_by_test_id("taskboard-column-todo")
+    doing = page.get_by_test_id("taskboard-column-doing")
+    cards = page.get_by_test_id("taskboard-card")
+
+    # Initial state: four default tasks.
+    expect(cards).to_have_count(4)
+
+    # Add a task. The input is wrapped in {% no_morph %}, so it is replaced
+    # (and thereby cleared) when the board re-renders.
+    page.get_by_test_id("taskboard-add-input").fill("Write the docs")
+    page.get_by_test_id("taskboard-add-button").click()
+    expect(cards).to_have_count(5)
+    expect(page.get_by_test_id("taskboard-add-input")).to_have_value("")
+
+    # Toggle a card: only the card is swapped (the board keeps its state in
+    # sync via ComponentClean), and a TriggerEvents toast fires.
+    roast = todo.get_by_test_id("taskboard-card").filter(has_text="Roast the beans")
+    roast.get_by_test_id("taskboard-card-toggle").click()
+    expect(page.get_by_test_id("taskboard-toast")).to_contain_text("marked as done")
+
+    # Move a card: the whole board re-renders (dirty deduplication), the
+    # message component in the footer fill is updated via find_one, and the
+    # save_context variable in the fill survives the standalone re-render.
+    grind = todo.get_by_test_id("taskboard-card").filter(has_text="Grind the beans")
+    grind.get_by_test_id("taskboard-card-move-doing").click()
+    expect(
+        doing.get_by_test_id("taskboard-card").filter(has_text="Grind the beans")
+    ).to_have_count(1)
+    expect(page.get_by_test_id("message-content")).to_contain_text("moved to")
+    expect(page.get_by_test_id("taskboard-owner")).to_have_text("Coffee Team")
+
+    # Highlight: the filter lives on the board; cards read it and re-render
+    # with fresh kwargs (update_state).
+    page.get_by_test_id("taskboard-highlight-input").press_sequentially("brew")
+    expect(page.locator('[data-highlighted="true"]')).to_have_count(1)
+    expect(page.locator('[data-highlighted="true"]')).to_contain_text("Brew the coffee")
+
+    # Remove the added card.
+    docs = todo.get_by_test_id("taskboard-card").filter(has_text="Write the docs")
+    docs.get_by_test_id("taskboard-card-remove").click()
+    expect(cards).to_have_count(4)
+
+    # Reset: RefreshPage triggers a full page reload with default state.
+    page.get_by_test_id("taskboard-reset-button").click()
+    expect(cards).to_have_count(4)
+    expect(page.get_by_test_id("taskboard-toast")).to_have_text("")
+    expect(page.get_by_test_id("taskboard-highlight-input")).to_have_value("")

@@ -50,7 +50,7 @@ class RootState(LiveComponentsModel):
     value: int = 0
 
 
-@component.register("nestedcounter/root")
+@register("nestedcounter/root")
 class RootComponent(LiveComponent[RootState]):
 
     ...
@@ -103,12 +103,12 @@ createlivecomponent counters nestedcounter/button --stateless --minimal
 The Python code for the button can remain minimal since it's stateless:
 
 ```python
-from django_components import component
+from django_components import register
 
 from livecomponents import StatelessLiveComponent
 
 
-@component.register("nestedcounter/button")
+@register("nestedcounter/button")
 class ButtonComponent(StatelessLiveComponent):
     template_name = "nestedcounter/button/button.html"
 ```

@@ -1,8 +1,8 @@
-from django_components import component
+from django_components import register
 
 from livecomponents import StatelessLiveComponent
 
 
-@component.register("nestedcounter/button")
+@register("nestedcounter/button")
 class ButtonComponent(StatelessLiveComponent):
     template_name = "nestedcounter/button/button.html"

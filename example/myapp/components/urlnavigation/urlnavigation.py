@@ -1,5 +1,5 @@
 from django.urls import reverse
-from django_components import component
+from django_components import register
 
 from livecomponents import (
     LiveComponent,
@@ -14,7 +14,7 @@ class UrlnavigationState(LiveComponentsModel):
     navigation_count: int = 0
 
 
-@component.register("urlnavigation")
+@register("urlnavigation")
 class UrlnavigationComponent(LiveComponent[UrlnavigationState]):
     template_name = "urlnavigation/urlnavigation.html"
 
